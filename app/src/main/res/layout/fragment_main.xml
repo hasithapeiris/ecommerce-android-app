@@ -14,14 +14,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        tools:listitem="@layout/categorymain_item" />
 
     <LinearLayout
     android:id="@+id/llTextGroup"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/rvMainCategories">
 
         <TextView
             android:id="@+id/tvMainCategories"
