@@ -29,7 +29,8 @@ class MainCategoryAdapter(
         return list.size
     }
 
-    interface CategoryOnClickInterface {
-        fun  onClickCategory(button: Button)
-    }
+}
+
+interface CategoryOnClickInterface {
+    fun  onClickCategory(button: Button)
 }

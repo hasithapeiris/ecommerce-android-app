@@ -61,11 +61,12 @@ class ItemAdapter(
         return list.size
     }
 
-    interface ItemOnClickInterface {
-        fun onClickItem(item: ItemModel)
-    }
+}
 
-    interface LikeOnClickInterface {
-        fun onClickLike(item :ItemModel)
-    }
+interface ItemOnClickInterface {
+    fun onClickItem(item: ItemModel)
+}
+
+interface LikeOnClickInterface {
+    fun onClickLike(item :ItemModel)
 }
