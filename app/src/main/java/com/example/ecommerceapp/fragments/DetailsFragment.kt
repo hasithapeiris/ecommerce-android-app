@@ -1,27 +1,28 @@
 package com.example.ecommerceapp.fragments
 
-import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
 import com.example.ecommerceapp.Extensions.toast
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.example.ecommerceapp.R
-import com.example.ecommerceapp.adapters.SizeAdapter
 import com.example.ecommerceapp.adapters.SizeOnClickInterface
 import com.example.ecommerceapp.databinding.FragmentDetailsBinding
+import com.example.ecommerceapp.models.ItemModel
 import com.example.ecommerceapp.models.OrderModel
+import com.example.ecommerceapp.services.AuthService
+import com.example.ecommerceapp.services.ItemService
+import com.example.ecommerceapp.services.OrderService
 
 class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterface {
 
     private lateinit var binding: FragmentDetailsBinding
-    private lateinit var sizeAdapter: SizeAdapter
-    private val args: DetailsFragmentArgs by navArgs()
+    private lateinit var authService: AuthService
+    private lateinit var orderService: OrderService
+    private lateinit var itemService: ItemService
 
-    // Variables for product and order details
-    private lateinit var currentToken: String
     private lateinit var orderImageUrl: String
     private lateinit var orderName: String
     private var orderSize: String? = null
@@ -32,95 +33,62 @@ class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterfac
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentDetailsBinding.bind(view)
 
-        // Get the authentication token from Shared Preferences (this is set after login)
-        val sharedPrefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        currentToken = sharedPrefs.getString("auth_token", "") ?: ""
+        // Initialize services
+        authService = AuthService()
+        orderService = OrderService()
+        itemService = ItemService()
 
-        if (currentToken.isEmpty()) {
-            // If token is not present, redirect to the login screen
-            Navigation.findNavController(view).navigate(R.id.signInFragment)
-        }
+        val itemId = arguments?.getString("itemId") ?: return
 
-        val itemId = args.itemId
-
-        // Toolbar navigation
         binding.detailActualToolbar.setNavigationOnClickListener {
             Navigation.findNavController(requireView()).popBackStack()
         }
 
-        // Fetch product details from the external API
-        fetchItemDetails(itemId)
+        // Fetch item details from API
+        itemService.getItems { items ->
+            val item = items.find { it.id == itemId }
+            item?.let {
+                displayProductDetails(it)
+            }
+        }
 
-        // Set up size selector
-        val sizeList = listOf("5", "6", "7", "8", "9", "10")
-        sizeAdapter = SizeAdapter(requireContext(), sizeList, this)
-        binding.rvSelectSize.adapter = sizeAdapter
-
-        // Handle Add to Cart
+        // Handle add to cart button click
         binding.btnDetailsAddToCart.setOnClickListener {
-            val orderedProduct = OrderModel(
-                token = currentToken, // Now use the token to track the user session
-                itemId = itemId,
-                imageUrl = orderImageUrl,
-                itemName = orderName,
-                size = orderSize,
-                quantity = orderQuantity,
-                price = orderPrice
-            )
-
             if (orderSize.isNullOrBlank()) {
                 requireActivity().toast("Select Size")
             } else {
-                // Call API to add the product to cart
-                addToCart(orderedProduct)
+                val orderedItem = OrderModel(
+                    authService.getCurrentUserId(),
+                    itemId,
+                    orderImageUrl,
+                    orderName,
+                    orderSize,
+                    orderQuantity,
+                    orderPrice
+                )
 
-                Navigation.findNavController(view).navigate(R.id.action_detailsFragment_to_cartFragment2)
+                // Place order using OrderService
+                orderService.placeOrder(orderedItem) { success, errorMessage ->
+                    if (success) {
+                        requireActivity().toast("Order Successfully Placed")
+                        Navigation.findNavController(view).navigate(R.id.action_detailsFragment_to_cartFragment2)
+                    } else {
+                        requireActivity().toast("Order failed: $errorMessage")
+                    }
+                }
             }
         }
     }
 
-    // Function to fetch product details using the external API
-    private fun fetchItemDetails(productId: String) {
-        // Simulating API call to fetch item details
-        // val apiService = RetrofitInstance.create(ApiService::class.java)
-        // val call = apiService.getProductDetails("Bearer $currentToken", productId)
-        // call.enqueue(object : Callback<Product> {
-        //     override fun onResponse(call: Call<Product>, response: Response<Product>) {
-        //         val product = response.body()
-        //         if (product != null) {
-        //             orderImageUrl = product.imageUrl
-        //             orderName = product.name
-        //             orderPrice = product.price
+    private fun displayProductDetails(item: ItemModel) {
+        orderImageUrl = item.imageUrl!!
+        orderName = item.name!!
+        orderPrice = item.price!!
 
-        //             binding.tvDetailsProductPrice.text = "₹${product.price}"
-        //             binding.tvDetailsProductName.text = "${product.brand} ${product.name}"
-        //             binding.tvDetailsProductDescription.text = product.description
-        //             Glide.with(requireContext()).load(product.imageUrl).into(binding.ivDetails)
-        //         }
-        //     }
-        //     override fun onFailure(call: Call<Product>, t: Throwable) {
-        //         requireActivity().toast("Failed to load product details")
-        //     }
-        // })
-    }
-
-    // Function to add item to cart using the external API
-    private fun addToCart(orderedProduct: OrderModel) {
-        // Simulating API call to add order
-        // val apiService = RetrofitInstance.create(ApiService::class.java)
-        // val call = apiService.addProductToCart("Bearer $currentToken", orderedProduct)
-        // call.enqueue(object : Callback<ApiResponse> {
-        //     override fun onResponse(call: Call<ApiResponse>, response: Response<ApiResponse>) {
-        //         if (response.isSuccessful) {
-        //             requireActivity().toast("Order Successfully Added to Cart")
-        //         } else {
-        //             requireActivity().toast("Failed to add order to cart")
-        //         }
-        //     }
-        //     override fun onFailure(call: Call<ApiResponse>, t: Throwable) {
-        //         requireActivity().toast("Failed to communicate with backend")
-        //     }
-        // })
+        Glide.with(requireContext()).load(item.imageUrl).into(binding.ivDetails)
+        binding.tvDetailsItemName.text = item.name
+        binding.tvDetailsItemDescription.text = item.description
+        binding.tvDetailsItemPrice.text = item.price
     }
 
     override fun onClickSize(button: Button, position: Int) {
