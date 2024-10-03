@@ -75,7 +75,7 @@
         >
 
         <TextView
-            android:id="@+id/tvDetailsProductName"
+            android:id="@+id/tvDetailsItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Adidas Predator Gladiator"
@@ -86,7 +86,7 @@
 
 
         <TextView
-            android:id="@+id/tvDetailsProductDescription"
+            android:id="@+id/tvDetailsItemDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="4"
@@ -137,7 +137,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tvDetailsProductPrice"
+                    android:id="@+id/tvDetailsItemPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10000"

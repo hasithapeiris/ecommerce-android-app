@@ -9,7 +9,7 @@ import com.example.ecommerceapp.databinding.SizeItemBinding
 
 class SizeAdapter(
     private val context: Context,
-    private val list: ArrayList<String>,
+    private val list: List<String>,
     private val onClickSize: SizeOnClickInterface
 ): RecyclerView.Adapter<SizeAdapter.ViewHolder>() {
 
