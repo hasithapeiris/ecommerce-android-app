@@ -8,17 +8,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.ecommerceapp.databinding.DisplayItemBinding
-import com.example.ecommerceapp.models.LikeModel
+import com.example.ecommerceapp.models.ItemModel
 
-class LikeAdapter(
+class ItemAdapter(
     private val context: Context,
-    private val list: ArrayList<LikeModel>,
-    private val productClickInterface: LikedProductOnClickInterface,
-    private val likeClickInterface: LikedOnClickInterface,
-): RecyclerView.Adapter<LikeAdapter.ViewHolder>() {
+    private val list: List<ItemModel>,
+    private val productClickInterface: ItemOnClickInterface,
+    private val likeClickInterface: LikeOnClickInterface,
+) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: DisplayItemBinding) :
         RecyclerView.ViewHolder(binding.root)
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DisplayItemBinding.inflate(
@@ -27,38 +28,45 @@ class LikeAdapter(
             false))
     }
 
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = list[position]
         holder.binding.tvNameShoeDisplayItem.text = "${currentItem.brand} ${currentItem.name}"
         holder.binding.tvPriceShoeDisplayItem.text = "₹${currentItem.price}"
-        holder.binding.btnLike.backgroundTintList = ColorStateList.valueOf(Color.RED)
+
 
         Glide
             .with(context)
             .load(currentItem.imageUrl)
             .into(holder.binding.ivShoeDisplayItem)
 
+
         holder.itemView.setOnClickListener {
-            productClickInterface.onClickProduct(list[position])
+            productClickInterface.onClickItem(list[position])
         }
 
         holder.binding.btnLike.setOnClickListener {
-            likeClickInterface.onClickLike(currentItem)
-            holder.binding.btnLike.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+            if(holder.binding.btnLike.isChecked){
+                holder.binding.btnLike.backgroundTintList = ColorStateList.valueOf(Color.RED)
+                likeClickInterface.onClickLike(currentItem)
+            }
+            else{
+                holder.binding.btnLike.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
+            }
 
-            likeClickInterface.onClickLike(currentItem)
         }
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
+
 }
 
-interface LikedProductOnClickInterface {
-    fun onClickProduct(item: LikeModel)
+interface ItemOnClickInterface {
+    fun onClickItem(item: ItemModel)
 }
 
-interface LikedOnClickInterface{
-    fun onClickLike(item: LikeModel)
+interface LikeOnClickInterface {
+    fun onClickLike(item :ItemModel)
 }
