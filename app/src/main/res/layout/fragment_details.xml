@@ -85,8 +85,6 @@
             />
 
 
-
-
         <TextView
             android:id="@+id/tvDetailsProductDescription"
             android:layout_width="wrap_content"
