@@ -1,60 +1,103 @@
 package com.example.ecommerceapp.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.ecommerceapp.Extensions.toast
 import com.example.ecommerceapp.R
+import com.example.ecommerceapp.adapters.CartAdapter
+import com.example.ecommerceapp.databinding.FragmentCartBinding
+import com.example.ecommerceapp.models.CartModel
+import com.example.ecommerceapp.services.AuthService
+import com.example.ecommerceapp.services.CartService
+import com.example.ecommerceapp.services.OrderService
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRemove {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [CartFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class CartFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentCartBinding
+    private lateinit var cartList: ArrayList<CartModel>
+    private lateinit var adapter: CartAdapter
+    private var subTotalPrice = 0
+    private var totalPrice = 240
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    private lateinit var authService: AuthService
+    private lateinit var cartService: CartService
+    private lateinit var orderService: OrderService
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentCartBinding.bind(view)
+
+        // Initialize services
+        authService = AuthService()
+        cartService = CartService()
+        orderService = OrderService()
+
+        binding.cartActualToolbar.setNavigationOnClickListener {
+            Navigation.findNavController(requireView()).popBackStack()
+        }
+
+        cartList = ArrayList()
+
+        // Set up RecyclerView
+        val layoutManager = LinearLayoutManager(context)
+        adapter = CartAdapter(requireContext(), cartList, this)
+        binding.rvCartItems.adapter = adapter
+        binding.rvCartItems.layoutManager = layoutManager
+
+        // Retrieve cart items
+        retrieveCartItems()
+
+        // Handle checkout button
+        binding.btnCartCheckout.setOnClickListener {
+            requireActivity().toast("You've Ordered Products worth $totalPrice\n Your Product will be delivered in next 7 days")
+            cartList.clear()
+            binding.tvLastSubTotalprice.text = "0"
+            binding.tvLastTotalPrice.text = "Min 1 product is Required"
+            binding.tvLastTotalPrice.setTextColor(Color.RED)
+
+            // TODO: Implement order placement via OrderService and update order status (isDelivered)
+            adapter.notifyDataSetChanged()
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cart, container, false)
+    // Retrieve cart items using CartService
+    private fun retrieveCartItems() {
+        val userId = authService.getCurrentUserId()
+
+        cartService.getCartItemsByUserId(userId) { cartItems, errorMessage ->
+            if (cartItems != null) {
+                cartList.clear()
+                cartList.addAll(cartItems)
+
+                subTotalPrice = cartItems.sumOf { it.price?.toInt() ?: 0 }
+                totalPrice = subTotalPrice + 240  // Update total price (add any fixed charges)
+
+                // Update UI
+                binding.tvLastSubTotalprice.text = subTotalPrice.toString()
+                binding.tvLastTotalPrice.text = totalPrice.toString()
+                binding.tvLastSubTotalItems.text = "SubTotal Items(${cartList.size})"
+                adapter.notifyDataSetChanged()
+            } else {
+                requireActivity().toast(errorMessage ?: "Failed to retrieve cart items")
+            }
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CartFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CartFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    // Remove item from cart on long click
+    override fun onLongRemove(item: CartModel, position: Int) {
+        cartService.removeCartItem(item) { success, errorMessage ->
+            if (success) {
+                cartList.removeAt(position)
+                adapter.notifyItemRemoved(position)
+                requireActivity().toast("Removed Successfully!")
+            } else {
+                requireActivity().toast(errorMessage ?: "Failed to remove item")
             }
+        }
     }
 }
