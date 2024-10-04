@@ -13,7 +13,7 @@
 
     <ImageView
         android:padding="10dp"
-        android:id="@+id/ivShoeDisplayItem"
+        android:id="@+id/ivDisplayItem"
         android:background="@drawable/custom_image_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -25,24 +25,25 @@
         />
 
     <TextView
-        android:id="@+id/tvNameShoeDisplayItem"
-        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:id="@+id/tvNameDisplayItem"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Product Name"
-        app:layout_constraintStart_toStartOf="@id/ivShoeDisplayItem"
-        app:layout_constraintTop_toBottomOf="@id/ivShoeDisplayItem"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@id/ivDisplayItem"
+        app:layout_constraintTop_toBottomOf="@id/ivDisplayItem"
         />
 
 
     <TextView
-        android:id="@+id/tvPriceShoeDisplayItem"
+        android:id="@+id/tvPriceDisplayItem"
         style="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/tvNameShoeDisplayItem"
-        app:layout_constraintTop_toBottomOf="@id/tvNameShoeDisplayItem"
-        android:text="10000" />
+        app:layout_constraintStart_toStartOf="@id/tvNameDisplayItem"
+        app:layout_constraintTop_toBottomOf="@id/tvNameDisplayItem"
+        android:text="Rs.10000" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -64,8 +65,8 @@
         android:textOff=""
         android:background="@drawable/ic_heart_svgrepo_com"
         android:backgroundTint="@color/white"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
         app:tint="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

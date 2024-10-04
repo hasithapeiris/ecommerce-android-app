@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -10,10 +11,10 @@ import com.bumptech.glide.Glide
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.SizeOnClickInterface
 import com.example.ecommerceapp.databinding.FragmentDetailsBinding
-import com.example.ecommerceapp.models.ItemModel
+import com.example.ecommerceapp.models.ProductModel
 import com.example.ecommerceapp.models.OrderModel
 import com.example.ecommerceapp.services.AuthService
-import com.example.ecommerceapp.services.ItemService
+import com.example.ecommerceapp.services.ProductService
 import com.example.ecommerceapp.services.OrderService
 
 class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterface {
@@ -21,7 +22,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterfac
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var authService: AuthService
     private lateinit var orderService: OrderService
-    private lateinit var itemService: ItemService
+    private lateinit var productService: ProductService
 
     private lateinit var orderImageUrl: String
     private lateinit var orderName: String
@@ -36,18 +37,18 @@ class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterfac
         // Initialize services
         authService = AuthService()
         orderService = OrderService()
-        itemService = ItemService()
+        productService = ProductService()
 
-        val itemId = arguments?.getString("itemId") ?: return
+        val productId = arguments?.getString("productId") ?: return
 
         binding.detailActualToolbar.setNavigationOnClickListener {
             Navigation.findNavController(requireView()).popBackStack()
         }
 
         // Fetch item details from API
-        itemService.getItems { items ->
-            val item = items.find { it.id == itemId }
-            item?.let {
+        productService.getProducts { products ->
+            val product = products.find { it.productId == productId }
+            product?.let {
                 displayProductDetails(it)
             }
         }
@@ -59,7 +60,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterfac
             } else {
                 val orderedItem = OrderModel(
                     authService.getCurrentUserId(),
-                    itemId,
+                    productId,
                     orderImageUrl,
                     orderName,
                     orderSize,
@@ -80,15 +81,25 @@ class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterfac
         }
     }
 
-    private fun displayProductDetails(item: ItemModel) {
+    @SuppressLint("SetTextI18n")
+    private fun displayProductDetails(item: ProductModel) {
         orderImageUrl = item.imageUrl!!
-        orderName = item.name!!
+        orderName = item.productName!!
         orderPrice = item.price!!
 
         Glide.with(requireContext()).load(item.imageUrl).into(binding.ivDetails)
-        binding.tvDetailsItemName.text = item.name
+        binding.tvDetailsItemName.text = item.productName
         binding.tvDetailsItemDescription.text = item.description
-        binding.tvDetailsItemPrice.text = item.price
+        binding.tvDetailsItemPrice.text = "Rs.${item.price}"
+        binding.tvVendorName.text = "Vendor: ${item.vendorName}"
+        binding.tvProductCategory.text = "Category: ${item.productCategory}"
+        binding.tvCondition.text = "Condition: ${item.condition}"
+        binding.tvStatus.text = "Status: ${item.status}"
+        binding.tvStock.text = "Stock: ${item.stock} available"
+        binding.tvDiscount.text = "Discount: ${item.discount}%"
+        binding.tvShippingFee.text = "Shipping Fee: Rs.${item.shippingFee}"
+        binding.tvDimensions.text = "Dimensions: ${item.width} x ${item.height} x ${item.length}"
+        binding.tvWeight.text = "Weight: ${item.productWeight}"
     }
 
     override fun onClickSize(button: Button, position: Int) {
