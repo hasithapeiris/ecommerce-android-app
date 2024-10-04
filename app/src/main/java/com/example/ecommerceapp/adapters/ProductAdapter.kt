@@ -20,7 +20,6 @@ class ProductAdapter(
     inner class ViewHolder(val binding: DisplayItemBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(DisplayItemBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -28,18 +27,15 @@ class ProductAdapter(
             false))
     }
 
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = list[position]
         holder.binding.tvNameDisplayItem.text = "${currentItem.productName}"
-        holder.binding.tvPriceDisplayItem.text = "Rs. ${currentItem.price}"
-
+        holder.binding.tvPriceDisplayItem.text = "Rs.${currentItem.price}"
 
         Glide
             .with(context)
             .load(currentItem.imageUrl)
             .into(holder.binding.ivDisplayItem)
-
 
         holder.itemView.setOnClickListener {
             productClickInterface.onClickItem(list[position])
@@ -53,14 +49,12 @@ class ProductAdapter(
             else{
                 holder.binding.btnLike.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
             }
-
         }
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
-
 }
 
 interface ItemOnClickInterface {

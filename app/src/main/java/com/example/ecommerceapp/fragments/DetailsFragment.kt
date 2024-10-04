@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -80,6 +81,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterfac
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun displayProductDetails(item: ProductModel) {
         orderImageUrl = item.imageUrl!!
         orderName = item.productName!!
@@ -88,7 +90,16 @@ class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterfac
         Glide.with(requireContext()).load(item.imageUrl).into(binding.ivDetails)
         binding.tvDetailsItemName.text = item.productName
         binding.tvDetailsItemDescription.text = item.description
-        binding.tvDetailsItemPrice.text = item.price
+        binding.tvDetailsItemPrice.text = "Rs.${item.price}"
+        binding.tvVendorName.text = "Vendor: ${item.vendorName}"
+        binding.tvProductCategory.text = "Category: ${item.productCategory}"
+        binding.tvCondition.text = "Condition: ${item.condition}"
+        binding.tvStatus.text = "Status: ${item.status}"
+        binding.tvStock.text = "Stock: ${item.stock} available"
+        binding.tvDiscount.text = "Discount: ${item.discount}%"
+        binding.tvShippingFee.text = "Shipping Fee: Rs.${item.shippingFee}"
+        binding.tvDimensions.text = "Dimensions: ${item.width} x ${item.height} x ${item.length}"
+        binding.tvWeight.text = "Weight: ${item.productWeight}"
     }
 
     override fun onClickSize(button: Button, position: Int) {

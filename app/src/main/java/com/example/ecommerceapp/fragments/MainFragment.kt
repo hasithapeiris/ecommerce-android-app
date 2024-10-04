@@ -116,6 +116,6 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     }
 
     override fun onClickLike(item: ProductModel) {
-        // Handle adding liked products here (e.g., call LikeService)
+        // Handle adding liked products here
     }
 }
