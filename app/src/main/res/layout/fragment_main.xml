@@ -9,7 +9,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvMainCategories"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="68dp"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,6 @@
         app:layout_constraintTop_toBottomOf="@id/llTextGroup"
         app:layout_constraintVertical_bias="1.0"
         tools:listitem="@layout/display_item" />
-
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv_main"
