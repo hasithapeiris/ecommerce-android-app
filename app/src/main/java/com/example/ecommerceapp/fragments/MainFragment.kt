@@ -10,23 +10,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.CategoryOnClickInterface
-import com.example.ecommerceapp.adapters.ItemAdapter
+import com.example.ecommerceapp.adapters.ProductAdapter
 import com.example.ecommerceapp.adapters.ItemOnClickInterface
 import com.example.ecommerceapp.adapters.LikeOnClickInterface
 import com.example.ecommerceapp.adapters.MainCategoryAdapter
 import com.example.ecommerceapp.databinding.FragmentMainBinding
-import com.example.ecommerceapp.models.ItemModel
+import com.example.ecommerceapp.models.ProductModel
 import com.example.ecommerceapp.services.AuthService
-import com.example.ecommerceapp.services.ItemService
+import com.example.ecommerceapp.services.ProductService
 
 class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     ItemOnClickInterface, LikeOnClickInterface {
     private lateinit var binding: FragmentMainBinding
-    private lateinit var itemService: ItemService
+    private lateinit var productService: ProductService
     private lateinit var authService: AuthService
     private lateinit var categoryAdapter: MainCategoryAdapter
-    private lateinit var productsAdapter: ItemAdapter
-    private lateinit var productList: ArrayList<ItemModel>
+    private lateinit var productsAdapter: ProductAdapter
+    private lateinit var productList: ArrayList<ProductModel>
     private lateinit var categoryList: ArrayList<String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,7 +37,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
         categoryList = ArrayList()
 
         // Initialize services
-        itemService = ItemService()
+        productService = ProductService()
         authService = AuthService()
 
         // Set up category RecyclerView
@@ -48,7 +48,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
 
         // Set up product RecyclerView
         binding.rvMainProductsList.layoutManager = GridLayoutManager(context, 2)
-        productsAdapter = ItemAdapter(requireContext(), productList, this, this)
+        productsAdapter = ProductAdapter(requireContext(), productList, this, this)
         binding.rvMainProductsList.adapter = productsAdapter
 
         // Fetch data
@@ -78,7 +78,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     }
 
     private fun setCategoryList() {
-        itemService.getCategories { categories ->
+        productService.getCategories { categories ->
             categoryList.clear()
             categoryList.add("Trending")
             categoryList.addAll(categories)
@@ -87,7 +87,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     }
 
     private fun setProductsData() {
-        itemService.getItems { products ->
+        productService.getProducts { products ->
             productList.clear()
             productList.addAll(products)
             productsAdapter.notifyDataSetChanged()
@@ -99,7 +99,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
         if (button.text == "Trending") {
             setProductsData()
         } else {
-            itemService.getItemsByCategory(button.text.toString()) { products ->
+            productService.getProductsByCategory(button.text.toString()) { products ->
                 productList.clear()
                 productList.addAll(products)
                 productsAdapter.notifyDataSetChanged()
@@ -107,7 +107,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
         }
     }
 
-    override fun onClickItem(item: ItemModel) {
+    override fun onClickItem(item: ProductModel) {
         val direction = MainFragmentDirections
             .actionMainFragment2ToDetailsFragment()
 
@@ -115,7 +115,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
             .navigate(direction)
     }
 
-    override fun onClickLike(item: ItemModel) {
+    override fun onClickLike(item: ProductModel) {
         // Handle adding liked products here (e.g., call LikeService)
     }
 }
