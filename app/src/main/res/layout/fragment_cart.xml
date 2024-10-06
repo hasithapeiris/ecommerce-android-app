@@ -7,7 +7,7 @@
     tools:context=".fragments.CartFragment">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/cartToolbar"
+        android:id="@+id/orderToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/cartActualToolbar"
+            android:id="@+id/orderActualToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
@@ -26,12 +26,12 @@
     </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCartItems"
+        android:id="@+id/rvOrderItems"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cartToolbar"
+        app:layout_constraintTop_toBottomOf="@id/orderToolbar"
         app:layout_constraintBottom_toTopOf="@id/llCartPayment"
         tools:listitem="@layout/cart_item" />
 
@@ -43,7 +43,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rvCartItems"
+        app:layout_constraintTop_toBottomOf="@id/rvOrderItems"
         android:background="@color/grayishWhite"
         android:padding="20dp"
         >
