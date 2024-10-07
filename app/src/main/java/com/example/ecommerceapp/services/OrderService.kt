@@ -29,6 +29,18 @@ class OrderService {
 
     // Get order by user Id
     fun getOrderItemsByUserId(userId: String, callback: (List<OrderModel>?, String?) -> Unit) {
+        api.getOrderItemsByUserId(userId).enqueue(object : Callback<List<OrderModel>> {
+            override fun onResponse(call: Call<List<OrderModel>>, response: Response<List<OrderModel>>) {
+                if (response.isSuccessful) {
+                    callback(response.body(), null)
+                } else {
+                    callback(null, "Error ${response.code()}: ${response.message()}")
+                }
+            }
 
+            override fun onFailure(call: Call<List<OrderModel>>, t: Throwable) {
+                callback(null, t.localizedMessage ?: "Network error. Please try again.")
+            }
+        })
     }
 }
