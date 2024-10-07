@@ -10,6 +10,7 @@ import retrofit2.Response
 class ProductService {
     private val api = RetrofitInstance.productApi
 
+    // Get all categories
     fun getCategories(callback: (List<String>) -> Unit) {
         api.getCategories().enqueue(object : Callback<List<String>> {
             override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
@@ -28,6 +29,7 @@ class ProductService {
         })
     }
 
+    // Get all products
     fun getProducts(callback: (List<ProductModel>) -> Unit) {
         api.getProducts().enqueue(object : Callback<List<ProductModel>> {
             override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>>) {
@@ -46,6 +48,7 @@ class ProductService {
         })
     }
 
+    // Get products by category
     fun getProductsByCategory(category: String, callback: (List<ProductModel>) -> Unit) {
         api.getProductsByCategory(category).enqueue(object : Callback<List<ProductModel>> {
             override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>>) {

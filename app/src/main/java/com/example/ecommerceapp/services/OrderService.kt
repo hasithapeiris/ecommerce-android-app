@@ -10,6 +10,7 @@ import retrofit2.Response
 class OrderService {
     private val api = RetrofitInstance.orderApi
 
+    // Place order by customer
     fun placeOrder(order: OrderModel, callback: (Boolean, String?) -> Unit) {
         api.placeOrder(order).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

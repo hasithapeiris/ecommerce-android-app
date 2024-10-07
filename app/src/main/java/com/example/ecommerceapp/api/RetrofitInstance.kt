@@ -29,4 +29,8 @@ object RetrofitInstance {
     val orderApi: OrderApi by lazy {
         retrofit.create(OrderApi::class.java)
     }
+
+    val cartApi: CartApi by lazy {
+        retrofit.create(CartApi::class.java)
+    }
 }
