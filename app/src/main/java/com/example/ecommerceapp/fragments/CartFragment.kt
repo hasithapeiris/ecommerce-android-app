@@ -75,7 +75,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRe
                 cartList.addAll(cartItems)
 
                 subTotalPrice = cartItems.sumOf { it.price?.toInt() ?: 0 }
-                totalPrice = subTotalPrice + 240  // Update total price (add any fixed charges)
+                totalPrice = subTotalPrice + 240  // Update total price
 
                 // Update UI
                 binding.tvLastSubTotalprice.text = subTotalPrice.toString()

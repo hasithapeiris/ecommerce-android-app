@@ -26,4 +26,9 @@ class OrderService {
             }
         })
     }
+
+    // Get order by user Id
+    fun getOrderItemsByUserId(userId: String, callback: (List<OrderModel>?, String?) -> Unit) {
+
+    }
 }
