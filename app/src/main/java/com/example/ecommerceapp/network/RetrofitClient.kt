@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    private const val BASE_URL = "http://10.0.2.2:5053"
+    private const val BASE_URL = "http://192.168.1.4:5053"
 
     private val okHttpClient = OkHttpClient.Builder()
         .followRedirects(true) // Enable redirects
