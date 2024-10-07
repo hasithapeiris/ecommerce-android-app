@@ -66,7 +66,7 @@ class CartAdapter(
     }
 
     interface OnLongClickRemove{
-        fun onLongRemove(item:CartModel , position: Int)
+        fun onLongRemove(item: CartModel, position: Int)
     }
 
 }

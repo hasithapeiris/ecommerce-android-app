@@ -8,4 +8,5 @@ data class OrderModel(
     val size: String? = null,
     val quantity: Int? = null,
     val price: String? = null,
+    val status: String? = null,
 )
