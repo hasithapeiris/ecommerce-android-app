@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ecommerceapp.Extensions.toast
+import com.example.ecommerceapp.middlewares.Extensions.toast
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.CartAdapter
 import com.example.ecommerceapp.databinding.FragmentCartBinding

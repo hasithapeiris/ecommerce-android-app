@@ -1,29 +1,66 @@
 package com.example.ecommerceapp.services
 
+import android.util.Log
+import com.example.ecommerceapp.api.RetrofitInstance
 import com.example.ecommerceapp.models.ProductModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProductService {
+    private val api = RetrofitInstance.productApi
+
     fun getCategories(callback: (List<String>) -> Unit) {
-        // Implement API call to fetch categories (e.g., GET /api/categories)
-        // Once the data is fetched, pass it to the callback function
+        api.getCategories().enqueue(object : Callback<List<String>> {
+            override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { categories ->
+                        callback(categories)
+                    }
+                } else {
+                    Log.e("ProductService", "Error fetching products: $response")
+                }
+            }
+
+            override fun onFailure(call: Call<List<String>>, t: Throwable) {
+                Log.e("ProductService", "Error fetching products: ${t.message}")
+            }
+        })
     }
 
     fun getProducts(callback: (List<ProductModel>) -> Unit) {
-        // Implement API call to fetch all items (e.g., GET /api/items)
-        callback(
-            listOf(
-                ProductModel("1", "Brand1", "Product1", "Description1", "imageUrl1", "100"),
-                ProductModel("2", "Brand2", "Product2", "Description2", "imageUrl2", "200")
-            )
-        )
+        api.getProducts().enqueue(object : Callback<List<ProductModel>> {
+            override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { products ->
+                        callback(products)
+                    }
+                } else {
+                    Log.e("ProductService", "Error fetching products: $response")
+                }
+            }
+
+            override fun onFailure(call: Call<List<ProductModel>>, t: Throwable) {
+                Log.e("ProductService", "Error fetching products: ${t.message}")
+            }
+        })
     }
 
     fun getProductsByCategory(category: String, callback: (List<ProductModel>) -> Unit) {
-        // Implement API call to fetch items by category (e.g., GET /api/items?category=<category>)
-        callback(
-            listOf(
-                ProductModel("1", "Brand1", "Product1", "Description1", "imageUrl1", "100")
-            )
-        )
+        api.getProductsByCategory(category).enqueue(object : Callback<List<ProductModel>> {
+            override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>>) {
+                if (response.isSuccessful) {
+                    response.body()?.let { products ->
+                        callback(products)
+                    }
+                } else {
+                    Log.e("ProductService", "Error fetching products: $response")
+                }
+            }
+
+            override fun onFailure(call: Call<List<ProductModel>>, t: Throwable) {
+                Log.e("ProductService", "Error fetching products: ${t.message}")
+            }
+        })
     }
 }

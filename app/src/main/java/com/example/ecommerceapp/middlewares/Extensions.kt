@@ -1,4 +1,4 @@
-package com.example.ecommerceapp
+package com.example.ecommerceapp.middlewares
 
 import android.app.Activity
 import android.widget.Toast

@@ -36,7 +36,7 @@
         />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvOrderStatus"
+        android:id="@+id/tvCartProductPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="1000"
@@ -48,8 +48,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Size : "
-        app:layout_constraintStart_toStartOf="@id/tvOrderStatus"
-        app:layout_constraintTop_toBottomOf="@id/tvOrderStatus" />
+        app:layout_constraintStart_toStartOf="@id/tvCartProductPrice"
+        app:layout_constraintTop_toBottomOf="@id/tvCartProductPrice" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvCartProductSize"
