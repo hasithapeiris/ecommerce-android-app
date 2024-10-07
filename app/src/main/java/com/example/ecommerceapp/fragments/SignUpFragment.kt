@@ -2,9 +2,7 @@ package com.example.ecommerceapp.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.example.ecommerceapp.Extensions.toast
 import com.example.ecommerceapp.R
@@ -26,9 +24,14 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
             val email = binding.etEmailSignUp.text.toString()
             val name = binding.etNameSignUp.text.toString()
             val password = binding.etPasswordSignUp.text.toString()
+            val passwordConfirmation = binding.etPasswordSignUp2.text.toString() // Add this field
 
-            if (email.isNotEmpty() && name.isNotEmpty() && password.isNotEmpty()) {
-                createUser(email, password)
+            if (email.isNotEmpty() && name.isNotEmpty() && password.isNotEmpty() && passwordConfirmation.isNotEmpty()) {
+                if (password == passwordConfirmation) {
+                    createUser(email, name, password, passwordConfirmation)
+                } else {
+                    requireActivity().toast("Passwords do not match")
+                }
             } else {
                 requireActivity().toast("Please fill in all fields")
             }
@@ -42,10 +45,12 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
     /**
      * Handles user creation process using AuthService.
      * @param email The user's email.
+     * @param name The user's name.
      * @param password The user's password.
+     * @param passwordConfirmation The user's password confirmation.
      */
-    private fun createUser(email: String, password: String) {
-        authService.createUser(email, password) { success, errorMessage ->
+    private fun createUser(email: String, name: String, password: String, passwordConfirmation: String) {
+        authService.createUser(email, name, password, passwordConfirmation) { success, errorMessage ->
             if (success) {
                 requireActivity().toast("New user created")
                 navigateToMainFragment()
