@@ -12,6 +12,6 @@ interface ProductApi {
     @GET("api/vendor/products")
     fun getProducts(): Call<List<ProductModel>>
 
-    @GET("items")
+    @GET("api/vendor/products/{categoryId}")
     fun getProductsByCategory(@Query("category") category: String): Call<List<ProductModel>>
 }
