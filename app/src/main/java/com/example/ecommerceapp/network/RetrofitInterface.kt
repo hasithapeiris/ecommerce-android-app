@@ -9,5 +9,4 @@ interface RetrofitInterface {
     @POST("/api/register")
     fun registerUser(@Body user: User): Call<Void>
 
-    // Add other endpoints here as needed (e.g., login, product listing, etc.)
 }
