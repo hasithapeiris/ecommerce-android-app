@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.ecommerceapp.SwipeToDelete
+import com.example.ecommerceapp.middlewares.SwipeToDelete
 import com.example.ecommerceapp.databinding.CartItemBinding
 import com.example.ecommerceapp.models.CartModel
 

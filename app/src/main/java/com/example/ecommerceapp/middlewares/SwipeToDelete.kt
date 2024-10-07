@@ -1,4 +1,4 @@
-package com.example.ecommerceapp
+package com.example.ecommerceapp.middlewares
 
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
