@@ -67,6 +67,10 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
                     Navigation.findNavController(requireView()).navigate(R.id.action_mainFragment2_to_cartFragment2)
                     true
                 }
+                R.id.ordersFragment -> {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_mainFragment2_to_ordersFragment2)
+                    true
+                }
                 R.id.profileFragment -> {
                     authService.signOut()
                     Navigation.findNavController(requireView()).navigate(R.id.action_mainFragment2_to_signInFragment)

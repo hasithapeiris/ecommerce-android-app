@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_mainFragment2_to_cartFragment2"
             app:destination="@id/cartFragment2" />
+        <action
+            android:id="@+id/action_mainFragment2_to_ordersFragment2"
+            app:destination="@id/ordersFragment2" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -83,4 +86,9 @@
         android:name="com.example.ecommerceapp.fragments.PaymentFragment"
         android:label="fragment_payment"
         tools:layout="@layout/fragment_payment" />
+    <fragment
+        android:id="@+id/ordersFragment2"
+        android:name="com.example.ecommerceapp.fragments.OrdersFragment"
+        android:label="fragment_orders"
+        tools:layout="@layout/fragment_orders" />
 </navigation>
