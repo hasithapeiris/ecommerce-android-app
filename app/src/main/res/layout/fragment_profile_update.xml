@@ -69,9 +69,9 @@
 
     <Button
         android:id="@+id/update_profile_button"
-        android:layout_width="164dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="140dp"
+        android:layout_width="187dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="124dp"
         android:layout_marginBottom="440dp"
         android:text="Update Profile"
         app:layout_constraintBottom_toBottomOf="parent"
