@@ -2,6 +2,7 @@ package com.example.ecommerceapp.services
 
 import android.content.Context
 import androidx.core.content.ContentProviderCompat.requireContext
+import com.example.ecommerceapp.api.ForgotPasswordApi
 import com.example.ecommerceapp.api.LoginApi
 import com.example.ecommerceapp.api.ProfileApi
 import com.example.ecommerceapp.models.User
@@ -12,6 +13,7 @@ import com.example.ecommerceapp.models.LoginResponse
 import com.example.ecommerceapp.models.ProfileResponse
 import com.example.ecommerceapp.models.UserDetail
 import com.example.ecommerceapp.api.ResetPasswordApi
+import com.example.ecommerceapp.models.ForgotPasswordResponse
 import com.example.ecommerceapp.models.ResetPasswordRequest
 import com.example.ecommerceapp.models.ResetPasswordResponse
 
@@ -150,6 +152,25 @@ class AuthService {
         } else {
             callback(false, "Authentication token is missing")
         }
+    }
+    fun forgotPassword(context: Context, email: String, callback: (Boolean, String?) -> Unit) {
+        val forgotPasswordApi = RetrofitInstance.instance.create(ForgotPasswordApi::class.java)
+        val requestBody = mapOf("email" to email)
+
+        val call = forgotPasswordApi.forgotPassword(requestBody)
+        call.enqueue(object : Callback<ForgotPasswordResponse> {
+            override fun onResponse(call: Call<ForgotPasswordResponse>, response: Response<ForgotPasswordResponse>) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    callback(true, response.body()?.message)
+                } else {
+                    callback(false, response.body()?.message ?: "Forgot password request failed")
+                }
+            }
+
+            override fun onFailure(call: Call<ForgotPasswordResponse>, t: Throwable) {
+                callback(false, "Network error: ${t.message}")
+            }
+        })
     }
 
 }

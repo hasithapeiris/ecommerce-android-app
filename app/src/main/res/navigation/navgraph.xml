@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_signInFragment_to_mainFragment2"
             app:destination="@id/mainFragment2" />
+        <action
+            android:id="@+id/action_signInFragment_to_forgotPassword"
+            app:destination="@id/forgotPassword" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment2"
@@ -91,4 +94,9 @@
         android:name="com.example.ecommerceapp.fragments.ResetPassword"
         android:label="fragment_changepassword"
         tools:layout="@layout/fragment_resetpassword" />
+    <fragment
+        android:id="@+id/forgotPassword"
+        android:name="com.example.ecommerceapp.fragments.ForgotPassword"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
 </navigation>

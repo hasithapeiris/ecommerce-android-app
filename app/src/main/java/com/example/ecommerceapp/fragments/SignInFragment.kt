@@ -1,4 +1,3 @@
-// SignInFragment.kt
 package com.example.ecommerceapp.fragments
 
 import android.os.Bundle
@@ -31,7 +30,12 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                 requireActivity().toast("Some fields are empty")
             }
         }
+        binding.tvNavigateToSignUp2.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_forgotPassword)
+        }
     }
+
+
 
     private fun signInUser(email: String, password: String) {
         authService.signIn(requireContext(), email, password) { success, errorMessage ->
