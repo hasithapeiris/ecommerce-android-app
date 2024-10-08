@@ -20,7 +20,7 @@
             android:id="@+id/ivOrderProduct"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/shoe3" />
+            android:src="@drawable/phone1" />
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView

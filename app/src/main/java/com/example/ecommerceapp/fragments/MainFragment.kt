@@ -12,7 +12,6 @@ import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.CategoryOnClickInterface
 import com.example.ecommerceapp.adapters.ProductAdapter
 import com.example.ecommerceapp.adapters.ItemOnClickInterface
-import com.example.ecommerceapp.adapters.LikeOnClickInterface
 import com.example.ecommerceapp.adapters.MainCategoryAdapter
 import com.example.ecommerceapp.databinding.FragmentMainBinding
 import com.example.ecommerceapp.models.ProductModel
@@ -20,7 +19,7 @@ import com.example.ecommerceapp.services.AuthService
 import com.example.ecommerceapp.services.ProductService
 
 class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
-    ItemOnClickInterface, LikeOnClickInterface {
+    ItemOnClickInterface{
     private lateinit var binding: FragmentMainBinding
     private lateinit var productService: ProductService
     private lateinit var authService: AuthService
@@ -48,7 +47,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
 
         // Set up product RecyclerView
         binding.rvMainProductsList.layoutManager = GridLayoutManager(context, 2)
-        productsAdapter = ProductAdapter(requireContext(), productList, this, this)
+        productsAdapter = ProductAdapter(requireContext(), productList, this)
         binding.rvMainProductsList.adapter = productsAdapter
 
         // Fetch data
@@ -112,14 +111,9 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     }
 
     override fun onClickItem(item: ProductModel) {
-        val direction = MainFragmentDirections
-            .actionMainFragment2ToDetailsFragment()
-
+        val direction = MainFragmentDirections.actionMainFragment2ToDetailsFragment(item.productId)
         Navigation.findNavController(requireView())
             .navigate(direction)
     }
 
-    override fun onClickLike(item: ProductModel) {
-        // Handle adding liked products here
-    }
 }

@@ -37,7 +37,7 @@ class OrderAdapter(
             .into(holder.binding.ivOrderProduct)
 
         holder.binding.tvOrderProductName.text = currentItem.itemName
-        holder.binding.tvOrderPrice.text = "Rs.{currentItem.price}"
+        holder.binding.tvOrderPrice.text = "Rs.${currentItem.price}"
         holder.binding.tvOrderStatus.text = currentItem.status
 
         holder.itemView.setOnLongClickListener {

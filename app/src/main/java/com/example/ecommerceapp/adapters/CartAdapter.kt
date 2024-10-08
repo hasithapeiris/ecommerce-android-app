@@ -37,23 +37,10 @@ class CartAdapter(
             .into(holder.binding.ivCartProduct)
 
         holder.binding.tvCartProductName.text = currentItem.name
-        holder.binding.tvCartProductPrice.text = "₹${currentItem.price}"
+        holder.binding.tvCartProductPrice.text = "Rs.${currentItem.price}"
         holder.binding.tvCartItemCount.text = currentItem.quantity.toString()
-        holder.binding.tvCartProductSize.text = currentItem.size
 
         var count = holder.binding.tvCartItemCount.text.toString().toInt()
-
-        holder.binding.btnCartItemAdd.setOnClickListener {
-//            count++
-            // TODO: Update Quantity in Database also
-//            holder.binding.tvCartItemCount.text = count.toString()
-        }
-
-        holder.binding.btnCartItemMinus.setOnClickListener {
-//            count--
-            // TODO: Update Quantity in Database also
-//            holder.binding.tvCartItemCount.text = count.toString()
-        }
 
         holder.itemView.setOnLongClickListener {
             onLongClickRemove.onLongRemove(currentItem , position)

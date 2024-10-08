@@ -1,7 +1,7 @@
 package com.example.ecommerceapp.models
 
 data class ProductModel(
-    val productId: String? = null,
+    val productId: String,
     val userId: String? = null,
     val vendorName: String? = null,
     val productName: String? = null,

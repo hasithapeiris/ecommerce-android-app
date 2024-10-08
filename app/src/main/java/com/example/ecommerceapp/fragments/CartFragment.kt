@@ -60,7 +60,6 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRe
             binding.tvLastTotalPrice.text = "Min 1 product is Required"
             binding.tvLastTotalPrice.setTextColor(Color.RED)
 
-            // TODO: Implement order placement via OrderService and update order status (isDelivered)
             adapter.notifyDataSetChanged()
         }
     }
@@ -75,7 +74,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRe
                 cartList.addAll(cartItems)
 
                 subTotalPrice = cartItems.sumOf { it.price?.toInt() ?: 0 }
-                totalPrice = subTotalPrice + 240  // Update total price
+                totalPrice = subTotalPrice
 
                 // Update UI
                 binding.tvLastSubTotalprice.text = subTotalPrice.toString()

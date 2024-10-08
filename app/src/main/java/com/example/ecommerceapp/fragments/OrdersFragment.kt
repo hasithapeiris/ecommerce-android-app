@@ -63,9 +63,8 @@ class OrdersFragment : Fragment(R.layout.fragment_orders), OrderAdapter.OnLongCl
         }
     }
 
-    // Remove item from cart on long click
     override fun onLongRemove(item: OrderModel, position: Int) {
-        TODO("Remove Ordered Items from the list")
+
     }
 
 }

@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/shoe7"
+                android:src="@drawable/phone1"
                 android:background="?attr/selectableItemBackground" />
 
             <TextView
