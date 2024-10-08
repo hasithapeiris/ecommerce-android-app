@@ -5,11 +5,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
-import com.example.ecommerceapp.Extensions.toast
+import com.example.ecommerceapp.middlewares.Extensions.toast
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.example.ecommerceapp.R
-import com.example.ecommerceapp.adapters.SizeOnClickInterface
 import com.example.ecommerceapp.databinding.FragmentDetailsBinding
 import com.example.ecommerceapp.models.ProductModel
 import com.example.ecommerceapp.models.OrderModel
@@ -17,7 +16,7 @@ import com.example.ecommerceapp.services.AuthService
 import com.example.ecommerceapp.services.ProductService
 import com.example.ecommerceapp.services.OrderService
 
-class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterface {
+class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var authService: AuthService
@@ -55,27 +54,23 @@ class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterfac
 
         // Handle add to cart button click
         binding.btnDetailsAddToCart.setOnClickListener {
-            if (orderSize.isNullOrBlank()) {
-                requireActivity().toast("Select Size")
-            } else {
-                val orderedItem = OrderModel(
-                    authService.getCurrentUserId(),
-                    productId,
-                    orderImageUrl,
-                    orderName,
-                    orderSize,
-                    orderQuantity,
-                    orderPrice
-                )
+            val orderedItem = OrderModel(
+                authService.getCurrentUserId(),
+                productId,
+                orderImageUrl,
+                orderName,
+                orderSize,
+                orderQuantity,
+                orderPrice
+            )
 
-                // Place order using OrderService
-                orderService.placeOrder(orderedItem) { success, errorMessage ->
-                    if (success) {
-                        requireActivity().toast("Order Successfully Placed")
-                        Navigation.findNavController(view).navigate(R.id.action_detailsFragment_to_cartFragment2)
-                    } else {
-                        requireActivity().toast("Order failed: $errorMessage")
-                    }
+            // Place order using OrderService
+            orderService.placeOrder(orderedItem) { success, errorMessage ->
+                if (success) {
+                    requireActivity().toast("Order Successfully Placed")
+                    Navigation.findNavController(view).navigate(R.id.action_detailsFragment_to_cartFragment2)
+                } else {
+                    requireActivity().toast("Order failed: $errorMessage")
                 }
             }
         }
@@ -100,10 +95,5 @@ class DetailsFragment : Fragment(R.layout.fragment_details), SizeOnClickInterfac
         binding.tvShippingFee.text = "Shipping Fee: Rs.${item.shippingFee}"
         binding.tvDimensions.text = "Dimensions: ${item.width} x ${item.height} x ${item.length}"
         binding.tvWeight.text = "Weight: ${item.productWeight}"
-    }
-
-    override fun onClickSize(button: Button, position: Int) {
-        orderSize = button.text.toString()
-        requireActivity().toast("Size ${button.text} Selected")
     }
 }

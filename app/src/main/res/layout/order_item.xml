@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="20dp">
 
     <androidx.cardview.widget.CardView
@@ -18,14 +17,14 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/ivCartProduct"
+            android:id="@+id/ivOrderProduct"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/phone1" />
     </androidx.cardview.widget.CardView>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCartProductName"
+        android:id="@+id/tvOrderProductName"
         style="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,12 +35,24 @@
         />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvCartProductPrice"
+        android:id="@+id/tvOrderPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1000"
-        app:layout_constraintStart_toStartOf="@id/tvCartProductName"
-        app:layout_constraintTop_toBottomOf="@id/tvCartProductName" />
+        android:text="Rs.2000"
+        app:layout_constraintStart_toStartOf="@id/tvOrderProductName"
+        app:layout_constraintTop_toBottomOf="@id/tvOrderProductName"
+        android:textSize="16sp"
+        android:textColor="@color/black"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvOrderStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delivered"
+        app:layout_constraintStart_toStartOf="@id/tvOrderPrice"
+        app:layout_constraintTop_toBottomOf="@id/tvOrderPrice"
+        android:textColor="@color/greenStatus"/>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -50,33 +61,6 @@
         android:padding="10dp"
         app:layout_constraintStart_toEndOf="@id/guideline6"
         app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCartItemAdd"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/custombuttonselectsize"
-            android:text="+"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            android:textColor="@color/black"
-            tools:ignore="TouchTargetSizeCheck" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvCartItemCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="01" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCartItemMinus"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@drawable/custombuttonselectsize"
-            android:backgroundTint="@color/black"
-            android:text="-"
-            android:textColor="@color/white"
-            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
