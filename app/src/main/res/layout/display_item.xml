@@ -17,7 +17,7 @@
         android:background="@drawable/custom_image_background"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:src="@drawable/shoe4"
+        android:src="@drawable/phone1"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/guideline2"
         app:layout_constraintStart_toStartOf="parent"

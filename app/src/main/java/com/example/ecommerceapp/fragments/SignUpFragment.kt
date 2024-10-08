@@ -9,7 +9,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.navigation.Navigation
-import com.example.ecommerceapp.Extensions.toast
+import com.example.ecommerceapp.middlewares.Extensions.toast
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.databinding.FragmentSignUpBinding
 import com.example.ecommerceapp.services.AuthService

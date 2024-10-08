@@ -64,13 +64,17 @@
         <argument
             android:name="productId"
             app:argType="string"
-            android:defaultValue="null" />
+            />
     </fragment>
     <fragment
         android:id="@+id/cartFragment2"
         android:name="com.example.ecommerceapp.fragments.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment2_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/likeFragment2"
         android:name="com.example.ecommerceapp.fragments.LikeFragment"
@@ -107,4 +111,14 @@
         android:name="com.example.ecommerceapp.fragments.ProfileUpdate"
         android:label="fragment_profile_update"
         tools:layout="@layout/fragment_profile_update" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.ecommerceapp.fragments.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" />
+    <fragment
+        android:id="@+id/ordersFragment2"
+        android:name="com.example.ecommerceapp.fragments.OrdersFragment"
+        android:label="fragment_orders"
+        tools:layout="@layout/fragment_orders" />
 </navigation>
