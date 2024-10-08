@@ -88,7 +88,7 @@
     </fragment>
     <fragment
         android:id="@+id/changepassword"
-        android:name="com.example.ecommerceapp.fragments.Changepassword"
+        android:name="com.example.ecommerceapp.fragments.ResetPassword"
         android:label="fragment_changepassword"
-        tools:layout="@layout/fragment_changepassword" />
+        tools:layout="@layout/fragment_resetpassword" />
 </navigation>

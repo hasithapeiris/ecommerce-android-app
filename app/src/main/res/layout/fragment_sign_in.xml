@@ -82,7 +82,7 @@
         android:id="@+id/tvNavigateToSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="56dp"
         android:text="Create New Account ? SignUp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/etPasswordSignIn"
