@@ -6,12 +6,26 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SignInFragment">
 
+    <ImageView
+        android:id="@+id/heartIcon"
+        android:layout_width="116dp"
+        android:layout_height="157dp"
+        android:src="@drawable/ic_baseline_shopping_cart_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.198" />
+
     <TextView
         android:id="@+id/tvNavigateToSignUp2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:text="forget password?"
+        android:textAllCaps="true"
+        android:textColor="#EB3434"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/etPasswordSignIn"
         app:layout_constraintHorizontal_bias="0.514"
@@ -96,10 +110,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="Create New Account ? SignUp"
-        android:textStyle="bold"
+        android:textColor="#3F51B5"
+        android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="@+id/etPasswordSignIn"
         app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="@+id/etPasswordSignIn"
         app:layout_constraintTop_toBottomOf="@+id/etPasswordSignIn" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="217dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="36dp"
+        android:text="OMINI- CART"
+        android:textAllCaps="true"
+        android:textColor="#3F51B5"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
