@@ -1,3 +1,9 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * description: Cart API for handling cart features
+ *****/
+
 package com.example.ecommerceapp.api
 
 import com.example.ecommerceapp.models.CartModel

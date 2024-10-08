@@ -1,3 +1,9 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * description: Product API for handling products
+ * *****/
+
 package com.example.ecommerceapp.api
 
 import com.example.ecommerceapp.models.ProductModel

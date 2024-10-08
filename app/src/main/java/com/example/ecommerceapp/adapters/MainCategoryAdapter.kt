@@ -1,3 +1,10 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * Description: Main category adapter.
+ * Tutorial: https://www.geeksforgeeks.org/simpleadapter-in-android-with-example/
+ * *****/
+
 package com.example.ecommerceapp.adapters
 
 import android.view.LayoutInflater
