@@ -1,3 +1,9 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * description: Cart service for handling cart related APIs.
+ * *****/
+
 package com.example.ecommerceapp.services
 import com.example.ecommerceapp.api.RetrofitInstance
 import com.example.ecommerceapp.models.CartModel

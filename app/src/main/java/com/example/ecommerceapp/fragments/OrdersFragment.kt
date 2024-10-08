@@ -1,3 +1,9 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * Description: Fragment to handling orders.
+ *****/
+
 package com.example.ecommerceapp.fragments
 
 import android.os.Bundle

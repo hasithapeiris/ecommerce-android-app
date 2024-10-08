@@ -1,3 +1,10 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * Description: Cart Adapter to connect with cart fragment.
+ * Tutorial: https://medium.com/edureka/android-adapter-tutorial-68fa7b2e32e7
+ * *****/
+
 package com.example.ecommerceapp.adapters
 
 import android.content.Context

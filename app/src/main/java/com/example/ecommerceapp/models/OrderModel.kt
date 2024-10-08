@@ -1,3 +1,9 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * Description: Order Model.
+ *****/
+
 package com.example.ecommerceapp.models
 
 data class OrderModel(

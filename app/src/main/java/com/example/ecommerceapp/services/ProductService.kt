@@ -1,3 +1,9 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * description: Product service for handling product related APIs.
+ * *****/
+
 package com.example.ecommerceapp.services
 
 import android.util.Log
