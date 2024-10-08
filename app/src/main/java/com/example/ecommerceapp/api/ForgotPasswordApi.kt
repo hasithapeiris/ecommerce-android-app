@@ -1,4 +1,8 @@
-// ForgotPasswordApi.kt
+/*****
+ * Author: Baddewithana P
+ * STD: IT21247804
+ * description: retrofitclient interface for forgetpassword
+ *****/
 package com.example.ecommerceapp.api
 
 import com.example.ecommerceapp.models.ForgotPasswordResponse
@@ -7,6 +11,7 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface ForgotPasswordApi {
+    //function to handle forget password api request in retrofit level
     @POST("/api/forgot-password")
     fun forgotPassword(@Body email: Map<String, String>): Call<ForgotPasswordResponse>
 }

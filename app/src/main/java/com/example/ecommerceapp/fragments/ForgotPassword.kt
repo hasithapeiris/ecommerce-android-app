@@ -1,3 +1,9 @@
+/*****
+ * Author: Baddewithana P
+ * STD: IT21247804
+ * description: Fragment view handling for Forgot password fragment
+ *****/
+
 package com.example.ecommerceapp.fragments
 
 import android.annotation.SuppressLint
@@ -37,7 +43,7 @@ class ForgotPassword : Fragment() {
 
         return view
     }
-
+    //handle forget password in fragment view
     private fun sendForgotPasswordRequest(email: String) {
         val authService = AuthService()
         authService.forgotPassword(requireContext(), email) { success, message ->

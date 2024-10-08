@@ -1,3 +1,11 @@
+/*****
+ * Author: Baddewithana P
+ * STD: IT21247804
+ * description: retrofitclient instance to make the connection
+ * Tutorial: https://medium.com/@ryan.samarajeewa/connect-your-android-app-to-a-local-asp-net-core-app-without-the-headaches-725dfb16e061
+ *****/
+
+
 package com.example.ecommerceapp.api
 
 import retrofit2.Retrofit

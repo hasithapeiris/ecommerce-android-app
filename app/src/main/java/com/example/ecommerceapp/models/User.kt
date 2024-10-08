@@ -1,3 +1,8 @@
+/*****
+ * Author: Baddewithana P
+ * STD: IT21247804
+ * description: data models related to signin, login, user profile creation.
+ *****/
 package com.example.ecommerceapp.models
 
 // User data model
@@ -42,5 +47,18 @@ data class ProfileResponse(
     val success: Boolean,
     val data: UserDetail,
     val message: String?
+)
+
+data class UpdateProfileRequest(
+    val email: String,
+    val password: String
+)
+
+
+
+data class UpdateProfileResponse(
+    val success: Boolean,
+    val message: String?,
+    val error: String?
 )
 

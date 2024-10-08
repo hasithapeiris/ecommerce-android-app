@@ -1,4 +1,8 @@
-// ResetPassword.kt
+/*****
+ * Author: Baddewithana P
+ * STD: IT21247804
+ * description: Fragment view handling for reset password fragment
+ *****/
 package com.example.ecommerceapp.fragments
 
 import android.content.Context
@@ -33,7 +37,7 @@ class ResetPassword : Fragment(R.layout.fragment_resetpassword) {
             }
         }
     }
-
+//handle reset password in fragment view
     private fun resetPassword(newPassword: String) {
         // Retrieve email from SharedPreferences or pass it as needed
         val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)

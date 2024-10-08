@@ -88,6 +88,9 @@
         <action
             android:id="@+id/action_userprofile_to_changepassword"
             app:destination="@id/changepassword" />
+        <action
+            android:id="@+id/action_userprofile_to_profileUpdate"
+            app:destination="@id/profileUpdate" />
     </fragment>
     <fragment
         android:id="@+id/changepassword"
@@ -99,4 +102,9 @@
         android:name="com.example.ecommerceapp.fragments.ForgotPassword"
         android:label="fragment_forgot_password"
         tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/profileUpdate"
+        android:name="com.example.ecommerceapp.fragments.ProfileUpdate"
+        android:label="fragment_profile_update"
+        tools:layout="@layout/fragment_profile_update" />
 </navigation>

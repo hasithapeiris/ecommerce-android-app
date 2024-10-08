@@ -1,3 +1,9 @@
+/*****
+ * Author: Baddewithana P
+ * STD: IT21247804
+ * description: Fragment view handling for sign in fragment
+ *****/
+
 package com.example.ecommerceapp.fragments
 
 import android.os.Bundle
@@ -36,7 +42,7 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
     }
 
 
-
+    //handle sign in fragment view
     private fun signInUser(email: String, password: String) {
         authService.signIn(requireContext(), email, password) { success, errorMessage ->
             if (success) {

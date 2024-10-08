@@ -5,10 +5,32 @@
     android:layout_height="match_parent"
     tools:context=".fragments.ProfileUpdate">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <EditText
+            android:id="@+id/email_input"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:hint="Enter new email" />
+
+        <EditText
+            android:id="@+id/password_input"
+            android:layout_width="match_parent"
+            android:layout_height="81dp"
+            android:hint="Enter new password"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/update_profile_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Profile" />
+
+    </LinearLayout>
+
 
 </FrameLayout>

@@ -1,3 +1,8 @@
+/*****
+ * Author: Baddewithana P
+ * STD: IT21247804
+ * description: Authorization and request handling code segment for customer management.
+ *****/
 package com.example.ecommerceapp.services
 
 import android.content.Context
@@ -13,9 +18,12 @@ import com.example.ecommerceapp.models.LoginResponse
 import com.example.ecommerceapp.models.ProfileResponse
 import com.example.ecommerceapp.models.UserDetail
 import com.example.ecommerceapp.api.ResetPasswordApi
+import com.example.ecommerceapp.api.UpdateProfileApi
 import com.example.ecommerceapp.models.ForgotPasswordResponse
 import com.example.ecommerceapp.models.ResetPasswordRequest
 import com.example.ecommerceapp.models.ResetPasswordResponse
+import com.example.ecommerceapp.models.UpdateProfileRequest
+import com.example.ecommerceapp.models.UpdateProfileResponse
 
 import retrofit2.Call
 import retrofit2.Callback
@@ -27,17 +35,11 @@ class AuthService {
     private val loginApi: LoginApi = RetrofitInstance.instance.create(LoginApi::class.java)
     private val profileApi: ProfileApi = RetrofitInstance.instance.create(ProfileApi::class.java)
     private val resetPasswordApi: ResetPasswordApi = RetrofitInstance.instance.create(ResetPasswordApi::class.java)
+    private val updateProfileApi: UpdateProfileApi = RetrofitInstance.instance.create(UpdateProfileApi::class.java)
 
 
 
-    /**
-     * Create a new user with name, email, password, password confirmation, and role.
-     * @param email The user's email address.
-     * @param name The user's name.
-     * @param password The user's password.
-     * @param passwordConfirmation The password confirmation.
-     * @param callback A callback function that returns success status and an optional error message.
-     */
+   //user creation function
     fun createUser(email: String, name: String, password: String, passwordConfirmation: String, callback: (Boolean, String?) -> Unit) {
         val user = User(name, email, password, passwordConfirmation)
 
@@ -58,13 +60,16 @@ class AuthService {
             }
         })
     }
+    //temporary function for get userID
     fun getCurrentUserId(): String {
         // Return a temporary hardcoded user ID
         return "temporaryUserId"
     }
+    //Temporary function for sign out
     fun signOut() {
-        // Implement sign out logic (e.g., clearing session, API call to sign out)
+
     }
+    //Function to handle new customer sign in
     fun signIn(context: Context, email: String, password: String, callback: (Boolean, String?) -> Unit) {
         val request = LoginRequest(email, password)
         val call = loginApi.loginUser(request)
@@ -115,6 +120,7 @@ class AuthService {
             }
         })
     }
+    //function to check user logged in or not.
     fun isUserLoggedIn(): Boolean {
         return true
     }
@@ -153,6 +159,7 @@ class AuthService {
             callback(false, "Authentication token is missing")
         }
     }
+    //forgot password method
     fun forgotPassword(context: Context, email: String, callback: (Boolean, String?) -> Unit) {
         val forgotPasswordApi = RetrofitInstance.instance.create(ForgotPasswordApi::class.java)
         val requestBody = mapOf("email" to email)
@@ -172,5 +179,30 @@ class AuthService {
             }
         })
     }
+    // Update user profile (email and password)
+    fun updateUserProfile(
+        token: String,
+        email: String,
+        password: String,
+        callback: (Boolean, String?) -> Unit
+    ) {
+        val request = UpdateProfileRequest(email, password)
+        val call = updateProfileApi.updateProfile("Bearer $token", request)
 
+        call.enqueue(object : Callback<UpdateProfileResponse> {
+            override fun onResponse(call: Call<UpdateProfileResponse>, response: Response<UpdateProfileResponse>) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    callback(true, response.body()?.message)
+                } else {
+                    callback(false, response.body()?.message ?: "Update failed")
+                }
+            }
+
+            override fun onFailure(call: Call<UpdateProfileResponse>, t: Throwable) {
+                callback(false, "Network error: ${t.message}")
+            }
+        })
+    }
 }
+
+

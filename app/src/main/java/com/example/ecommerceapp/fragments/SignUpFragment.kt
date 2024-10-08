@@ -1,3 +1,8 @@
+/*****
+ * Author: Baddewithana P
+ * STD: IT21247804
+ * description: Fragment view handling for Sign up fragment
+ *****/
 package com.example.ecommerceapp.fragments
 
 import android.os.Bundle
@@ -42,13 +47,7 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
         }
     }
 
-    /**
-     * Handles user creation process using AuthService.
-     * @param email The user's email.
-     * @param name The user's name.
-     * @param password The user's password.
-     * @param passwordConfirmation The user's password confirmation.
-     */
+    //handle user creation in fragment view
     private fun createUser(email: String, name: String, password: String, passwordConfirmation: String) {
         authService.createUser(email, name, password, passwordConfirmation) { success, errorMessage ->
             if (success) {
