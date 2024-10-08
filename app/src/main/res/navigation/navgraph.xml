@@ -28,15 +28,15 @@
         <action
             android:id="@+id/action_signInFragment_to_mainFragment2"
             app:destination="@id/mainFragment2" />
+        <action
+            android:id="@+id/action_signInFragment_to_forgotPassword"
+            app:destination="@id/forgotPassword" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment2"
         android:name="com.example.ecommerceapp.fragments.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment2_to_signInFragment"
-            app:destination="@id/signInFragment" />
         <action
             android:id="@+id/action_mainFragment2_to_detailsFragment"
             app:destination="@id/detailsFragment" />
@@ -47,8 +47,11 @@
             android:id="@+id/action_mainFragment2_to_cartFragment2"
             app:destination="@id/cartFragment2" />
         <action
-            android:id="@+id/action_mainFragment2_to_ordersFragment2"
-            app:destination="@id/ordersFragment2" />
+            android:id="@+id/action_mainFragment2_to_userprofile"
+            app:destination="@id/userprofile" />
+        <action
+            android:id="@+id/action_mainFragment2_to_userprofile2"
+            app:destination="@id/userprofile" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -81,6 +84,33 @@
             android:id="@+id/action_likeFragment2_to_mainFragment2"
             app:destination="@id/mainFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/userprofile"
+        android:name="com.example.ecommerceapp.fragments.Userprofile"
+        android:label="fragment_userprofile"
+        tools:layout="@layout/fragment_userprofile" >
+        <action
+            android:id="@+id/action_userprofile_to_changepassword"
+            app:destination="@id/changepassword" />
+        <action
+            android:id="@+id/action_userprofile_to_profileUpdate"
+            app:destination="@id/profileUpdate" />
+    </fragment>
+    <fragment
+        android:id="@+id/changepassword"
+        android:name="com.example.ecommerceapp.fragments.ResetPassword"
+        android:label="fragment_changepassword"
+        tools:layout="@layout/fragment_resetpassword" />
+    <fragment
+        android:id="@+id/forgotPassword"
+        android:name="com.example.ecommerceapp.fragments.ForgotPassword"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/profileUpdate"
+        android:name="com.example.ecommerceapp.fragments.ProfileUpdate"
+        android:label="fragment_profile_update"
+        tools:layout="@layout/fragment_profile_update" />
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.example.ecommerceapp.fragments.PaymentFragment"

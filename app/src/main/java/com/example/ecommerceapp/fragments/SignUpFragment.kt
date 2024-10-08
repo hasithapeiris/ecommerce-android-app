@@ -1,3 +1,8 @@
+/*****
+ * Author: Baddewithana P
+ * STD: IT21247804
+ * description: Fragment view handling for Sign up fragment
+ *****/
 package com.example.ecommerceapp.fragments
 
 import android.os.Bundle
@@ -24,9 +29,14 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
             val email = binding.etEmailSignUp.text.toString()
             val name = binding.etNameSignUp.text.toString()
             val password = binding.etPasswordSignUp.text.toString()
+            val passwordConfirmation = binding.etPasswordSignUp2.text.toString() // Add this field
 
-            if (email.isNotEmpty() && name.isNotEmpty() && password.isNotEmpty()) {
-                createUser(email, password)
+            if (email.isNotEmpty() && name.isNotEmpty() && password.isNotEmpty() && passwordConfirmation.isNotEmpty()) {
+                if (password == passwordConfirmation) {
+                    createUser(email, name, password, passwordConfirmation)
+                } else {
+                    requireActivity().toast("Passwords do not match")
+                }
             } else {
                 requireActivity().toast("Please fill in all fields")
             }
@@ -37,13 +47,9 @@ class SignUpFragment : Fragment(R.layout.fragment_sign_up) {
         }
     }
 
-    /**
-     * Handles user creation process using AuthService.
-     * @param email The user's email.
-     * @param password The user's password.
-     */
-    private fun createUser(email: String, password: String) {
-        authService.createUser(email, password) { success, errorMessage ->
+    //handle user creation in fragment view
+    private fun createUser(email: String, name: String, password: String, passwordConfirmation: String) {
+        authService.createUser(email, name, password, passwordConfirmation) { success, errorMessage ->
             if (success) {
                 requireActivity().toast("New user created")
                 navigateToMainFragment()

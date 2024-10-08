@@ -6,17 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".fragments.SignInFragment">
 
+    <TextView
+        android:id="@+id/tvNavigateToSignUp2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="forget password?"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/etPasswordSignIn"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="@+id/etPasswordSignIn"
+        app:layout_constraintTop_toBottomOf="@+id/etPasswordSignIn" />
+
     <EditText
         android:id="@+id/etEmailSignIn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
+        android:autofillHints="emailAddress"
         android:background="@drawable/custom_image_background"
         android:ems="10"
-        android:hint="Enter Email"
 
+        android:hint="Enter Email"
         android:inputType="textEmailAddress"
-        android:autofillHints="emailAddress"
         android:minHeight="48dp"
         android:padding="10dp"
         android:textSize="21sp"
@@ -24,6 +36,7 @@
 
         app:layout_constraintBottom_toTopOf="@+id/etPasswordSignIn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
@@ -53,12 +66,13 @@
         android:id="@+id/btnSignIn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/custom_button"
         android:text="Sign In"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/guideline4"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toBottomOf="@+id/tvNavigateToSignUp" />
 
@@ -80,10 +94,11 @@
         android:id="@+id/tvNavigateToSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:text="Create New Account ? SignUp"
-        android:layout_marginTop="10dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/etPasswordSignIn"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="@+id/etPasswordSignIn"
         app:layout_constraintTop_toBottomOf="@+id/etPasswordSignIn" />
 
