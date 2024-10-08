@@ -9,7 +9,6 @@
 
     <!-- Payment Heading -->
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/paymentToolbar"
         android:layout_width="match_parent"
@@ -55,7 +54,6 @@
         app:layout_constraintTop_toBottomOf="@id/card_payment_heading"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontalBias="0"
         android:layout_marginTop="8dp"/>
 
     <EditText
@@ -69,7 +67,6 @@
         app:layout_constraintTop_toBottomOf="@id/card_number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontalBias="0"
         android:layout_marginTop="8dp"/>
 
     <EditText
@@ -98,7 +95,7 @@
         app:layout_constraintTop_toBottomOf="@id/card_cvc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontalBias="0" />
+        />
 
     <Button
         android:id="@+id/pay_with_paypal"
@@ -112,7 +109,6 @@
         app:layout_constraintTop_toBottomOf="@id/paypal_heading"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontalBias="0"
         android:layout_marginTop="8dp"/>
 
     <!-- Payment Button -->
@@ -121,7 +117,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Make Payment"
-        android:backgroundTint="@color/green"
+        android:backgroundTint="@color/black"
         android:textColor="@color/white"
         android:fontFamily="sans-serif-medium"
         android:padding="16dp"
