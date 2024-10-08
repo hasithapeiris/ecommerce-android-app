@@ -9,4 +9,5 @@
     <color name="statusbar">#ffffff</color>
     <color name="greenStatus">#50C878</color>
     <color name="orangeStatus">#FFAC1C</color>
+    <color name="blue">#0079C1</color>#00457C
 </resources>

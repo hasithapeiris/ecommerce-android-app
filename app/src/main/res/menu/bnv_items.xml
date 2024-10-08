@@ -20,6 +20,12 @@
         android:title="Cart Page" />
 
     <item
+        android:id="@+id/ordersFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_history_24"
+        android:title="Orders Page" />
+
+    <item
         android:id="@+id/profileFragment"
         android:enabled="true"
         android:icon="@drawable/logout_svg"

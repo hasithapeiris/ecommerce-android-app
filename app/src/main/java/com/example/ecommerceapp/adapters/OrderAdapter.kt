@@ -5,17 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.ecommerceapp.databinding.OrderItemBinding
 import com.example.ecommerceapp.middlewares.SwipeToDelete
-import com.example.ecommerceapp.databinding.CartItemBinding
-import com.example.ecommerceapp.models.CartModel
+import com.example.ecommerceapp.models.OrderModel
 
-class CartAdapter(
+class OrderAdapter(
     private val context : Context,
-    private val list:ArrayList<CartModel>,
+    private val list:ArrayList<OrderModel>,
     private val onLongClickRemove: OnLongClickRemove
-): RecyclerView.Adapter<CartAdapter.ViewHolder>() {
+): RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: CartItemBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding: OrderItemBinding):RecyclerView.ViewHolder(binding.root){
         private val onSwipeDelete = object : SwipeToDelete() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
@@ -24,23 +24,21 @@ class CartAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(CartItemBinding.inflate(LayoutInflater.from(parent.context) , parent , false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderAdapter.ViewHolder {
+        return ViewHolder(OrderItemBinding.inflate(LayoutInflater.from(parent.context) , parent , false))
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: OrderAdapter.ViewHolder, position: Int) {
         val currentItem = list[position]
 
         Glide
             .with(context)
             .load(currentItem.imageUrl)
-            .into(holder.binding.ivCartProduct)
+            .into(holder.binding.ivOrderProduct)
 
-        holder.binding.tvCartProductName.text = currentItem.name
-        holder.binding.tvCartProductPrice.text = "Rs.${currentItem.price}"
-        holder.binding.tvCartItemCount.text = currentItem.quantity.toString()
-
-        var count = holder.binding.tvCartItemCount.text.toString().toInt()
+        holder.binding.tvOrderProductName.text = currentItem.itemName
+        holder.binding.tvOrderPrice.text = "Rs.${currentItem.price}"
+        holder.binding.tvOrderStatus.text = currentItem.status
 
         holder.itemView.setOnLongClickListener {
             onLongClickRemove.onLongRemove(currentItem , position)
@@ -53,8 +51,6 @@ class CartAdapter(
     }
 
     interface OnLongClickRemove{
-        fun onLongRemove(item: CartModel, position: Int)
+        fun onLongRemove(item: OrderModel, position: Int)
     }
-
 }
-
