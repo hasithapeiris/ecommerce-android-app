@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_mainFragment2_to_userprofile2"
             app:destination="@id/userprofile" />
+        <action
+            android:id="@+id/action_mainFragment2_to_ordersFragment2"
+            app:destination="@id/ordersFragment2" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"

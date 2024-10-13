@@ -11,7 +11,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.Fragment
-import com.example.ecommerceapp.Extensions.toast
+import com.example.ecommerceapp.middlewares.Extensions.toast
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.services.AuthService
 
