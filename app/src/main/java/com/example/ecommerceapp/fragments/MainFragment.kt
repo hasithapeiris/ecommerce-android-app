@@ -10,6 +10,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +25,7 @@ import com.example.ecommerceapp.databinding.FragmentMainBinding
 import com.example.ecommerceapp.models.ProductModel
 import com.example.ecommerceapp.services.AuthService
 import com.example.ecommerceapp.services.ProductService
+import kotlinx.coroutines.launch
 
 class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     ItemOnClickInterface{
@@ -52,7 +55,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
         binding.rvMainCategories.adapter = categoryAdapter
 
         // Set up product RecyclerView
-        binding.rvMainProductsList.layoutManager = GridLayoutManager(context, 2)
+        binding.rvMainProductsList.layoutManager = GridLayoutManager(context, 1)
         productsAdapter = ProductAdapter(requireContext(), productList, this)
         binding.rvMainProductsList.adapter = productsAdapter
 
@@ -96,12 +99,18 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     }
 
     private fun setProductsData() {
-        productService.getProducts { products ->
-            productList.clear()
-            productList.addAll(products)
-            productsAdapter.notifyDataSetChanged()
+        lifecycleScope.launch {
+            val result = productService.getProducts()
+            result.onSuccess { products ->
+                productList.clear()
+                productList.addAll(products)
+                productsAdapter.notifyDataSetChanged()
+            }.onFailure { exception ->
+                Toast.makeText(requireContext(), "Error: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
         }
     }
+
 
     override fun onClickCategory(button: Button) {
         binding.tvMainCategories.text = button.text.toString()
@@ -117,7 +126,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     }
 
     override fun onClickItem(item: ProductModel) {
-        val direction = MainFragmentDirections.actionMainFragment2ToDetailsFragment(item.productId)
+        val direction = MainFragmentDirections.actionMainFragment2ToDetailsFragment(item.id)
         Navigation.findNavController(requireView())
             .navigate(direction)
     }

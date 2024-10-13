@@ -23,16 +23,5 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    
-//    val productApi: ProductApi by lazy {
-//        retrofit.create(ProductApi::class.java)
-//    }
-//
-//    val orderApi: OrderApi by lazy {
-//        retrofit.create(OrderApi::class.java)
-//    }
-//
-//    val cartApi: CartApi by lazy {
-//        retrofit.create(CartApi::class.java)
-//    }
+
 }
