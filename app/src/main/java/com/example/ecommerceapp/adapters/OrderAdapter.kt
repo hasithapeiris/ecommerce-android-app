@@ -15,11 +15,13 @@ import com.bumptech.glide.Glide
 import com.example.ecommerceapp.databinding.OrderItemBinding
 import com.example.ecommerceapp.middlewares.SwipeToDelete
 import com.example.ecommerceapp.models.OrderModel
+import com.example.ecommerceapp.models.ProductModel
 
 class OrderAdapter(
     private val context : Context,
     private val list:ArrayList<OrderModel>,
-    private val onLongClickRemove: OnLongClickRemove
+    private val onLongClickRemove: OnLongClickRemove,
+    private val orderClickInterface: OrderOnClickInterface,
 ): RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: OrderItemBinding):RecyclerView.ViewHolder(binding.root){
@@ -51,6 +53,10 @@ class OrderAdapter(
             onLongClickRemove.onLongRemove(currentItem , position)
             true
         }
+
+        holder.itemView.setOnClickListener {
+            orderClickInterface.onClickItem(currentItem)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -60,4 +66,8 @@ class OrderAdapter(
     interface OnLongClickRemove{
         fun onLongRemove(item: OrderModel, position: Int)
     }
+}
+
+interface OrderOnClickInterface {
+    fun onClickItem(item: OrderModel)
 }

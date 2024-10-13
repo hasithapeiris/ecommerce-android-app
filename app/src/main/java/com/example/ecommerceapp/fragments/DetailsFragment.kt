@@ -10,7 +10,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Button
 import com.example.ecommerceapp.middlewares.Extensions.toast
 import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
@@ -66,7 +65,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 orderImageUrl,
                 orderName,
                 orderSize,
-                orderQuantity,
+                orderQuantity.toString(),
                 orderPrice
             )
 
