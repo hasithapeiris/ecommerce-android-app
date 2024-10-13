@@ -13,13 +13,15 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.OrderAdapter
+import com.example.ecommerceapp.adapters.OrderOnClickInterface
 import com.example.ecommerceapp.databinding.FragmentOrdersBinding
 import com.example.ecommerceapp.middlewares.Extensions.toast
 import com.example.ecommerceapp.models.OrderModel
 import com.example.ecommerceapp.services.AuthService
 import com.example.ecommerceapp.services.OrderService
 
-class OrdersFragment : Fragment(R.layout.fragment_orders), OrderAdapter.OnLongClickRemove {
+class OrdersFragment : Fragment(R.layout.fragment_orders), OrderAdapter.OnLongClickRemove,
+    OrderOnClickInterface {
 
     private lateinit var binding: FragmentOrdersBinding
     private lateinit var orderList: ArrayList<OrderModel>
@@ -45,7 +47,7 @@ class OrdersFragment : Fragment(R.layout.fragment_orders), OrderAdapter.OnLongCl
 
         // Set up RecyclerView
         val layoutManager = LinearLayoutManager(context)
-        adapter = OrderAdapter(requireContext(), orderList, this)
+        adapter = OrderAdapter(requireContext(), orderList, this, this)
         binding.rvOrderItems.adapter = adapter
         binding.rvOrderItems.layoutManager = layoutManager
 
@@ -67,6 +69,12 @@ class OrdersFragment : Fragment(R.layout.fragment_orders), OrderAdapter.OnLongCl
                 requireActivity().toast(errorMessage ?: "Failed to retrieve ordered items")
             }
         }
+    }
+
+    override fun onClickItem(item: OrderModel) {
+        val direction = OrdersFragmentDirections.actionOrdersFragment2ToOrderDetailsFragment2(item.orderId)
+        Navigation.findNavController(requireView())
+            .navigate(direction)
     }
 
     override fun onLongRemove(item: OrderModel, position: Int) {
