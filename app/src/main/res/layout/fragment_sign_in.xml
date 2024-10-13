@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/heartIcon"
-        android:layout_width="116dp"
-        android:layout_height="157dp"
-        android:src="@drawable/ic_baseline_shopping_cart_24"
+        android:layout_width="181dp"
+        android:layout_height="155dp"
+        android:src="@drawable/omnicart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
