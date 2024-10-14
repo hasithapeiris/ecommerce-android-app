@@ -22,3 +22,12 @@ data class CartResponse(
     val unitPrice: Double,
     val totalPrice: Double
 )
+
+data class CartResponseWrapper(
+    val success: Boolean,
+    val data: List<CartResponse>,
+    val message: String?,
+    val error: String?,
+    val errorCode: String?,
+    val errorData: String?
+)

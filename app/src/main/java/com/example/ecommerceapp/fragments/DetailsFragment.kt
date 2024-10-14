@@ -114,7 +114,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         // Create a CartModel object to pass to the API
         val cartItem = CartModel(
             productId = arguments?.getString("productId") ?: "",
-            vendorId = "vendor-id",  // Replace with actual vendor ID
+            vendorId = "670d086d8c589001a2f25010",
             quantity = 1, // Default quantity
             unitPrice = cartItemPrice.toDouble()
         )

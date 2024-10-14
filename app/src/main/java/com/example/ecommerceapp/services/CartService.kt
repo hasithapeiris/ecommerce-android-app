@@ -10,6 +10,7 @@ import com.example.ecommerceapp.api.ProductApi
 import com.example.ecommerceapp.api.RetrofitInstance
 import com.example.ecommerceapp.models.CartModel
 import com.example.ecommerceapp.models.CartResponse
+import com.example.ecommerceapp.models.CartResponseWrapper
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -39,10 +40,19 @@ class CartService {
     // Fetch cart items
     fun getCartItems(token: String, callback: (List<CartResponse>?, String?) -> Unit) {
         val call = cartApi.getCartItems("Bearer $token")
-        call.enqueue(object : Callback<List<CartResponse>> {
-            override fun onResponse(call: Call<List<CartResponse>>, response: Response<List<CartResponse>>) {
+
+        call.enqueue(object : Callback<CartResponseWrapper> {
+            override fun onResponse(call: Call<CartResponseWrapper>, response: Response<CartResponseWrapper>) {
                 if (response.isSuccessful) {
-                    callback(response.body(), null)
+                    val cartResponseWrapper = response.body()
+
+                    if (cartResponseWrapper != null && cartResponseWrapper.success) {
+                        // Pass the list of cart items to the callback
+                        callback(cartResponseWrapper.data, null)
+                    } else {
+                        // Handle case where success is false
+                        callback(null, cartResponseWrapper?.message ?: "Failed to fetch cart items.")
+                    }
                 } else {
                     val errorMessage = when (response.code()) {
                         401 -> "Unauthorized: Please log in."
@@ -53,7 +63,7 @@ class CartService {
                 }
             }
 
-            override fun onFailure(call: Call<List<CartResponse>>, t: Throwable) {
+            override fun onFailure(call: Call<CartResponseWrapper>, t: Throwable) {
                 callback(null, "Error: ${t.message}")
             }
         })
