@@ -14,40 +14,40 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class OrderService {
-    private val api = RetrofitInstance.orderApi
+//    private val api = RetrofitInstance.orderApi
 
     // Place order by customer
     fun placeOrder(order: OrderModel, callback: (Boolean, String?) -> Unit) {
-        api.placeOrder(order).enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) {
-                    callback(true, "Order placed successfully.")
-                } else {
-                    callback(false, "Error ${response.code()}: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                callback(false, t.localizedMessage ?: "Network error. Please try again.")
-            }
-        })
+//        api.placeOrder(order).enqueue(object : Callback<ResponseBody> {
+//            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+//                if (response.isSuccessful) {
+//                    callback(true, "Order placed successfully.")
+//                } else {
+//                    callback(false, "Error ${response.code()}: ${response.message()}")
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+//                callback(false, t.localizedMessage ?: "Network error. Please try again.")
+//            }
+//        })
     }
 
     // Get order by user Id
     fun getOrderItemsByUserId(userId: String, callback: (List<OrderModel>?, String?) -> Unit) {
-        api.getOrderItemsByUserId(userId).enqueue(object : Callback<List<OrderModel>> {
-            override fun onResponse(call: Call<List<OrderModel>>, response: Response<List<OrderModel>>) {
-                if (response.isSuccessful) {
-                    callback(response.body(), null)
-                } else {
-                    callback(null, "Error ${response.code()}: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<List<OrderModel>>, t: Throwable) {
-                callback(null, t.localizedMessage ?: "Network error. Please try again.")
-            }
-        })
+//        api.getOrderItemsByUserId(userId).enqueue(object : Callback<List<OrderModel>> {
+//            override fun onResponse(call: Call<List<OrderModel>>, response: Response<List<OrderModel>>) {
+//                if (response.isSuccessful) {
+//                    callback(response.body(), null)
+//                } else {
+//                    callback(null, "Error ${response.code()}: ${response.message()}")
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<List<OrderModel>>, t: Throwable) {
+//                callback(null, t.localizedMessage ?: "Network error. Please try again.")
+//            }
+//        })
     }
 
 }

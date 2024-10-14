@@ -6,7 +6,7 @@
  *****/
 
 package com.example.ecommerceapp.api
-package com.example.ecommerceapp.api
+//package com.example.ecommerceapp.api
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,7 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    private const val BASE_URL = "https://192.168.1.6:45456"
+    private const val BASE_URL = "https://192.168.43.213:45456"
     //"https://192.168.1.4:45455" sample for external device
         //"https://10.0.2.2:45455" sample for virtual device
     val instance: Retrofit by lazy {
@@ -23,16 +23,5 @@ object RetrofitInstance {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    
-    val productApi: ProductApi by lazy {
-        retrofit.create(ProductApi::class.java)
-    }
 
-    val orderApi: OrderApi by lazy {
-        retrofit.create(OrderApi::class.java)
-    }
-
-    val cartApi: CartApi by lazy {
-        retrofit.create(CartApi::class.java)
-    }
 }

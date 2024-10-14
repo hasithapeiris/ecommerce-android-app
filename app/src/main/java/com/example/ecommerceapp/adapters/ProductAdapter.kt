@@ -33,18 +33,17 @@ class ProductAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = list[position]
-        holder.binding.tvNameDisplayItem.text = "${currentItem.productName}"
+        holder.binding.tvNameDisplayItem.text = currentItem.name
         holder.binding.tvPriceDisplayItem.text = "Rs.${currentItem.price}"
 
-        Glide
-            .with(context)
-            .load(currentItem.imageUrl)
+        // Display the first image from the photos array
+        Glide.with(context)
+            .load(currentItem.photos.firstOrNull())
             .into(holder.binding.ivDisplayItem)
 
         holder.itemView.setOnClickListener {
             productClickInterface.onClickItem(currentItem)
         }
-
     }
 
     override fun getItemCount(): Int {
