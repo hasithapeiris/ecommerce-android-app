@@ -12,6 +12,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerceapp.middlewares.Extensions.toast
 import com.example.ecommerceapp.R
@@ -68,13 +69,11 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
         // Handle checkout button
         binding.btnCartCheckout.setOnClickListener {
-            requireActivity().toast("You've Ordered Products worth $totalPrice\n Your Product will be delivered in next 7 days")
-            cartList.clear()
-            binding.tvLastSubTotalprice.text = "0"
-            binding.tvLastTotalPrice.text = "Min 1 product is Required"
-            binding.tvLastTotalPrice.setTextColor(Color.RED)
-
-            adapter.notifyDataSetChanged()
+            if (cartList.isNotEmpty()) {
+                findNavController().navigate(R.id.action_cartFragment2_to_paymentFragment)
+            } else {
+                requireActivity().toast("Your cart is empty!")
+            }
         }
     }
 

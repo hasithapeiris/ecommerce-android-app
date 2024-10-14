@@ -68,4 +68,24 @@ class CartService {
             }
         })
     }
+
+    // Make a purchase order
+    fun purchaseOrder(token: String, shippingAddress: String, callback: (Boolean, String?) -> Unit) {
+        val requestBody = mapOf("shippingAddress" to shippingAddress)
+        val call = cartApi.purchaseOrder(requestBody, "Bearer $token")
+
+        call.enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (response.isSuccessful) {
+                    callback(true, null)
+                } else {
+                    callback(false, "Failed to complete purchase: ${response.message()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                callback(false, "Error: ${t.message}")
+            }
+        })
+    }
 }

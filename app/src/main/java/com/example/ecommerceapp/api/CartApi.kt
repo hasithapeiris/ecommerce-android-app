@@ -21,4 +21,7 @@ interface CartApi {
 
     @POST("/api/auth/cart/add")
     fun addCartItem(@Body cartModel: CartModel, @Header("Authorization") token: String): Call<ResponseBody>
+
+    @POST("/api/auth/cart/purchase")
+    fun purchaseOrder(@Body requestBody: Map<String, String>, @Header("Authorization") token: String): Call<ResponseBody>
 }

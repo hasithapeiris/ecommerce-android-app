@@ -35,7 +35,7 @@
         android:id="@+id/card_payment_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pay with Card"
+        android:text="Shipping Address"
         android:textSize="18sp"
         android:textColor="@color/black"
         android:fontFamily="sans-serif"
@@ -47,37 +47,11 @@
         android:id="@+id/card_number"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Card Number"
-        android:inputType="number"
+        android:hint="Shipping Address"
+        android:inputType="text"
         android:padding="12dp"
         android:background="@drawable/custom_image_background"
         app:layout_constraintTop_toBottomOf="@id/card_payment_heading"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
-
-    <EditText
-        android:id="@+id/card_expiry"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="MM/YY"
-        android:inputType="number"
-        android:padding="12dp"
-        android:background="@drawable/custom_image_background"
-        app:layout_constraintTop_toBottomOf="@id/card_number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="8dp"/>
-
-    <EditText
-        android:id="@+id/card_cvc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="CVC"
-        android:inputType="number"
-        android:padding="12dp"
-        android:background="@drawable/custom_image_background"
-        app:layout_constraintTop_toBottomOf="@id/card_expiry"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="8dp"/>
@@ -92,7 +66,7 @@
         android:textColor="@color/black"
         android:fontFamily="sans-serif"
         android:layout_marginTop="24dp"
-        app:layout_constraintTop_toBottomOf="@id/card_cvc"
+        app:layout_constraintTop_toBottomOf="@id/card_number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />

@@ -9,8 +9,6 @@ package com.example.ecommerceapp.models
 data class CartModel(
     val productId: String,
     val vendorId: String,
-//    val productName: String,
-//    val imageUrl: String,
     val quantity: Int = 1,
     val unitPrice: Double,
 )
