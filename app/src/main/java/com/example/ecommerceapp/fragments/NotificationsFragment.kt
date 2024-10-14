@@ -1,3 +1,4 @@
+// Updated NotificationsFragment
 package com.example.ecommerceapp.fragments
 
 import android.content.Context
@@ -6,12 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.NotificationsAdapter
-import com.example.ecommerceapp.models.NotificationData
 import com.example.ecommerceapp.services.NotificationService
 
 class NotificationsFragment : Fragment() {
@@ -35,9 +34,12 @@ class NotificationsFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_notifications, container, false)
         recyclerView = view.findViewById(R.id.recyclerViewNotifications)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        notificationsAdapter = NotificationsAdapter()
-        recyclerView.adapter = notificationsAdapter
-        fetchNotifications()
+
+        token?.let { validToken ->
+            notificationsAdapter = NotificationsAdapter(validToken, notificationService)
+            recyclerView.adapter = notificationsAdapter
+            fetchNotifications()
+        }
         return view
     }
 

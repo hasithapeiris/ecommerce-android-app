@@ -1,6 +1,6 @@
+// Updated NotificationService
 package com.example.ecommerceapp.services
 
-import android.content.Context
 import com.example.ecommerceapp.api.NotificationsApi
 import com.example.ecommerceapp.api.RetrofitInstance
 import com.example.ecommerceapp.models.NotificationData
@@ -25,6 +25,19 @@ class NotificationService {
 
             override fun onFailure(call: Call<NotificationResponse>, t: Throwable) {
                 callback(false, null)
+            }
+        })
+    }
+
+    fun markNotificationAsRead(notificationId: String, token: String, callback: (Boolean) -> Unit) {
+        val call = notificationsApi.markAsRead(notificationId, "Bearer $token")
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                callback(response.isSuccessful)
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                callback(false)
             }
         })
     }
