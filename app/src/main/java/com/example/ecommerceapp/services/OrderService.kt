@@ -35,4 +35,11 @@ class OrderService {
         })
     }
 
+    // Fetch specific order details by orderId (for OrderDetailsFragment)
+//    fun getOrderDetails(orderId: String, callback: (OrderModel) -> Unit) {
+//        // Simulate fetching a single order detail
+//        val order = OrderModel(orderId, "Product A", "https://image.url/a", 100, "Shipped")
+//        callback(order)
+//    }
+
 }

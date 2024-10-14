@@ -39,3 +39,9 @@ data class OrderItemModel(
     val status: String
 )
 
+data class OrderItem(
+    val productName: String,
+    val productPrice: Double,
+    val quantity: Int,
+    val productImage: String
+)
