@@ -6,6 +6,7 @@
 
 package com.example.ecommerceapp.fragments
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.CartAdapter
 import com.example.ecommerceapp.databinding.FragmentCartBinding
 import com.example.ecommerceapp.models.CartModel
+import com.example.ecommerceapp.models.CartResponse
 import com.example.ecommerceapp.services.AuthService
 import com.example.ecommerceapp.services.CartService
 import com.example.ecommerceapp.services.OrderService
@@ -24,7 +26,7 @@ import com.example.ecommerceapp.services.OrderService
 class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRemove {
 
     private lateinit var binding: FragmentCartBinding
-    private lateinit var cartList: ArrayList<CartModel>
+    private lateinit var cartList: ArrayList<CartResponse>
     private lateinit var adapter: CartAdapter
     private var subTotalPrice = 0
     private var totalPrice = 240
@@ -32,6 +34,15 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRe
     private lateinit var authService: AuthService
     private lateinit var cartService: CartService
     private lateinit var orderService: OrderService
+    private var token: String? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        cartService = CartService()
+        // Retrieve token from SharedPreferences or arguments
+        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        token = sharedPreferences.getString("TOKEN", null)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,37 +83,30 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRe
 
     // Retrieve cart items using CartService
     private fun retrieveCartItems() {
-        val userId = authService.getCurrentUserId()
+        // Directly call getCartItems from CartService
+        token?.let {
+            cartService.getCartItems(it) { cartItems, errorMessage ->
+                if (cartItems != null) {
+                    cartList.clear()
 
-        cartService.getCartItemsByUserId(userId) { cartItems, errorMessage ->
-            if (cartItems != null) {
-                cartList.clear()
-                cartList.addAll(cartItems)
+                    // Calculate subtotal and total price
+                    subTotalPrice = cartItems.sumOf { it.unitPrice }.toInt()
+                    totalPrice = subTotalPrice
 
-                subTotalPrice = cartItems.sumOf { it.price?.toInt() ?: 0 }
-                totalPrice = subTotalPrice
-
-                // Update UI
-                binding.tvLastSubTotalprice.text = subTotalPrice.toString()
-                binding.tvLastTotalPrice.text = totalPrice.toString()
-                binding.tvLastSubTotalItems.text = "SubTotal Items(${cartList.size})"
-                adapter.notifyDataSetChanged()
-            } else {
-                requireActivity().toast(errorMessage ?: "Failed to retrieve cart items")
+                    // Update UI
+                    binding.tvLastSubTotalprice.text = subTotalPrice.toString()
+                    binding.tvLastTotalPrice.text = totalPrice.toString()
+                    binding.tvLastSubTotalItems.text = "SubTotal Items(${cartList.size})"
+                    adapter.notifyDataSetChanged()
+                } else {
+                    requireActivity().toast(errorMessage ?: "Failed to retrieve cart items")
+                }
             }
         }
     }
 
-    // Remove item from cart on long click
     override fun onLongRemove(item: CartModel, position: Int) {
-        cartService.removeCartItem(item) { success, errorMessage ->
-            if (success) {
-                cartList.removeAt(position)
-                adapter.notifyItemRemoved(position)
-                requireActivity().toast("Removed Successfully!")
-            } else {
-                requireActivity().toast(errorMessage ?: "Failed to remove item")
-            }
-        }
+        TODO("Not yet implemented")
     }
+
 }

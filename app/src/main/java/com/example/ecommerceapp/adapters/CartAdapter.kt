@@ -15,18 +15,20 @@ import com.bumptech.glide.Glide
 import com.example.ecommerceapp.middlewares.SwipeToDelete
 import com.example.ecommerceapp.databinding.CartItemBinding
 import com.example.ecommerceapp.models.CartModel
+import com.example.ecommerceapp.models.CartResponse
 
 class CartAdapter(
     private val context : Context,
-    private val list:ArrayList<CartModel>,
+    private val list:ArrayList<CartResponse>,
     private val onLongClickRemove: OnLongClickRemove
 ): RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: CartItemBinding):RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(val binding: CartItemBinding) : RecyclerView.ViewHolder(binding.root) {
         private val onSwipeDelete = object : SwipeToDelete() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 list.removeAt(position)
+                notifyItemRemoved(position) // Notify adapter of removal
             }
         }
     }
@@ -38,21 +40,17 @@ class CartAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = list[position]
 
-        Glide
-            .with(context)
-            .load(currentItem.imageUrl)
-            .into(holder.binding.ivCartProduct)
-
-        holder.binding.tvCartProductName.text = currentItem.name
-        holder.binding.tvCartProductPrice.text = "Rs.${currentItem.price}"
+        // Binding the updated fields
+        holder.binding.tvCartProductName.text = "Product ID: ${currentItem.productId}"
+        holder.binding.tvCartProductPrice.text = "Rs.${currentItem.unitPrice}"
         holder.binding.tvCartItemCount.text = currentItem.quantity.toString()
 
         var count = holder.binding.tvCartItemCount.text.toString().toInt()
 
-        holder.itemView.setOnLongClickListener {
-            onLongClickRemove.onLongRemove(currentItem , position)
-            true
-        }
+//        holder.itemView.setOnLongClickListener {
+//            onLongClickRemove.onLongRemove(currentItem, position)
+//            true
+//        }
     }
 
     override fun getItemCount(): Int {
@@ -62,6 +60,5 @@ class CartAdapter(
     interface OnLongClickRemove{
         fun onLongRemove(item: CartModel, position: Int)
     }
-
 }
 
