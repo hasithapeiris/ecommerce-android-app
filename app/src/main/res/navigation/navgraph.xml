@@ -144,6 +144,9 @@
             android:name="orderId"
             app:argType="string"
         />
+        <action
+            android:id="@+id/action_orderDetailsFragment2_to_cancelOrderFragment"
+            app:destination="@id/cancelOrderFragment" />
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
@@ -152,6 +155,14 @@
         tools:layout="@layout/fragment_payment" >
         <action
             android:id="@+id/action_paymentFragment_to_ordersFragment2"
+            app:destination="@id/ordersFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/cancelOrderFragment"
+        android:name="com.example.ecommerceapp.fragments.CancelOrderFragment"
+        android:label="CancelOrderFragment" >
+        <action
+            android:id="@+id/action_cancelOrderFragment_to_ordersFragment2"
             app:destination="@id/ordersFragment2" />
     </fragment>
 
