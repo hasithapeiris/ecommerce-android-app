@@ -6,22 +6,6 @@
     android:layout_height="wrap_content"
     android:paddingBottom="8dp">
 
-    <!-- Profile Image -->
-    <ImageView
-        android:id="@+id/ivProfileImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/custom_image_background"
-        android:contentDescription="Profile Image"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_baseline_person_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <!-- Username -->
     <TextView
         android:id="@+id/tvUsername"
@@ -33,19 +17,19 @@
         android:textColor="@android:color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/ivProfileImage"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Comment Text -->
     <TextView
         android:id="@+id/tvComment"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:text="This is a sample comment text."
         android:textColor="@android:color/black"
-        app:layout_constraintStart_toEndOf="@id/ivProfileImage"
-        app:layout_constraintStart_toStartOf="@+id/tvUsername"
-        app:layout_constraintTop_toBottomOf="@id/tvUsername" />
+        app:layout_constraintStart_toStartOf="@id/tvUsername"
+        app:layout_constraintTop_toBottomOf="@id/tvUsername"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="4dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

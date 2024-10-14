@@ -38,8 +38,8 @@ data class ProductResponse(
 )
 
 data class VendorInfo(
-    val id: String,
+    val id: String? = "670caa19dc1d24f04815a321",
     val name: String,
     val email: String,
-    val role: Int
+    val role: String
 )

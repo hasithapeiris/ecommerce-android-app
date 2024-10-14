@@ -145,11 +145,12 @@
                 android:textSize="16sp"
                 android:layout_marginTop="4dp" />
 
-            <fragment
-                android:id="@+id/fragment_comment"
-                android:name="com.example.ecommerceapp.fragments.CommentFragment"
+            <Button
+                android:id="@+id/button3"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="Button" />
+
         </LinearLayout>
     </ScrollView>
 

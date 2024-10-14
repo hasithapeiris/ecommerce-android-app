@@ -68,6 +68,9 @@
             android:name="productId"
             app:argType="string"
             />
+        <action
+            android:id="@+id/action_detailsFragment_to_commentFragment"
+            app:destination="@id/commentFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment2"
@@ -150,5 +153,14 @@
         android:name="com.example.ecommerceapp.fragments.PaymentFragment"
         android:label="fragment_payment"
         tools:layout="@layout/fragment_payment" />
+
+    <fragment
+        android:id="@+id/commentFragment"
+        android:name="com.example.ecommerceapp.fragments.CommentFragment">
+        <argument
+            android:name="vendorId"
+            app:argType="string" />
+        <!-- Add other arguments as needed -->
+    </fragment>
 
 </navigation>
