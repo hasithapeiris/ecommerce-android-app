@@ -29,16 +29,12 @@ import kotlin.properties.Delegates
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private lateinit var binding: FragmentDetailsBinding
-    private lateinit var authService: AuthService
     private lateinit var cartService: CartService
-    private lateinit var orderService: OrderService
     private lateinit var productService: ProductService
 
-    private lateinit var orderImageUrl: String
-    private lateinit var orderName: String
-    private var orderSize: String? = null
-    private var orderQuantity: Int = 1
-    private var orderPrice by Delegates.notNull<Float>()
+    private lateinit var cartItemImageUrl: String
+    private lateinit var cartItemName: String
+    private var cartItemPrice by Delegates.notNull<Float>()
     private var token: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,8 +50,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding = FragmentDetailsBinding.bind(view)
 
         // Initialize services
-        authService = AuthService()
-        orderService = OrderService()
         productService = ProductService()
         cartService = CartService()
 
@@ -86,11 +80,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     @SuppressLint("SetTextI18n")
     private fun displayProductDetails(item: ProductModel) {
-        orderImageUrl = item.photos.firstOrNull() ?: ""
-        orderName = item.name!!
-        orderPrice = item.price!!
+        cartItemImageUrl = item.photos.firstOrNull() ?: ""
+        cartItemName = item.name!!
+        cartItemPrice = item.price!!
 
-        Glide.with(requireContext()).load(orderImageUrl).into(binding.ivDetails)
+        Glide.with(requireContext()).load(cartItemImageUrl).into(binding.ivDetails)
         binding.tvDetailsItemName.text = item.name
         binding.tvDetailsItemDescription.text = item.description
         binding.tvDetailsItemPrice.text = "Rs.${item.price}"
@@ -107,25 +101,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     // Add to Cart method
     private fun addToCart() {
-        // Create a CartModel instance with relevant details
-        val cartItem = CartModel(
-            pid = arguments?.getString("productId"), // Assuming the productId is passed in arguments
-            vid = authService.getCurrentUserId(), // Get the current user ID
-            imageUrl = null,
-            name = "test",
-            price = null,
-            quantity = orderQuantity
-        )
 
-        // Call the addItemToCart method from CartService
-        token?.let {
-            cartService.addItemToCart(cartItem, it) { success, errorMessage ->
-                if (success) {
-                    requireActivity().toast("Item added to cart successfully!")
-                } else {
-                    requireActivity().toast(errorMessage ?: "Failed to add item to cart.")
-                }
-            }
-        }
     }
 }

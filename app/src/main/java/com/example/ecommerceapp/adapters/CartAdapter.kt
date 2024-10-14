@@ -20,17 +20,10 @@ import com.example.ecommerceapp.models.CartResponse
 class CartAdapter(
     private val context : Context,
     private val list:ArrayList<CartResponse>,
-    private val onLongClickRemove: OnLongClickRemove
 ): RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: CartItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        private val onSwipeDelete = object : SwipeToDelete() {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                list.removeAt(position)
-                notifyItemRemoved(position) // Notify adapter of removal
-            }
-        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,19 +39,10 @@ class CartAdapter(
         holder.binding.tvCartItemCount.text = currentItem.quantity.toString()
 
         var count = holder.binding.tvCartItemCount.text.toString().toInt()
-
-//        holder.itemView.setOnLongClickListener {
-//            onLongClickRemove.onLongRemove(currentItem, position)
-//            true
-//        }
     }
 
     override fun getItemCount(): Int {
         return list.size
-    }
-
-    interface OnLongClickRemove{
-        fun onLongRemove(item: CartModel, position: Int)
     }
 }
 

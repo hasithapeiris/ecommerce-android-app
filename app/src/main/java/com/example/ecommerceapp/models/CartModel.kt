@@ -7,13 +7,12 @@
 package com.example.ecommerceapp.models
 
 data class CartModel(
-    val pid: String? = null,
-    val vid: String? = null,
-    val imageUrl: String? = null,
-    val name: String? = null,
-    val price: Float?,
-    val size: String? = null,
-    val quantity: Int? = null
+    val productId: String,
+    val vendorId: String,
+    val productName: String,
+    val imageUrl: String,
+    val quantity: Int,
+    val unitPrice: Double,
 )
 
 data class CartResponse(

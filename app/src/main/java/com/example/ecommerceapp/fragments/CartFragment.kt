@@ -23,7 +23,7 @@ import com.example.ecommerceapp.services.AuthService
 import com.example.ecommerceapp.services.CartService
 import com.example.ecommerceapp.services.OrderService
 
-class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRemove {
+class CartFragment : Fragment(R.layout.fragment_cart) {
 
     private lateinit var binding: FragmentCartBinding
     private lateinit var cartList: ArrayList<CartResponse>
@@ -31,7 +31,6 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRe
     private var subTotalPrice = 0
     private var totalPrice = 240
 
-    private lateinit var authService: AuthService
     private lateinit var cartService: CartService
     private lateinit var orderService: OrderService
     private var token: String? = null
@@ -49,8 +48,6 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRe
 
         binding = FragmentCartBinding.bind(view)
 
-        // Initialize services
-        authService = AuthService()
         cartService = CartService()
         orderService = OrderService()
 
@@ -62,7 +59,7 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRe
 
         // Set up RecyclerView
         val layoutManager = LinearLayoutManager(context)
-        adapter = CartAdapter(requireContext(), cartList, this)
+        adapter = CartAdapter(requireContext(), cartList)
         binding.rvCartItems.adapter = adapter
         binding.rvCartItems.layoutManager = layoutManager
 
@@ -103,10 +100,6 @@ class CartFragment : Fragment(R.layout.fragment_cart), CartAdapter.OnLongClickRe
                 }
             }
         }
-    }
-
-    override fun onLongRemove(item: CartModel, position: Int) {
-        TODO("Not yet implemented")
     }
 
 }
