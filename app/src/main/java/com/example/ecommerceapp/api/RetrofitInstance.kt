@@ -14,7 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitInstance {
-    private const val BASE_URL = "https://192.168.43.213:45456"
+    private const val BASE_URL = "https://192.168.1.3:45456"
     //"https://192.168.1.4:45455" sample for external device
         //"https://10.0.2.2:45455" sample for virtual device
     val instance: Retrofit by lazy {

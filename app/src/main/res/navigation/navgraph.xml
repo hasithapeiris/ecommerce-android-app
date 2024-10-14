@@ -98,6 +98,9 @@
         <action
             android:id="@+id/action_userprofile_to_profileUpdate"
             app:destination="@id/profileUpdate" />
+        <action
+            android:id="@+id/action_userprofile_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/changepassword"
@@ -115,6 +118,11 @@
         android:label="fragment_profile_update"
         tools:layout="@layout/fragment_profile_update" />
     <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.ecommerceapp.fragments.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
+
         android:id="@+id/paymentFragment"
         android:name="com.example.ecommerceapp.fragments.PaymentFragment"
         android:label="fragment_payment"
