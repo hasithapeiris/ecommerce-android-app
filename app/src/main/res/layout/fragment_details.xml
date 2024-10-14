@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:scaleType="centerInside"
-                android:src="@drawable/shoe7"
+                android:src="@drawable/phone1"
                 android:background="?attr/selectableItemBackground" />
 
             <TextView
@@ -144,6 +144,12 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:layout_marginTop="4dp" />
+
+            <fragment
+                android:id="@+id/fragment_comment"
+                android:name="com.example.ecommerceapp.fragments.CommentFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 

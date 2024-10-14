@@ -1,9 +1,17 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * Description: Fragment to handling main page.
+ *****/
+
 package com.example.ecommerceapp.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,15 +20,15 @@ import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.CategoryOnClickInterface
 import com.example.ecommerceapp.adapters.ProductAdapter
 import com.example.ecommerceapp.adapters.ItemOnClickInterface
-import com.example.ecommerceapp.adapters.LikeOnClickInterface
 import com.example.ecommerceapp.adapters.MainCategoryAdapter
 import com.example.ecommerceapp.databinding.FragmentMainBinding
 import com.example.ecommerceapp.models.ProductModel
 import com.example.ecommerceapp.services.AuthService
 import com.example.ecommerceapp.services.ProductService
+import kotlinx.coroutines.launch
 
 class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
-    ItemOnClickInterface, LikeOnClickInterface {
+    ItemOnClickInterface{
     private lateinit var binding: FragmentMainBinding
     private lateinit var productService: ProductService
     private lateinit var authService: AuthService
@@ -47,8 +55,8 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
         binding.rvMainCategories.adapter = categoryAdapter
 
         // Set up product RecyclerView
-        binding.rvMainProductsList.layoutManager = GridLayoutManager(context, 2)
-        productsAdapter = ProductAdapter(requireContext(), productList, this, this)
+        binding.rvMainProductsList.layoutManager = GridLayoutManager(context, 1)
+        productsAdapter = ProductAdapter(requireContext(), productList, this)
         binding.rvMainProductsList.adapter = productsAdapter
 
         // Fetch data
@@ -65,6 +73,10 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
                 }
                 R.id.cartFragment -> {
                     Navigation.findNavController(requireView()).navigate(R.id.action_mainFragment2_to_cartFragment2)
+                    true
+                }
+                R.id.ordersFragment -> {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_mainFragment2_to_ordersFragment2)
                     true
                 }
                 R.id.profileFragment -> {
@@ -87,12 +99,18 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     }
 
     private fun setProductsData() {
-        productService.getProducts { products ->
-            productList.clear()
-            productList.addAll(products)
-            productsAdapter.notifyDataSetChanged()
+        lifecycleScope.launch {
+            val result = productService.getProducts()
+            result.onSuccess { products ->
+                productList.clear()
+                productList.addAll(products)
+                productsAdapter.notifyDataSetChanged()
+            }.onFailure { exception ->
+                Toast.makeText(requireContext(), "Error: ${exception.message}", Toast.LENGTH_SHORT).show()
+            }
         }
     }
+
 
     override fun onClickCategory(button: Button) {
         binding.tvMainCategories.text = button.text.toString()
@@ -108,14 +126,9 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     }
 
     override fun onClickItem(item: ProductModel) {
-        val direction = MainFragmentDirections
-            .actionMainFragment2ToDetailsFragment()
-
+        val direction = MainFragmentDirections.actionMainFragment2ToDetailsFragment(item.id)
         Navigation.findNavController(requireView())
             .navigate(direction)
     }
 
-    override fun onClickLike(item: ProductModel) {
-        // Handle adding liked products here
-    }
 }

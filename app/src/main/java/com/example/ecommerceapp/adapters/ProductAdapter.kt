@@ -1,8 +1,13 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * Description: Product Adapter to connect with product details fragment.
+ * Tutorial: https://www.geeksforgeeks.org/simpleadapter-in-android-with-example/
+ * *****/
+
 package com.example.ecommerceapp.adapters
 
 import android.content.Context
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +19,6 @@ class ProductAdapter(
     private val context: Context,
     private val list: List<ProductModel>,
     private val productClickInterface: ItemOnClickInterface,
-    private val likeClickInterface: LikeOnClickInterface,
 ) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: DisplayItemBinding) :
@@ -29,26 +33,16 @@ class ProductAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = list[position]
-        holder.binding.tvNameDisplayItem.text = "${currentItem.productName}"
+        holder.binding.tvNameDisplayItem.text = currentItem.name
         holder.binding.tvPriceDisplayItem.text = "Rs.${currentItem.price}"
 
-        Glide
-            .with(context)
-            .load(currentItem.imageUrl)
+        // Display the first image from the photos array
+        Glide.with(context)
+            .load(currentItem.photos.firstOrNull())
             .into(holder.binding.ivDisplayItem)
 
         holder.itemView.setOnClickListener {
-            productClickInterface.onClickItem(list[position])
-        }
-
-        holder.binding.btnLike.setOnClickListener {
-            if(holder.binding.btnLike.isChecked){
-                holder.binding.btnLike.backgroundTintList = ColorStateList.valueOf(Color.RED)
-                likeClickInterface.onClickLike(currentItem)
-            }
-            else{
-                holder.binding.btnLike.backgroundTintList = ColorStateList.valueOf(Color.WHITE)
-            }
+            productClickInterface.onClickItem(currentItem)
         }
     }
 
@@ -59,8 +53,4 @@ class ProductAdapter(
 
 interface ItemOnClickInterface {
     fun onClickItem(item: ProductModel)
-}
-
-interface LikeOnClickInterface {
-    fun onClickLike(item :ProductModel)
 }

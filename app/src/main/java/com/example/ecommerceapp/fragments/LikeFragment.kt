@@ -12,7 +12,7 @@ import com.example.ecommerceapp.models.LikeModel
 import com.example.ecommerceapp.services.LikeService
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.ecommerceapp.Extensions.toast
+import com.example.ecommerceapp.middlewares.Extensions.toast
 
 class LikeFragment : Fragment(R.layout.fragment_like), LikedProductOnClickInterface,
     LikedOnClickInterface {

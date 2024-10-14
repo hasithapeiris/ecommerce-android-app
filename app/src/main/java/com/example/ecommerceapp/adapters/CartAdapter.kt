@@ -1,3 +1,10 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * Description: Cart Adapter to connect with cart fragment.
+ * Tutorial: https://medium.com/edureka/android-adapter-tutorial-68fa7b2e32e7
+ * *****/
+
 package com.example.ecommerceapp.adapters
 
 import android.content.Context
@@ -5,7 +12,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.ecommerceapp.SwipeToDelete
+import com.example.ecommerceapp.middlewares.SwipeToDelete
 import com.example.ecommerceapp.databinding.CartItemBinding
 import com.example.ecommerceapp.models.CartModel
 
@@ -37,23 +44,10 @@ class CartAdapter(
             .into(holder.binding.ivCartProduct)
 
         holder.binding.tvCartProductName.text = currentItem.name
-        holder.binding.tvCartProductPrice.text = "₹${currentItem.price}"
+        holder.binding.tvCartProductPrice.text = "Rs.${currentItem.price}"
         holder.binding.tvCartItemCount.text = currentItem.quantity.toString()
-        holder.binding.tvCartProductSize.text = currentItem.size
 
         var count = holder.binding.tvCartItemCount.text.toString().toInt()
-
-        holder.binding.btnCartItemAdd.setOnClickListener {
-//            count++
-            // TODO: Update Quantity in Database also
-//            holder.binding.tvCartItemCount.text = count.toString()
-        }
-
-        holder.binding.btnCartItemMinus.setOnClickListener {
-//            count--
-            // TODO: Update Quantity in Database also
-//            holder.binding.tvCartItemCount.text = count.toString()
-        }
 
         holder.itemView.setOnLongClickListener {
             onLongClickRemove.onLongRemove(currentItem , position)
@@ -66,7 +60,7 @@ class CartAdapter(
     }
 
     interface OnLongClickRemove{
-        fun onLongRemove(item:CartModel , position: Int)
+        fun onLongRemove(item: CartModel, position: Int)
     }
 
 }
