@@ -24,21 +24,13 @@ class CartService {
         call.enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (response.isSuccessful) {
-                    // Item successfully added to the cart
                     callback(true, null)
                 } else {
-                    // Handle different response codes
-                    val errorMessage = when (response.code()) {
-                        401 -> "Unauthorized: Please log in."
-                        500 -> "Server error: Please try again later."
-                        else -> "Failed to add item to cart."
-                    }
-                    callback(false, errorMessage)
+                    callback(false, "Error: ${response.message()}")
                 }
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                // Network or API failure
                 callback(false, "Error: ${t.message}")
             }
         })
@@ -50,10 +42,8 @@ class CartService {
         call.enqueue(object : Callback<List<CartResponse>> {
             override fun onResponse(call: Call<List<CartResponse>>, response: Response<List<CartResponse>>) {
                 if (response.isSuccessful) {
-                    // Pass the cart items back to the caller
                     callback(response.body(), null)
                 } else {
-                    // Handle errors like unauthorized or server issues
                     val errorMessage = when (response.code()) {
                         401 -> "Unauthorized: Please log in."
                         500 -> "Server error: Please try again later."
@@ -64,10 +54,8 @@ class CartService {
             }
 
             override fun onFailure(call: Call<List<CartResponse>>, t: Throwable) {
-                // Handle network failures or other issues
                 callback(null, "Error: ${t.message}")
             }
         })
     }
-
 }

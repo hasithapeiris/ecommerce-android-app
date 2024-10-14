@@ -33,12 +33,28 @@ class CartAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = list[position]
 
-        // Binding the updated fields
-        holder.binding.tvCartProductName.text = "Product ID: ${currentItem.productId}"
+        holder.binding.tvCartProductName.text = currentItem.productId
         holder.binding.tvCartProductPrice.text = "Rs.${currentItem.unitPrice}"
         holder.binding.tvCartItemCount.text = currentItem.quantity.toString()
 
         var count = holder.binding.tvCartItemCount.text.toString().toInt()
+
+        // Handle increment and decrement
+        holder.binding.btnCartItemAdd.setOnClickListener {
+            count++
+            currentItem.quantity = count
+            holder.binding.tvCartItemCount.text = count.toString()
+            notifyItemChanged(position)
+        }
+
+        holder.binding.btnCartItemMinus.setOnClickListener {
+            if (count > 1) {
+                count--
+                currentItem.quantity = count
+                holder.binding.tvCartItemCount.text = count.toString()
+                notifyItemChanged(position)
+            }
+        }
     }
 
     override fun getItemCount(): Int {

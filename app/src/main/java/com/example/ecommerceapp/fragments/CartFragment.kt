@@ -80,17 +80,15 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     // Retrieve cart items using CartService
     private fun retrieveCartItems() {
-        // Directly call getCartItems from CartService
         token?.let {
             cartService.getCartItems(it) { cartItems, errorMessage ->
                 if (cartItems != null) {
                     cartList.clear()
+                    cartList.addAll(cartItems)
 
-                    // Calculate subtotal and total price
-                    subTotalPrice = cartItems.sumOf { it.unitPrice }.toInt()
+                    subTotalPrice = cartList.sumOf { it.unitPrice * it.quantity }.toInt()
                     totalPrice = subTotalPrice
 
-                    // Update UI
                     binding.tvLastSubTotalprice.text = subTotalPrice.toString()
                     binding.tvLastTotalPrice.text = totalPrice.toString()
                     binding.tvLastSubTotalItems.text = "SubTotal Items(${cartList.size})"

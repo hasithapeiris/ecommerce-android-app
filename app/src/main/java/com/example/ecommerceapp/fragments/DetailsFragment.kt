@@ -61,11 +61,16 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             Navigation.findNavController(requireView()).popBackStack()
         }
 
+        // Disable the "Add to Cart" button initially
+        binding.btnDetailsAddToCart.isEnabled = false
+
         // Fetch product details by ID
         lifecycleScope.launch {
             val product = productService.getProductById(productId)
             product?.let {
                 displayProductDetails(it)
+                // Enable the "Add to Cart" button after details are displayed
+                binding.btnDetailsAddToCart.isEnabled = true
             } ?: run {
                 requireActivity().toast("Product not found")
             }
@@ -75,14 +80,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding.btnDetailsAddToCart.setOnClickListener {
             addToCart()
         }
-
     }
 
     @SuppressLint("SetTextI18n")
     private fun displayProductDetails(item: ProductModel) {
+        // Initialize all required cart item properties
         cartItemImageUrl = item.photos.firstOrNull() ?: ""
-        cartItemName = item.name!!
-        cartItemPrice = item.price!!
+        cartItemName = item.name ?: "Unknown Product"
+        cartItemPrice = item.price ?: 0f
 
         Glide.with(requireContext()).load(cartItemImageUrl).into(binding.ivDetails)
         binding.tvDetailsItemName.text = item.name
@@ -101,6 +106,30 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     // Add to Cart method
     private fun addToCart() {
+        if (!this::cartItemName.isInitialized || !this::cartItemImageUrl.isInitialized) {
+            requireActivity().toast("Product details not loaded yet.")
+            return
+        }
 
+        // Create a CartModel object to pass to the API
+        val cartItem = CartModel(
+            productId = arguments?.getString("productId") ?: "",
+            vendorId = "vendor-id",  // Replace with actual vendor ID
+            quantity = 1, // Default quantity
+            unitPrice = cartItemPrice.toDouble()
+        )
+
+        // Call CartService to add the item to the cart
+        token?.let {
+            cartService.addItemToCart(cartItem, it) { success, message ->
+                if (success) {
+                    requireActivity().toast("Item added to cart successfully")
+                } else {
+                    requireActivity().toast(message ?: "Failed to add item to cart")
+                }
+            }
+        } ?: run {
+            requireActivity().toast("You need to log in to add items to the cart.")
+        }
     }
 }

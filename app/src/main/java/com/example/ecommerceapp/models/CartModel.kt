@@ -9,16 +9,16 @@ package com.example.ecommerceapp.models
 data class CartModel(
     val productId: String,
     val vendorId: String,
-    val productName: String,
-    val imageUrl: String,
-    val quantity: Int,
+//    val productName: String,
+//    val imageUrl: String,
+    val quantity: Int = 1,
     val unitPrice: Double,
 )
 
 data class CartResponse(
     val productId: String,
     val vendorId: String,
-    val quantity: Int,
+    var quantity: Int,
     val unitPrice: Double,
     val totalPrice: Double
 )
