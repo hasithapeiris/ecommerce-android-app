@@ -6,18 +6,19 @@
 
 package com.example.ecommerceapp.api
 
+import com.example.ecommerceapp.models.CartResponseWrapper
 import com.example.ecommerceapp.models.OrderModel
+import com.example.ecommerceapp.models.OrderResponseWrapper
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface OrderApi {
-    @POST("/api/orders")
-    fun placeOrder(@Body order: OrderModel): Call<ResponseBody>
+    @GET("/api/auth/orders/history")
+    fun getOrderItems(@Header("Authorization") token: String): Call<OrderResponseWrapper>
 
-    @GET("/api/orders/{userId}")
-    fun getOrderItemsByUserId(@Path("userId") userId: String): Call<List<OrderModel>>
 }

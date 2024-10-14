@@ -19,38 +19,32 @@ import com.example.ecommerceapp.models.ProductModel
 
 class OrderAdapter(
     private val context : Context,
-    private val list:ArrayList<OrderModel>,
+    private val list: ArrayList<OrderModel>,
     private val onLongClickRemove: OnLongClickRemove,
-    private val orderClickInterface: OrderOnClickInterface,
+    private val orderClickInterface: OrderOnClickInterface
 ): RecyclerView.Adapter<OrderAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: OrderItemBinding):RecyclerView.ViewHolder(binding.root){
-        private val onSwipeDelete = object : SwipeToDelete() {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                list.removeAt(position)
-            }
-        }
-    }
+    inner class ViewHolder(val binding: OrderItemBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderAdapter.ViewHolder {
-        return ViewHolder(OrderItemBinding.inflate(LayoutInflater.from(parent.context) , parent , false))
+        return ViewHolder(OrderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: OrderAdapter.ViewHolder, position: Int) {
         val currentItem = list[position]
 
-        Glide
-            .with(context)
-            .load(currentItem.imageUrl)
-            .into(holder.binding.ivOrderProduct)
+//        val firstOrderItem = currentItem.items[0]
+//
+//        Glide.with(context)
+//            .load(firstOrderItem.productId)
+//            .into(holder.binding.ivOrderProduct)
 
-        holder.binding.tvOrderProductName.text = currentItem.itemName
-        holder.binding.tvOrderPrice.text = "Rs.${currentItem.price}"
+        holder.binding.tvOrderProductName.text = currentItem.id
+        holder.binding.tvOrderPrice.text = "Rs.${currentItem.totalAmount}"
         holder.binding.tvOrderStatus.text = currentItem.status
 
         holder.itemView.setOnLongClickListener {
-            onLongClickRemove.onLongRemove(currentItem , position)
+            onLongClickRemove.onLongRemove(currentItem, position)
             true
         }
 
@@ -63,7 +57,7 @@ class OrderAdapter(
         return list.size
     }
 
-    interface OnLongClickRemove{
+    interface OnLongClickRemove {
         fun onLongRemove(item: OrderModel, position: Int)
     }
 }
