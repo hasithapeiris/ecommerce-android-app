@@ -157,6 +157,10 @@
         android:id="@+id/cancelOrderFragment"
         android:name="com.example.ecommerceapp.fragments.CancelOrderFragment"
         android:label="CancelOrderFragment" >
+        <argument
+            android:name="orderId"
+            app:argType="string"
+            />
         <action
             android:id="@+id/action_cancelOrderFragment_to_ordersFragment2"
             app:destination="@id/ordersFragment2" />

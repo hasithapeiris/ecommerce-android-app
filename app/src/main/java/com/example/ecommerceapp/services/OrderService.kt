@@ -8,6 +8,8 @@ package com.example.ecommerceapp.services
 
 import com.example.ecommerceapp.api.OrderApi
 import com.example.ecommerceapp.api.RetrofitInstance
+import com.example.ecommerceapp.models.CancelOrderRequest
+import com.example.ecommerceapp.models.CancelOrderResponse
 import com.example.ecommerceapp.models.OrderDetailResponseWrapper
 import com.example.ecommerceapp.models.OrderModel
 import com.example.ecommerceapp.models.OrderResponseWrapper
@@ -49,6 +51,30 @@ class OrderService {
             }
 
             override fun onFailure(call: Call<OrderDetailResponseWrapper>, t: Throwable) {
+                callback(null, t.message)
+            }
+        })
+    }
+
+    // Cancel Order by orderId
+    fun cancelOrder(
+        token: String,
+        orderId: String,
+        reason: String,
+        callback: (CancelOrderResponse?, String?) -> Unit
+    ) {
+        val cancelRequest = CancelOrderRequest(reason)
+        val call = orderApi.cancelOrder("Bearer $token", orderId, cancelRequest)
+        call.enqueue(object : Callback<CancelOrderResponse> {
+            override fun onResponse(call: Call<CancelOrderResponse>, response: Response<CancelOrderResponse>) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    callback(response.body(), null)
+                } else {
+                    callback(null, "Failed to submit cancellation request")
+                }
+            }
+
+            override fun onFailure(call: Call<CancelOrderResponse>, t: Throwable) {
                 callback(null, t.message)
             }
         })

@@ -54,3 +54,16 @@ data class OrderItem(
     val quantity: Int,
     val productImage: String
 )
+
+data class CancelOrderRequest(
+    val reason: String
+)
+
+data class CancelOrderResponse(
+    val success: Boolean,
+    val data: Any?,
+    val message: String,
+    val error: String?,
+    val errorCode: String?,
+    val errorData: Any?
+)
