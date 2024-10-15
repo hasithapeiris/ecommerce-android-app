@@ -25,6 +25,7 @@ import com.example.ecommerceapp.models.ResetPasswordRequest
 import com.example.ecommerceapp.models.ResetPasswordResponse
 import com.example.ecommerceapp.models.ReviewRequest
 import com.example.ecommerceapp.models.ReviewResponse
+import com.example.ecommerceapp.models.TwoFactorVerifyResponse
 import com.example.ecommerceapp.models.UpdateProfileRequest
 import com.example.ecommerceapp.models.UpdateProfileResponse
 
@@ -210,6 +211,27 @@ class AuthService {
             }
         })
     }
+
+    fun verifyTwoFactor(context: Context, email: String, code: String, callback: (Boolean, String?) -> Unit) {
+        val forgotPasswordApi = RetrofitInstance.instance.create(ForgotPasswordApi::class.java)
+        val requestBody = mapOf("email" to email, "code" to code)
+
+        val call = forgotPasswordApi.verifyTwoFactor(requestBody)
+        call.enqueue(object : Callback<TwoFactorVerifyResponse> {
+            override fun onResponse(call: Call<TwoFactorVerifyResponse>, response: Response<TwoFactorVerifyResponse>) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    callback(true, response.body()?.message)
+                } else {
+                    callback(false, response.body()?.message ?: "2FA verification failed")
+                }
+            }
+
+            override fun onFailure(call: Call<TwoFactorVerifyResponse>, t: Throwable) {
+                callback(false, "Network error: ${t.message}")
+            }
+        })
+    }
+
 
     // Update user profile (email and password)
     fun updateUserProfile(
