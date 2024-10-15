@@ -34,6 +34,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private lateinit var cartItemImageUrl: String
     private lateinit var cartItemName: String
+    private lateinit var vendorId: String
     private var cartItemPrice by Delegates.notNull<Float>()
     private var token: String? = null
 
@@ -66,8 +67,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         // Fetch product details by ID
         lifecycleScope.launch {
+            binding.progressBar.visibility = View.VISIBLE
+
             val product = productService.getProductById(productId)
             product?.let {
+                binding.progressBar.visibility = View.GONE
                 displayProductDetails(it)
                 // Enable the "Add to Cart" button after details are displayed
                 binding.btnDetailsAddToCart.isEnabled = true
@@ -88,13 +92,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         cartItemImageUrl = item.photos.firstOrNull() ?: ""
         cartItemName = item.name ?: "Unknown Product"
         cartItemPrice = item.price ?: 0f
+        //vendorId = item.vendorInfo.id
 
         Glide.with(requireContext()).load(cartItemImageUrl).into(binding.ivDetails)
         binding.tvDetailsItemName.text = item.name
         binding.tvDetailsItemDescription.text = item.description
         binding.tvDetailsItemPrice.text = "Rs.${item.price}"
         binding.tvVendorName.text = "Vendor: Vendor A"
-        binding.tvProductCategory.text = "Category: ${item.category}"
+        binding.tvProductCategory.text = "Category: ${item.category.name}"
         binding.tvCondition.text = "Condition: ${item.condition}"
         binding.tvStatus.text = "Status: ${item.status}"
         binding.tvStock.text = "Stock: ${item.stock} available"
@@ -114,7 +119,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         // Create a CartModel object to pass to the API
         val cartItem = CartModel(
             productId = arguments?.getString("productId") ?: "",
-            vendorId = "670d086d8c589001a2f25010",
+            vendorId = "670d086d8c589001a2f25010", // TODO: Assign vendorId here
             quantity = 1, // Default quantity
             unitPrice = cartItemPrice.toDouble()
         )

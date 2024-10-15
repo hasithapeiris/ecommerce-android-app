@@ -67,9 +67,13 @@ class OrdersFragment : Fragment(R.layout.fragment_orders), OrderAdapter.OnLongCl
     }
 
     private fun retrieveOrderItems() {
+        binding.progressBar.visibility = View.VISIBLE
+
         token?.let {
             orderService.getOrderItems(it) { orders, error ->
                 if (orders != null) {
+                    binding.progressBar.visibility = View.GONE
+
                     orderList.clear()
                     orderList.addAll(orders)
                     adapter.notifyDataSetChanged()

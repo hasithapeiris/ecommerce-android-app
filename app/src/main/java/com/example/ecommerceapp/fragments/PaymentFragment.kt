@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.databinding.FragmentPaymentBinding
@@ -33,6 +34,10 @@ class PaymentFragment : Fragment(R.layout.fragment_payment) {
     ): View {
         binding = FragmentPaymentBinding.inflate(inflater, container, false)
         cartService = CartService()
+
+        binding.paymentActualToolbar.setNavigationOnClickListener {
+            Navigation.findNavController(requireView()).popBackStack()
+        }
 
         setupUI()
 

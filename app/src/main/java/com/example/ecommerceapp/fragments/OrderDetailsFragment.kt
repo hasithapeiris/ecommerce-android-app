@@ -75,8 +75,12 @@ class OrderDetailsFragment : Fragment(R.layout.fragment_order_details) {
     }
 
     private fun fetchOrderDetails(token: String, orderId: String) {
+        binding.progressBar.visibility = View.VISIBLE
+
         orderService.getOrderDetails(token, orderId) { orderDetails, error ->
             if (orderDetails != null) {
+                binding.progressBar.visibility = View.GONE
+
                 val orderItems = orderDetails.items.map { itemModel ->
                     OrderItem(
                         productName = "Product: ${itemModel.productId}",
