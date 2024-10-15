@@ -32,11 +32,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/orderToolbar"
-        app:layout_constraintBottom_toTopOf="@id/llCartPayment"
-        tools:listitem="@layout/cart_item" />
+        app:layout_constraintBottom_toTopOf="@+id/llCancelOrder"
+        tools:listitem="@layout/order_details_item" />
 
     <LinearLayout
-        android:id="@+id/llCartPayment"
+        android:id="@+id/llCancelOrder"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -49,7 +49,7 @@
         >
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnCartCheckout"
+            android:id="@+id/btnCancelOrder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_button"
