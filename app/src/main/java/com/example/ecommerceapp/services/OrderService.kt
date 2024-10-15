@@ -8,6 +8,7 @@ package com.example.ecommerceapp.services
 
 import com.example.ecommerceapp.api.OrderApi
 import com.example.ecommerceapp.api.RetrofitInstance
+import com.example.ecommerceapp.models.OrderDetailResponseWrapper
 import com.example.ecommerceapp.models.OrderModel
 import com.example.ecommerceapp.models.OrderResponseWrapper
 import retrofit2.Call
@@ -35,11 +36,21 @@ class OrderService {
         })
     }
 
-    // Fetch specific order details by orderId (for OrderDetailsFragment)
-//    fun getOrderDetails(orderId: String, callback: (OrderModel) -> Unit) {
-//        // Simulate fetching a single order detail
-//        val order = OrderModel(orderId, "Product A", "https://image.url/a", 100, "Shipped")
-//        callback(order)
-//    }
+    // Fetch specific order details by orderId
+    fun getOrderDetails(token: String, orderId: String, callback: (OrderModel?, String?) -> Unit) {
+        val call = orderApi.getOrderDetails("Bearer $token", orderId)
+        call.enqueue(object : Callback<OrderDetailResponseWrapper> {
+            override fun onResponse(call: Call<OrderDetailResponseWrapper>, response: Response<OrderDetailResponseWrapper>) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    callback(response.body()?.data, null)
+                } else {
+                    callback(null, "Failed to fetch order details")
+                }
+            }
 
+            override fun onFailure(call: Call<OrderDetailResponseWrapper>, t: Throwable) {
+                callback(null, t.message)
+            }
+        })
+    }
 }

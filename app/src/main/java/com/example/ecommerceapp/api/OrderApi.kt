@@ -7,6 +7,7 @@
 package com.example.ecommerceapp.api
 
 import com.example.ecommerceapp.models.CartResponseWrapper
+import com.example.ecommerceapp.models.OrderDetailResponseWrapper
 import com.example.ecommerceapp.models.OrderModel
 import com.example.ecommerceapp.models.OrderResponseWrapper
 import okhttp3.ResponseBody
@@ -21,4 +22,9 @@ interface OrderApi {
     @GET("/api/auth/orders/history")
     fun getOrderItems(@Header("Authorization") token: String): Call<OrderResponseWrapper>
 
+    @GET("/api/auth/orders/track/{orderId}")
+    fun getOrderDetails(
+        @Header("Authorization") token: String,
+        @Path("orderId") orderId: String
+    ): Call<OrderDetailResponseWrapper>
 }

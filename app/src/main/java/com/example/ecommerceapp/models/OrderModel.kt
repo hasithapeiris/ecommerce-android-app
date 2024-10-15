@@ -15,6 +15,15 @@ data class OrderResponseWrapper(
     val errorData: Any?
 )
 
+data class OrderDetailResponseWrapper(
+    val success: Boolean,
+    val data: OrderModel,
+    val message: String?,
+    val error: String?,
+    val errorCode: String?,
+    val errorData: Any?
+)
+
 data class OrderModel(
     val id: String,
     val userId: String,

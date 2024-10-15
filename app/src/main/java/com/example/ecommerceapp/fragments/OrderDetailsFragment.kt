@@ -1,10 +1,12 @@
 package com.example.ecommerceapp.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +15,23 @@ import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.OrderDetailsAdapter
 import com.example.ecommerceapp.databinding.FragmentOrderDetailsBinding
 import com.example.ecommerceapp.models.OrderItem
+import com.example.ecommerceapp.services.CartService
 import com.example.ecommerceapp.services.OrderService
 
 class OrderDetailsFragment : Fragment(R.layout.fragment_order_details) {
 
     private lateinit var orderDetailsAdapter: OrderDetailsAdapter
     private lateinit var rvCartItems: RecyclerView
+    private var token: String? = null
+    private val orderService = OrderService()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Retrieve token from SharedPreferences or arguments
+        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        token = sharedPreferences.getString("TOKEN", null)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,16 +49,30 @@ class OrderDetailsFragment : Fragment(R.layout.fragment_order_details) {
         rvCartItems.layoutManager = LinearLayoutManager(context)
 
         // Load your order items (replace with actual data fetching)
-        val orderItems = listOf(
-            OrderItem("Nike Predator Gladiator", 1000.0, 1, "url/to/image1"),
-            OrderItem("Adidas Shoes", 1200.0, 2, "url/to/image2")
-            // Add more items as needed
-        )
-
-        // Initialize and set adapter
-        orderDetailsAdapter = OrderDetailsAdapter(orderItems)
-        rvCartItems.adapter = orderDetailsAdapter
+        if (token != null && orderId != null) {
+            fetchOrderDetails(token!!, orderId)
+        }
 
         return view
+    }
+
+    private fun fetchOrderDetails(token: String, orderId: String) {
+        orderService.getOrderDetails(token, orderId) { orderDetails, error ->
+            if (orderDetails != null) {
+                val orderItems = orderDetails.items.map { itemModel ->
+                    OrderItem(
+                        productName = "Product: ${itemModel.productId}",
+                        productPrice = itemModel.unitPrice,
+                        quantity = itemModel.quantity,
+                        productImage = "Image URL"
+                    )
+                }
+
+                orderDetailsAdapter = OrderDetailsAdapter(orderItems)
+                rvCartItems.adapter = orderDetailsAdapter
+            } else {
+                Toast.makeText(requireContext(), "Error: $error", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
