@@ -104,6 +104,9 @@
         <action
             android:id="@+id/action_userprofile_to_notificationsFragment"
             app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_userprofile_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
     <fragment
         android:id="@+id/changepassword"

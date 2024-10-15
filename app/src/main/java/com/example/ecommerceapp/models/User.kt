@@ -62,3 +62,12 @@ data class UpdateProfileResponse(
     val error: String?
 )
 
+data class DeactivateResponse(
+    val success: Boolean,
+    val data: UserDetail?, // Optional, based on your response structure
+    val message: String?,
+    val error: String?,
+    val errorCode: String?,
+    val errorData: Any?
+)
+
