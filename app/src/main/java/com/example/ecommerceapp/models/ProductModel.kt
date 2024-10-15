@@ -43,3 +43,12 @@ data class VendorInfo(
     val email: String,
     val role: Int
 )
+
+data class CategoryResponse(
+    val success: Boolean,
+    val data: List<String>,
+    val message: String? = null,
+    val error: String? = null,
+    val errorCode: Int? = null,
+    val errorData: String? = null
+)

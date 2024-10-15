@@ -49,7 +49,6 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
         authService = AuthService()
 
         // Set up category RecyclerView
-        categoryList.add("Trending")
         binding.rvMainCategories.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         categoryAdapter = MainCategoryAdapter(categoryList, this)
         binding.rvMainCategories.adapter = categoryAdapter
@@ -92,7 +91,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     private fun setCategoryList() {
         productService.getCategories { categories ->
             categoryList.clear()
-            categoryList.add("Trending")
+            categoryList.add("All")
             categoryList.addAll(categories)
             categoryAdapter.notifyDataSetChanged()
         }
@@ -111,13 +110,14 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
         }
     }
 
-
     override fun onClickCategory(button: Button) {
-        binding.tvMainCategories.text = button.text.toString()
-        if (button.text == "Trending") {
+        val selectedCategory = button.text.toString()
+        binding.tvMainCategories.text = selectedCategory
+
+        if (selectedCategory == "All") {
             setProductsData()
         } else {
-            productService.getProductsByCategory(button.text.toString()) { products ->
+            productService.getProductsByCategory(selectedCategory) { products ->
                 productList.clear()
                 productList.addAll(products)
                 productsAdapter.notifyDataSetChanged()
