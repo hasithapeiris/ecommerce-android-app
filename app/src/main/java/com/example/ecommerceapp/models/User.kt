@@ -51,7 +51,7 @@ data class ProfileResponse(
 
 data class UpdateProfileRequest(
     val email: String,
-    val password: String
+    val name: String
 )
 
 
@@ -60,5 +60,14 @@ data class UpdateProfileResponse(
     val success: Boolean,
     val message: String?,
     val error: String?
+)
+
+data class DeactivateResponse(
+    val success: Boolean,
+    val data: UserDetail?, // Optional, based on your response structure
+    val message: String?,
+    val error: String?,
+    val errorCode: String?,
+    val errorData: Any?
 )
 

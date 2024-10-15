@@ -1,21 +1,27 @@
+// CommentAdapter.kt
 package com.example.ecommerceapp.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.ImageButton
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.ecommerceapp.R
-import com.example.ecommerceapp.models.CommentModel
+import com.example.ecommerceapp.models.CommentItem
+import com.example.ecommerceapp.services.AuthService
 
-class CommentAdapter(private val commentList: List<CommentModel>) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
+class CommentAdapter(
+    private val commentList: List<CommentItem>,
+    private val onDeleteClick: (String) -> Unit // Add a callback for delete action
+) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val ivProfileImage: ImageView = itemView.findViewById(R.id.ivProfileImage)
         val tvUsername: TextView = itemView.findViewById(R.id.tvUsername)
         val tvComment: TextView = itemView.findViewById(R.id.tvComment)
+        val ratingBar: RatingBar = itemView.findViewById(R.id.ratingBar2)
+        val deleteButton: ImageButton = itemView.findViewById(R.id.imageButton) // Update to match your button ID
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
@@ -25,15 +31,17 @@ class CommentAdapter(private val commentList: List<CommentModel>) : RecyclerView
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         val comment = commentList[position]
+        holder.tvUsername.text = comment.customerId
+        holder.tvComment.text = comment.comment
+        holder.ratingBar.rating = comment.rating.toFloat()
 
-        holder.tvUsername.text = comment.username
-        holder.tvComment.text = comment.text
-
-        Glide.with(holder.itemView.context)
-            .load(comment.profileImageUrl)
-            .circleCrop()
-            .into(holder.ivProfileImage)
+        // Set delete button click listener
+        holder.deleteButton.setOnClickListener {
+            onDeleteClick(comment.id) // Pass the comment ID to the callback
+        }
     }
 
-    override fun getItemCount(): Int = commentList.size
+    override fun getItemCount(): Int {
+        return commentList.size
+    }
 }

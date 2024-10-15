@@ -1,7 +1,7 @@
 /*****
  * Author: Peiris E.A.H.A
  * STD: IT21175152
- * Description: Fragment to handling product details.
+ * Description: Fragment to handle product details.
  *****/
 
 package com.example.ecommerceapp.fragments
@@ -31,6 +31,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     private lateinit var binding: FragmentDetailsBinding
     private lateinit var cartService: CartService
     private lateinit var productService: ProductService
+    private var product: ProductModel? = null // Change to nullable type
 
     private lateinit var cartItemImageUrl: String
     private lateinit var cartItemName: String
@@ -77,6 +78,19 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                 binding.btnDetailsAddToCart.isEnabled = true
             } ?: run {
                 requireActivity().toast("Product not found")
+                return@launch // Exit if product is not found
+            }
+            displayProductDetails(product!!)
+
+            // Set button click listener here
+            binding.button3.setOnClickListener {
+                val vendorId = product?.vendorInfo?.id ?: "670caa19dc1d24f04815a321"
+                if (vendorId.isNotEmpty()) {
+                    val action = DetailsFragmentDirections.actionDetailsFragmentToCommentFragment(vendorId)
+                    Navigation.findNavController(view).navigate(action)
+                } else {
+                    requireActivity().toast("Vendor ID not available")
+                }
             }
         }
 
