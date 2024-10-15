@@ -98,9 +98,13 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     }
 
     private fun setProductsData() {
+        binding.progressBar.visibility = View.VISIBLE
+
         lifecycleScope.launch {
             val result = productService.getProducts()
             result.onSuccess { products ->
+                binding.progressBar.visibility = View.GONE
+
                 productList.clear()
                 productList.addAll(products)
                 productsAdapter.notifyDataSetChanged()
