@@ -19,7 +19,6 @@ import com.example.ecommerceapp.models.UserDetail
 import com.example.ecommerceapp.api.ResetPasswordApi
 import com.example.ecommerceapp.api.CommentApi
 import com.example.ecommerceapp.api.UpdateProfileApi
-import com.example.ecommerceapp.models.CommentItem
 import com.example.ecommerceapp.models.CommentResponse
 import com.example.ecommerceapp.models.ForgotPasswordResponse
 import com.example.ecommerceapp.models.ResetPasswordRequest
@@ -216,10 +215,10 @@ class AuthService {
     fun updateUserProfile(
         token: String,
         email: String,
-        password: String,
+        name: String,
         callback: (Boolean, String?) -> Unit
     ) {
-        val request = UpdateProfileRequest(email, password)
+        val request = UpdateProfileRequest(email, name)
         val call = updateProfileApi.updateProfile("Bearer $token", request)
 
         call.enqueue(object : Callback<UpdateProfileResponse> {

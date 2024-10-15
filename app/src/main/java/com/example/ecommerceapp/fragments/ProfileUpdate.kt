@@ -39,18 +39,18 @@ class ProfileUpdate : Fragment() {
         // Example form submission for updating profile
         val updateButton: Button = view.findViewById(R.id.update_profile_button)
         val emailEditText: EditText = view.findViewById(R.id.email_input)
-        val passwordEditText: EditText = view.findViewById(R.id.password_input)
+        val nameEditText: EditText = view.findViewById(R.id.name_input)
 
         updateButton.setOnClickListener {
             val email = emailEditText.text.toString().trim()
-            val password = passwordEditText.text.toString().trim()
+            val name = nameEditText.text.toString().trim()
 
             // Retrieve the token from SharedPreferences
             val token = sharedPreferences.getString("TOKEN", "")
 
-            if (!token.isNullOrEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
+            if (!token.isNullOrEmpty() && email.isNotEmpty() && name.isNotEmpty()) {
                 // Pass the token, email, and password to updateUserProfile
-                authService.updateUserProfile(token, email, password) { success, message ->
+                authService.updateUserProfile(token, email, name) { success, message ->
                     if (success) {
                         // Handle success (e.g., show a success message)
                         Toast.makeText(context, "Profile updated", Toast.LENGTH_SHORT).show()

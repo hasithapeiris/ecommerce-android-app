@@ -51,7 +51,7 @@ data class ProfileResponse(
 
 data class UpdateProfileRequest(
     val email: String,
-    val password: String
+    val name: String
 )
 
 
