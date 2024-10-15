@@ -1,5 +1,6 @@
 package com.example.ecommerceapp.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.CommentAdapter
+import com.example.ecommerceapp.models.CommentItem
 import com.example.ecommerceapp.models.CommentModel
 import com.example.ecommerceapp.services.AuthService
 
@@ -21,12 +23,13 @@ class CommentFragment : Fragment() {
 
     private lateinit var rvComments: RecyclerView
     private lateinit var commentsAdapter: CommentAdapter
-    private lateinit var commentList: MutableList<CommentModel>
+    private lateinit var commentList: MutableList<CommentItem> // Change this to CommentModel
     private lateinit var etComment: EditText
     private lateinit var btnSubmitComment: Button
     private lateinit var ratingBar: RatingBar
     private val authService = AuthService()
-    private lateinit var vendorId: String // Class-level vendor ID
+    private lateinit var vendorId: String
+    private lateinit var customerId: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +39,7 @@ class CommentFragment : Fragment() {
 
         // Retrieve arguments
         val args: CommentFragmentArgs by navArgs()
-        vendorId = args.vendorId // Assign to the class-level vendorId
+        vendorId = args.vendorId
 
         // Initialize views
         rvComments = view.findViewById(R.id.rvComments)
@@ -50,6 +53,12 @@ class CommentFragment : Fragment() {
         commentsAdapter = CommentAdapter(commentList)
         rvComments.adapter = commentsAdapter
 
+        // Fetch customerId from Shared Preferences
+        fetchCustomerId()
+
+        // Fetch existing comments when the fragment is created
+        fetchComments()
+
         // Setup submit comment functionality
         btnSubmitComment.setOnClickListener {
             val commentText = etComment.text.toString()
@@ -59,22 +68,20 @@ class CommentFragment : Fragment() {
                 // Submit the review using AuthService with dynamic vendor ID
                 authService.submitReview(
                     requireContext(),
-                    vendorId, // Use the dynamic vendor ID here
+                    vendorId,
                     commentText,
                     rating
                 ) { success, message ->
                     if (success) {
-                        // Add new comment to the list and notify adapter
-                        val newComment = CommentModel("Anonymous", commentText) // Change "Anonymous" if needed
-                        commentList.add(newComment)
-                        commentsAdapter.notifyItemInserted(commentList.size - 1)
+                        // Fetch updated comments from backend to show the new comment
+                        fetchComments() // This will reload the comments, including the new one
 
-                        // Clear input fields and scroll to the new comment
+                        // Clear input fields
                         etComment.text.clear()
                         ratingBar.rating = 0f
-                        rvComments.scrollToPosition(commentList.size - 1)
+                    } else {
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                     }
-                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 }
             } else {
                 Toast.makeText(requireContext(), "Please write a comment and rate the vendor", Toast.LENGTH_SHORT).show()
@@ -83,4 +90,31 @@ class CommentFragment : Fragment() {
 
         return view
     }
+
+    private fun fetchCustomerId() {
+        // Retrieve customerId from Shared Preferences
+        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        customerId = sharedPreferences.getString("CUSTOMER_ID", "") ?: ""
+    }
+
+    private fun fetchComments() {
+        if (customerId.isNotEmpty()) {
+            authService.getCommentsForVendor(requireContext(), vendorId) { success, response, error ->
+                if (success && response != null) {
+                    commentList.clear() // Clear the current list
+
+                    // Add all comments from the response data
+                    commentList.addAll(response.data) // This will work now since the entire response is passed
+
+                    commentsAdapter.notifyDataSetChanged() // Notify the adapter to refresh
+                } else {
+                    Toast.makeText(requireContext(), "Failed to load comments: $error", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } else {
+            Toast.makeText(requireContext(), "Customer ID is not available.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 }

@@ -19,6 +19,8 @@ import com.example.ecommerceapp.models.UserDetail
 import com.example.ecommerceapp.api.ResetPasswordApi
 import com.example.ecommerceapp.api.CommentApi
 import com.example.ecommerceapp.api.UpdateProfileApi
+import com.example.ecommerceapp.models.CommentItem
+import com.example.ecommerceapp.models.CommentResponse
 import com.example.ecommerceapp.models.ForgotPasswordResponse
 import com.example.ecommerceapp.models.ResetPasswordRequest
 import com.example.ecommerceapp.models.ResetPasswordResponse
@@ -36,13 +38,20 @@ class AuthService {
     private val registerApi: RegisterApi = RetrofitInstance.instance.create(RegisterApi::class.java)
     private val loginApi: LoginApi = RetrofitInstance.instance.create(LoginApi::class.java)
     private val profileApi: ProfileApi = RetrofitInstance.instance.create(ProfileApi::class.java)
-    private val resetPasswordApi: ResetPasswordApi = RetrofitInstance.instance.create(ResetPasswordApi::class.java)
-    private val updateProfileApi: UpdateProfileApi = RetrofitInstance.instance.create(UpdateProfileApi::class.java)
+    private val resetPasswordApi: ResetPasswordApi =
+        RetrofitInstance.instance.create(ResetPasswordApi::class.java)
+    private val updateProfileApi: UpdateProfileApi =
+        RetrofitInstance.instance.create(UpdateProfileApi::class.java)
 
 
-
-   //user creation function
-    fun createUser(email: String, name: String, password: String, passwordConfirmation: String, callback: (Boolean, String?) -> Unit) {
+    //user creation function
+    fun createUser(
+        email: String,
+        name: String,
+        password: String,
+        passwordConfirmation: String,
+        callback: (Boolean, String?) -> Unit
+    ) {
         val user = User(name, email, password, passwordConfirmation)
 
         val call = registerApi.registerUser(user)
@@ -62,17 +71,25 @@ class AuthService {
             }
         })
     }
+
     //temporary function for get userID
     fun getCurrentUserId(): String {
         // Return a temporary hardcoded user ID
         return "temporaryUserId"
     }
+
     //Temporary function for sign out
     fun signOut() {
 
     }
+
     //Function to handle new customer sign in
-    fun signIn(context: Context, email: String, password: String, callback: (Boolean, String?) -> Unit) {
+    fun signIn(
+        context: Context,
+        email: String,
+        password: String,
+        callback: (Boolean, String?) -> Unit
+    ) {
         val request = LoginRequest(email, password)
         val call = loginApi.loginUser(request)
 
@@ -85,7 +102,8 @@ class AuthService {
                     var customerId = response.body()?.data?.user?.id
 
                     // Save the token in SharedPreferences
-                    val sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+                    val sharedPreferences =
+                        context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
                     val editor = sharedPreferences?.edit()
                     editor?.putString("TOKEN", token)
                     editor?.putString("EMAIL", email)
@@ -106,11 +124,15 @@ class AuthService {
             }
         })
     }
+
     // Fetch the user's profile using the token from login
     fun getUserProfile(token: String, callback: (Boolean, UserDetail?) -> Unit) {
         val call = profileApi.getUserProfile("Bearer $token")
         call.enqueue(object : Callback<ProfileResponse> {
-            override fun onResponse(call: Call<ProfileResponse>, response: Response<ProfileResponse>) {
+            override fun onResponse(
+                call: Call<ProfileResponse>,
+                response: Response<ProfileResponse>
+            ) {
                 if (response.isSuccessful && response.body()?.success == true) {
                     val userDetail = response.body()?.data
                     callback(true, userDetail)
@@ -124,10 +146,12 @@ class AuthService {
             }
         })
     }
+
     //function to check user logged in or not.
     fun isUserLoggedIn(): Boolean {
         return true
     }
+
     // Reset Password Method
     fun resetPassword(
         context: Context,
@@ -163,6 +187,7 @@ class AuthService {
             callback(false, "Authentication token is missing")
         }
     }
+
     //forgot password method
     fun forgotPassword(context: Context, email: String, callback: (Boolean, String?) -> Unit) {
         val forgotPasswordApi = RetrofitInstance.instance.create(ForgotPasswordApi::class.java)
@@ -170,7 +195,10 @@ class AuthService {
 
         val call = forgotPasswordApi.forgotPassword(requestBody)
         call.enqueue(object : Callback<ForgotPasswordResponse> {
-            override fun onResponse(call: Call<ForgotPasswordResponse>, response: Response<ForgotPasswordResponse>) {
+            override fun onResponse(
+                call: Call<ForgotPasswordResponse>,
+                response: Response<ForgotPasswordResponse>
+            ) {
                 if (response.isSuccessful && response.body()?.success == true) {
                     callback(true, response.body()?.message)
                 } else {
@@ -183,6 +211,7 @@ class AuthService {
             }
         })
     }
+
     // Update user profile (email and password)
     fun updateUserProfile(
         token: String,
@@ -194,7 +223,10 @@ class AuthService {
         val call = updateProfileApi.updateProfile("Bearer $token", request)
 
         call.enqueue(object : Callback<UpdateProfileResponse> {
-            override fun onResponse(call: Call<UpdateProfileResponse>, response: Response<UpdateProfileResponse>) {
+            override fun onResponse(
+                call: Call<UpdateProfileResponse>,
+                response: Response<UpdateProfileResponse>
+            ) {
                 if (response.isSuccessful && response.body()?.success == true) {
                     callback(true, response.body()?.message)
                 } else {
@@ -207,6 +239,7 @@ class AuthService {
             }
         })
     }
+
     fun submitReview(
         context: Context,
         vendorId: String,
@@ -238,7 +271,10 @@ class AuthService {
 
         val call = commentApi.postReview("Bearer $token", reviewRequest)
         call.enqueue(object : Callback<ReviewResponse> {
-            override fun onResponse(call: Call<ReviewResponse>, response: Response<ReviewResponse>) {
+            override fun onResponse(
+                call: Call<ReviewResponse>,
+                response: Response<ReviewResponse>
+            ) {
                 if (response.isSuccessful) {
                     // Check if the response body is not null and contains success = true
                     val responseBody = response.body()
@@ -246,7 +282,10 @@ class AuthService {
                         callback(true, "Review submitted successfully")
                     } else {
                         // Handle cases where the response body is null or success is false
-                        callback(false, "Failed to submit review: ${responseBody?.message ?: "Unknown error"}")
+                        callback(
+                            false,
+                            "Failed to submit review: ${responseBody?.message ?: "Unknown error"}"
+                        )
                     }
                 } else {
                     // Log and handle non-2xx responses (e.g., 400, 500)
@@ -266,7 +305,57 @@ class AuthService {
         })
     }
 
+    fun getCommentsForVendor(
+        context: Context,
+        vendorId: String,
+        callback: (Boolean, CommentResponse?, String?) -> Unit
+    ) {
+        val sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("TOKEN", "")
+        val customerId = sharedPreferences.getString(
+            "CUSTOMER_ID",
+            ""
+        ) // Retrieve customerId from Shared Preferences
+
+        if (token.isNullOrEmpty() || customerId.isNullOrEmpty()) {
+            callback(false, null, "User is not logged in or customer ID is not available.")
+            return
+        }
+
+        val commentApi = RetrofitInstance.instance.create(CommentApi::class.java)
+        val call = commentApi.getComments("Bearer $token", customerId)
+
+        call.enqueue(object : Callback<CommentResponse> {
+            override fun onResponse(
+                call: Call<CommentResponse>,
+                response: Response<CommentResponse>
+            ) {
+                if (response.isSuccessful && response.body()?.success == true) {
+                    // Pass the whole response to the callback
+                    callback(true, response.body(), null)
+                } else {
+                    // Handle failure
+                    callback(
+                        false,
+                        null,
+                        response.body()?.message ?: "Failed to retrieve comments."
+                    )
+                }
+            }
+
+            override fun onFailure(call: Call<CommentResponse>, t: Throwable) {
+                // Handle network failure
+                callback(false, null, "Network error: ${t.message}")
+            }
+        })
+    }
 
 }
+
+
+
+
+
+
 
 

@@ -5,7 +5,8 @@ package com.example.ecommerceapp.models
 
 data class CommentModel(
     val username: String,
-    val text: String
+    val text: String,
+    val rating: Int
 )
 
 
@@ -24,6 +25,22 @@ data class ReviewResponse(
 )
 
 data class ReviewData(
+    val id: String,
+    val vendorId: String,
+    val customerId: String,
+    val comment: String,
+    val rating: Int,
+    val createdAt: String,
+    val updatedAt: String
+)
+
+data class CommentResponse(
+    val success: Boolean,
+    val data: List<CommentItem>,
+    val message: String?
+)
+
+data class CommentItem(
     val id: String,
     val vendorId: String,
     val customerId: String,
