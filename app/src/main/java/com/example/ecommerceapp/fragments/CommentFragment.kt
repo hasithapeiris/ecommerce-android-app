@@ -1,3 +1,4 @@
+// CommentFragment.kt
 package com.example.ecommerceapp.fragments
 
 import android.content.Context
@@ -16,14 +17,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.adapters.CommentAdapter
 import com.example.ecommerceapp.models.CommentItem
-import com.example.ecommerceapp.models.CommentModel
+import com.example.ecommerceapp.models.CommentResponse
 import com.example.ecommerceapp.services.AuthService
 
 class CommentFragment : Fragment() {
 
     private lateinit var rvComments: RecyclerView
     private lateinit var commentsAdapter: CommentAdapter
-    private lateinit var commentList: MutableList<CommentItem> // Change this to CommentModel
+    private lateinit var commentList: MutableList<CommentItem>
     private lateinit var etComment: EditText
     private lateinit var btnSubmitComment: Button
     private lateinit var ratingBar: RatingBar
@@ -50,7 +51,10 @@ class CommentFragment : Fragment() {
         // Setup RecyclerView for comments
         rvComments.layoutManager = LinearLayoutManager(requireContext())
         commentList = mutableListOf()
-        commentsAdapter = CommentAdapter(commentList)
+        commentsAdapter = CommentAdapter(commentList) { reviewId ->
+            deleteReview(reviewId) // Handle delete review
+            fetchComments()
+        }
         rvComments.adapter = commentsAdapter
 
         // Fetch customerId from Shared Preferences
@@ -91,6 +95,13 @@ class CommentFragment : Fragment() {
         return view
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        fetchComments() // Ensure comments are fetched when the fragment is visible
+//    }
+
+
+
     private fun fetchCustomerId() {
         // Retrieve customerId from Shared Preferences
         val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
@@ -102,10 +113,7 @@ class CommentFragment : Fragment() {
             authService.getCommentsForVendor(requireContext(), vendorId) { success, response, error ->
                 if (success && response != null) {
                     commentList.clear() // Clear the current list
-
-                    // Add all comments from the response data
-                    commentList.addAll(response.data) // This will work now since the entire response is passed
-
+                    commentList.addAll(response.data) // Add all comments from the response data
                     commentsAdapter.notifyDataSetChanged() // Notify the adapter to refresh
                 } else {
                     Toast.makeText(requireContext(), "Failed to load comments: $error", Toast.LENGTH_SHORT).show()
@@ -116,5 +124,14 @@ class CommentFragment : Fragment() {
         }
     }
 
-
+    private fun deleteReview(reviewId: String) {
+        authService.deleteReview(requireContext(), reviewId) { success, message ->
+            if (success) {
+                Toast.makeText(requireContext(), "Review deleted successfully", Toast.LENGTH_SHORT).show()
+               fetchComments() // Refresh the comments list after deletion
+            } else {
+                Toast.makeText(requireContext(), message ?: "Failed to delete review", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 }

@@ -350,6 +350,43 @@ class AuthService {
         })
     }
 
+    fun deleteReview(
+        context: Context,
+        reviewId: String,
+        callback: (Boolean, String?) -> Unit
+    ) {
+        val sharedPreferences = context.getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        val token = sharedPreferences.getString("TOKEN", "")
+
+        if (token.isNullOrEmpty()) {
+            callback(false, "User is not logged in.")
+            return
+        }
+
+        val commentApi = RetrofitInstance.instance.create(CommentApi::class.java)
+        val call = commentApi.deleteReview("Bearer $token", reviewId)
+        call.enqueue(object : Callback<ReviewResponse> {
+            override fun onResponse(call: Call<ReviewResponse>, response: Response<ReviewResponse>) {
+                if (response.isSuccessful) {
+                    // Check if the response body is not null and contains success = true
+                    val responseBody = response.body()
+                    if (responseBody != null && responseBody.success) {
+                        callback(true, "Review deleted successfully")
+                    } else {
+                        callback(false, "Failed to delete review: ${responseBody?.message ?: "Unknown error"}")
+                    }
+                } else {
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    callback(false, "Error: $errorMessage")
+                }
+            }
+
+            override fun onFailure(call: Call<ReviewResponse>, t: Throwable) {
+                callback(false, t.message)
+            }
+        })
+    }
+
 }
 
 

@@ -6,6 +6,7 @@ import com.example.ecommerceapp.models.ReviewRequest
 import com.example.ecommerceapp.models.ReviewResponse
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
@@ -23,4 +24,11 @@ interface CommentApi {
         @Header("Authorization") token: String,
         @Path("customerId") customerId: String
     ): Call<CommentResponse>
+
+    // Add this method for deleting a review
+    @DELETE("api/review/{reviewId}")
+    fun deleteReview(
+        @Header("Authorization") token: String,
+        @Path("reviewId") reviewId: String
+    ): Call<ReviewResponse>
 }
