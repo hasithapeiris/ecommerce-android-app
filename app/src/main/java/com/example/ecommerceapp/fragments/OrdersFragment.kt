@@ -89,6 +89,4 @@ class OrdersFragment : Fragment(R.layout.fragment_orders), OrderAdapter.OnLongCl
     override fun onLongRemove(item: OrderModel, position: Int) {
         // Handle long click remove
     }
-
-
 }
