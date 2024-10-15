@@ -12,7 +12,7 @@ data class ProductModel(
     val vendorInfo: VendorInfo,
     val categoryId: String,
     val name: String,
-    val category: String,
+    val category: CategoryModel,
     val photos: List<String>,
     val condition: String,
     val status: String,
@@ -44,9 +44,16 @@ data class VendorInfo(
     val role: Int
 )
 
+data class CategoryModel(
+    val id: String,
+    val name: String,
+    val isActive: Boolean,
+    val image: String
+)
+
 data class CategoryResponse(
     val success: Boolean,
-    val data: List<String>,
+    val data: List<CategoryModel>,
     val message: String? = null,
     val error: String? = null,
     val errorCode: Int? = null,

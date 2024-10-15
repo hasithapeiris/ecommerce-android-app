@@ -8,6 +8,7 @@ package com.example.ecommerceapp.services
 
 import com.example.ecommerceapp.api.ProductApi
 import com.example.ecommerceapp.api.RetrofitInstance
+import com.example.ecommerceapp.models.CategoryModel
 import com.example.ecommerceapp.models.ProductModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,7 +20,7 @@ class ProductService {
     private val productApi: ProductApi = RetrofitInstance.instance.create(ProductApi::class.java)
 
     // Get all categories
-    fun getCategories(callback: (List<String>) -> Unit) {
+    fun getCategories(callback: (List<CategoryModel>) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = productApi.getCategories()
@@ -71,13 +72,13 @@ class ProductService {
     }
 
     // Get products by category
-    fun getProductsByCategory(category: String, callback: (List<ProductModel>) -> Unit) {
+    fun getProductsByCategory(categoryId: String, callback: (List<ProductModel>) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val response = productApi.getProducts()
                 if (response.isSuccessful) {
                     val products = response.body()?.data ?: emptyList()
-                    val filteredProducts = products.filter { it.category == category }
+                    val filteredProducts = products.filter { it.categoryId == categoryId }
                     withContext(Dispatchers.Main) {
                         callback(filteredProducts)
                     }

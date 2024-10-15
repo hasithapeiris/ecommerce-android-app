@@ -9,7 +9,6 @@ package com.example.ecommerceapp.fragments
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -22,6 +21,7 @@ import com.example.ecommerceapp.adapters.ProductAdapter
 import com.example.ecommerceapp.adapters.ItemOnClickInterface
 import com.example.ecommerceapp.adapters.MainCategoryAdapter
 import com.example.ecommerceapp.databinding.FragmentMainBinding
+import com.example.ecommerceapp.models.CategoryModel
 import com.example.ecommerceapp.models.ProductModel
 import com.example.ecommerceapp.services.AuthService
 import com.example.ecommerceapp.services.ProductService
@@ -35,7 +35,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     private lateinit var categoryAdapter: MainCategoryAdapter
     private lateinit var productsAdapter: ProductAdapter
     private lateinit var productList: ArrayList<ProductModel>
-    private lateinit var categoryList: ArrayList<String>
+    private lateinit var categoryList: ArrayList<CategoryModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -91,7 +91,7 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     private fun setCategoryList() {
         productService.getCategories { categories ->
             categoryList.clear()
-            categoryList.add("All")
+            categoryList.add(CategoryModel("0", "All", true, ""))
             categoryList.addAll(categories)
             categoryAdapter.notifyDataSetChanged()
         }
@@ -114,14 +114,12 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
         }
     }
 
-    override fun onClickCategory(button: Button) {
-        val selectedCategory = button.text.toString()
-        binding.tvMainCategories.text = selectedCategory
-
-        if (selectedCategory == "All") {
+    override fun onClickCategory(category: CategoryModel) {
+        binding.tvMainCategories.text = category.name
+        if (category.name == "All") {
             setProductsData()
         } else {
-            productService.getProductsByCategory(selectedCategory) { products ->
+            productService.getProductsByCategory(category.id) { products ->
                 productList.clear()
                 productList.addAll(products)
                 productsAdapter.notifyDataSetChanged()
