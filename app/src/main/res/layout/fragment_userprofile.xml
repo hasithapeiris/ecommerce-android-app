@@ -27,6 +27,7 @@
         android:text="Deactivative"
         android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/red"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.Toolbar
@@ -138,6 +139,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="76dp"
         android:text="change password"
+        android:backgroundTint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_role" />
 

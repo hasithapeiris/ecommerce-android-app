@@ -17,6 +17,7 @@ import com.example.ecommerceapp.api.RetrofitInstance
 import com.example.ecommerceapp.api.UpdateProfileApi
 import com.example.ecommerceapp.models.DeactivateResponse
 import com.example.ecommerceapp.models.UserDetail
+import com.example.ecommerceapp.services.AuthService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +26,7 @@ class Userprofile : Fragment() {
 
     private lateinit var sharedPreferences: SharedPreferences
     private var token: String? = null
+    private lateinit var authService: AuthService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,6 +36,7 @@ class Userprofile : Fragment() {
         val view = inflater.inflate(R.layout.fragment_userprofile, container, false)
 
         // Initialize SharedPreferences
+
         sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
         token = sharedPreferences.getString("TOKEN", null) // Retrieve the token here
 
@@ -42,10 +45,11 @@ class Userprofile : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        authService = AuthService()
 
         token?.let {
             // Fetch and display the user's profile
-            getUserProfile(it) { success, userDetail ->
+            authService.getUserProfile(it)  { success, userDetail ->
                 if (success && userDetail != null) {
                     displayUserProfile(view, userDetail)
                 } else {
@@ -117,8 +121,6 @@ class Userprofile : Fragment() {
         })
     }
 
-    // Fetch user profile data (example function)
-    private fun getUserProfile(token: String, callback: (Boolean, UserDetail?) -> Unit) {
-        // Implement your method to fetch the user profile using the token
-    }
+
+
 }
