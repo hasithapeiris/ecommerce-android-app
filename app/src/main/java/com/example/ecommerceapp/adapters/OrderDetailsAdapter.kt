@@ -40,7 +40,7 @@ class OrderDetailsAdapter(private val orderItems: List<OrderItem>) :
         holder.itemCount.text = item.quantity.toString()
 
         // Set the product image using a placeholder for now (you can use libraries like Glide or Picasso)
-        holder.productImage.setImageResource(R.drawable.phone1)
+        holder.productImage.setImageResource(R.drawable.order)
 
         // Handle adding or reducing quantity
         holder.addButton.setOnClickListener {
