@@ -67,8 +67,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         // Fetch product details by ID
         lifecycleScope.launch {
+            binding.progressBar.visibility = View.VISIBLE
+
             val product = productService.getProductById(productId)
             product?.let {
+                binding.progressBar.visibility = View.GONE
                 displayProductDetails(it)
                 // Enable the "Add to Cart" button after details are displayed
                 binding.btnDetailsAddToCart.isEnabled = true

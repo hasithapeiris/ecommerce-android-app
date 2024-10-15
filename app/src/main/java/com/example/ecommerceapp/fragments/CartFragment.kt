@@ -79,9 +79,12 @@ class CartFragment : Fragment(R.layout.fragment_cart) {
 
     // Retrieve cart items using CartService
     private fun retrieveCartItems() {
+        binding.progressBar.visibility = View.VISIBLE
         token?.let {
             cartService.getCartItems(it) { cartItems, errorMessage ->
                 if (cartItems != null) {
+                    binding.progressBar.visibility = View.GONE
+
                     cartList.clear()
                     cartList.addAll(cartItems)
 
