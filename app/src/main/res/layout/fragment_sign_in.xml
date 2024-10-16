@@ -34,20 +34,21 @@
 
     <EditText
         android:id="@+id/etEmailSignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="309dp"
+        android:layout_height="64dp"
         android:layout_margin="10dp"
         android:autofillHints="emailAddress"
         android:background="@drawable/custom_image_background"
         android:ems="10"
-
+        android:drawableStart="@drawable/baseline_attach_email_24"
         android:hint="Enter Email"
+        android:includeFontPadding="true"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
         android:padding="10dp"
+
         android:textSize="21sp"
         android:textStyle="bold|normal"
-
         app:layout_constraintBottom_toTopOf="@+id/etPasswordSignIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
@@ -57,13 +58,13 @@
 
     <EditText
         android:id="@+id/etPasswordSignIn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="309dp"
+        android:layout_height="64dp"
         android:layout_margin="10dp"
-        android:background="@drawable/custom_image_background"
-        android:ems="10"
-
         android:autofillHints="password"
+        android:background="@drawable/custom_image_background"
+        android:drawableStart="@drawable/baseline_check_24"
+        android:ems="10"
         android:hint="Enter password"
         android:inputType="textPassword"
         android:minHeight="48dp"
@@ -95,14 +96,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.2" />
+        app:layout_constraintGuide_percent="0.12" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.8" />
+        app:layout_constraintGuide_percent="0.88" />
 
     <TextView
         android:id="@+id/tvNavigateToSignUp"

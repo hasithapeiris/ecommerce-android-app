@@ -14,6 +14,7 @@
         android:id="@+id/detailToolbar3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,11 +30,12 @@
 
     <EditText
         android:id="@+id/etComment"
-        android:layout_width="293dp"
-        android:layout_height="60dp"
+        android:layout_width="396dp"
+        android:layout_height="54dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/custom_image_background"
+        android:drawableStart="@drawable/baseline_announcement_24"
         android:hint="Write a comment..."
         android:inputType="text"
         android:padding="12dp"
@@ -46,6 +48,7 @@
         android:layout_height="58dp"
         android:numStars="5"
         android:stepSize="1.0"
+        android:progressTint="@color/blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailToolbar3" />
 
@@ -53,7 +56,7 @@
         android:id="@+id/btnSubmitComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="28dp"
         android:backgroundTint="@color/black"
         android:paddingVertical="12dp"
         android:text="Submit"
@@ -63,8 +66,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvComments"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="409dp"
+        android:layout_height="313dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

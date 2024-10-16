@@ -29,7 +29,9 @@ class Userprofile : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private var token: String? = null
     private lateinit var authService: AuthService
+
     private lateinit var binding: FragmentUserprofileBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -152,3 +154,4 @@ class Userprofile : Fragment() {
 
 
 }
+
