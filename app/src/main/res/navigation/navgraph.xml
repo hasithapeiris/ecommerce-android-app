@@ -107,6 +107,21 @@
         <action
             android:id="@+id/action_userprofile_to_signInFragment"
             app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_userprofile_to_mainFragment2"
+            app:destination="@id/mainFragment2" />
+        <action
+            android:id="@+id/action_userprofile_to_ordersFragment2"
+            app:destination="@id/ordersFragment2" />
+        <action
+            android:id="@+id/action_userprofile_to_ordersFragment22"
+            app:destination="@id/ordersFragment2" />
+        <action
+            android:id="@+id/action_userprofile_to_likeFragment2"
+            app:destination="@id/likeFragment2" />
+        <action
+            android:id="@+id/action_userprofile_to_cartFragment2"
+            app:destination="@id/cartFragment2" />
     </fragment>
     <fragment
         android:id="@+id/changepassword"

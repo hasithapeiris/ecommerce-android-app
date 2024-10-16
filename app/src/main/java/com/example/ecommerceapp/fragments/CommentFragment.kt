@@ -127,7 +127,7 @@ class CommentFragment : Fragment() {
     private fun deleteReview(reviewId: String) {
         authService.deleteReview(requireContext(), reviewId) { success, message ->
             if (success) {
-                Toast.makeText(requireContext(), "Review deleted successfully", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(requireContext(), "Review deleted successfully", Toast.LENGTH_SHORT).show()
                fetchComments() // Refresh the comments list after deletion
             } else {
                 Toast.makeText(requireContext(), message ?: "Failed to delete review", Toast.LENGTH_SHORT).show()
