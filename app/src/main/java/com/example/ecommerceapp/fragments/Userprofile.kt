@@ -15,6 +15,8 @@ import androidx.navigation.Navigation
 import com.example.ecommerceapp.R
 import com.example.ecommerceapp.api.RetrofitInstance
 import com.example.ecommerceapp.api.UpdateProfileApi
+import com.example.ecommerceapp.databinding.FragmentMainBinding
+import com.example.ecommerceapp.databinding.FragmentUserprofileBinding
 import com.example.ecommerceapp.models.DeactivateResponse
 import com.example.ecommerceapp.models.UserDetail
 import com.example.ecommerceapp.services.AuthService
@@ -28,13 +30,16 @@ class Userprofile : Fragment() {
     private var token: String? = null
     private lateinit var authService: AuthService
 
+    private lateinit var binding: FragmentUserprofileBinding
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_userprofile, container, false)
-
+        binding = FragmentUserprofileBinding.bind(view)
         // Initialize SharedPreferences
 
         sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
@@ -83,6 +88,31 @@ class Userprofile : Fragment() {
                 Toast.makeText(requireContext(), "User not authenticated.", Toast.LENGTH_SHORT).show()
             }
         }
+
+        // Handle bottom navigation
+        binding.bnvProfile.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.profileFragment -> true
+                R.id.likeFragment -> {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_userprofile_to_likeFragment2)
+                    true
+                }
+                R.id.cartFragment -> {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_userprofile_to_cartFragment2)
+                    true
+                }
+                R.id.ordersFragment -> {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_userprofile_to_ordersFragment22)
+                    true
+                }
+                R.id.mainFragment -> {
+                    Navigation.findNavController(requireView()).navigate(R.id.action_userprofile_to_mainFragment2)
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 
     // Display the user profile in the UI
@@ -109,7 +139,7 @@ class Userprofile : Fragment() {
                 if (response.isSuccessful && response.body()?.success == true) {
                     sharedPreferences.edit().clear().apply()
                     Toast.makeText(requireContext(), "Account deactivated. Please login again.", Toast.LENGTH_SHORT).show()
-                     Navigation.findNavController(requireView()).navigate(R.id.action_userprofile_to_signInFragment)
+                    Navigation.findNavController(requireView()).navigate(R.id.action_userprofile_to_signInFragment)
                 } else {
                     Toast.makeText(requireContext(), response.body()?.message ?: "Deactivation failed", Toast.LENGTH_SHORT).show()
                 }
@@ -124,3 +154,4 @@ class Userprofile : Fragment() {
 
 
 }
+

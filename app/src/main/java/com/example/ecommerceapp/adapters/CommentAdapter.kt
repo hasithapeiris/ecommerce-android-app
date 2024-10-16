@@ -18,7 +18,7 @@ class CommentAdapter(
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvUsername: TextView = itemView.findViewById(R.id.tvUsername)
+
         val tvComment: TextView = itemView.findViewById(R.id.tvComment)
         val ratingBar: RatingBar = itemView.findViewById(R.id.ratingBar2)
         val deleteButton: ImageButton = itemView.findViewById(R.id.imageButton) // Update to match your button ID
@@ -31,7 +31,7 @@ class CommentAdapter(
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         val comment = commentList[position]
-        holder.tvUsername.text = comment.customerId
+
         holder.tvComment.text = comment.comment
         holder.ratingBar.rating = comment.rating.toFloat()
 

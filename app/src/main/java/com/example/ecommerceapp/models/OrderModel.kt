@@ -6,14 +6,64 @@
 
 package com.example.ecommerceapp.models
 
+data class OrderResponseWrapper(
+    val success: Boolean,
+    val data: List<OrderModel>,
+    val message: String?,
+    val error: String?,
+    val errorCode: String?,
+    val errorData: Any?
+)
+
+data class OrderDetailResponseWrapper(
+    val success: Boolean,
+    val data: OrderModel,
+    val message: String?,
+    val error: String?,
+    val errorCode: String?,
+    val errorData: Any?
+)
+
 data class OrderModel(
-    val orderId: String,
-    val uid: String? = null,
-    val itemId: String? = null,
-    val imageUrl: String? = null,
-    val itemName: String? = null,
-    val size: String? = null,
-    val quantity: String,
-    val price: String? = null,
-    val status: String? = null,
+    val id: String,
+    val userId: String,
+    val vendorInfo: String?,
+    val orderNumber: String,
+    val orderDate: String,
+    val totalAmount: Double,
+    val shippingAddress: String,
+    val status: String,
+    val items: List<OrderItemModel>,
+    val shippingFee: Double,
+    val paymentStatus: String,
+    val note: String?
+)
+
+data class OrderItemModel(
+    val productId: String,
+    val vendorId: String,
+    val quantity: Int,
+    val unitPrice: Double,
+    val totalPrice: Double,
+    val status: String
+)
+
+data class OrderItem(
+    val productName: String,
+    val productPrice: Double,
+    val quantity: Int,
+    val productImage: String
+)
+
+data class CancelOrderRequest(
+    val reason: String
+)
+
+data class CancelOrderResponse(
+    val success: Boolean,
+    val data: Any?,
+    val message: String,
+    val error: String?,
+    val errorCode: String?,
+    val errorData: Any?
 )

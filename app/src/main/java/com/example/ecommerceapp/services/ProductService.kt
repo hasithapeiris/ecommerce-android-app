@@ -6,27 +6,40 @@
 
 package com.example.ecommerceapp.services
 
-import android.util.Log
 import com.example.ecommerceapp.api.ProductApi
-import com.example.ecommerceapp.api.RegisterApi
 import com.example.ecommerceapp.api.RetrofitInstance
+import com.example.ecommerceapp.models.CategoryModel
 import com.example.ecommerceapp.models.ProductModel
-import com.example.ecommerceapp.models.ProductResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ProductService {
 
     private val productApi: ProductApi = RetrofitInstance.instance.create(ProductApi::class.java)
 
     // Get all categories
-    fun getCategories(callback: (List<String>) -> Unit) {
-
+    fun getCategories(callback: (List<CategoryModel>) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = productApi.getCategories()
+                if (response.isSuccessful) {
+                    val categories = response.body()?.data ?: emptyList()
+                    withContext(Dispatchers.Main) {
+                        callback(categories)
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        callback(emptyList())
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback(emptyList())
+                }
+            }
+        }
     }
 
     // Get all products
@@ -51,15 +64,29 @@ class ProductService {
             if (response.isSuccessful) {
                 response.body()?.data?.find { it.id == productId }
             } else {
-                null // Handle error case
+                null
             }
         } catch (e: Exception) {
-            null // Handle exception
+            null
         }
     }
 
     // Get products by category
-    fun getProductsByCategory(category: String, callback: (List<ProductModel>) -> Unit) {
-
+    fun getProductsByCategory(categoryId: String, callback: (List<ProductModel>) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = productApi.getProducts()
+                if (response.isSuccessful) {
+                    val products = response.body()?.data ?: emptyList()
+                    val filteredProducts = products.filter { it.categoryId == categoryId }
+                    withContext(Dispatchers.Main) {
+                        callback(filteredProducts)
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
+
 }
