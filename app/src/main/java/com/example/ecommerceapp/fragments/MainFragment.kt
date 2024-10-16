@@ -115,11 +115,14 @@ class MainFragment : Fragment(R.layout.fragment_main), CategoryOnClickInterface,
     }
 
     override fun onClickCategory(category: CategoryModel) {
+        binding.progressBar.visibility = View.VISIBLE
         binding.tvMainCategories.text = category.name
         if (category.name == "All") {
+            binding.progressBar.visibility = View.GONE
             setProductsData()
         } else {
             productService.getProductsByCategory(category.id) { products ->
+                binding.progressBar.visibility = View.GONE
                 productList.clear()
                 productList.addAll(products)
                 productsAdapter.notifyDataSetChanged()
