@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingTop="24dp">
+    android:padding="20dp">
 
     <!-- Comment input section -->
 
@@ -31,7 +31,6 @@
         android:id="@+id/etComment"
         android:layout_width="293dp"
         android:layout_height="60dp"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/custom_image_background"
         android:hint="Write a comment..."
@@ -42,10 +41,11 @@
 
     <RatingBar
         android:id="@+id/ratingBar"
-        android:layout_width="231dp"
+        android:layout_width="wrap_content"
         android:layout_height="58dp"
         android:numStars="5"
         android:stepSize="1.0"
+        android:layout_marginTop="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailToolbar3" />
 
@@ -53,9 +53,10 @@
         android:id="@+id/btnSubmitComment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="0dp"
         android:backgroundTint="@color/black"
         android:paddingVertical="12dp"
+        android:layout_marginTop="18dp"
         android:text="Submit"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -66,6 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
+        android:layout_marginTop="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

@@ -51,10 +51,11 @@
         android:id="@+id/user_id"
         android:layout_width="323dp"
         android:layout_height="47dp"
-        android:layout_marginStart="80dp"
         android:layout_marginTop="96dp"
+        android:background="@drawable/custom_image_background"
+        android:padding="10dp"
         android:text="User ID"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/user_name"
         app:layout_constraintTop_toBottomOf="@+id/detailToolbar" />
 
     <TextView
@@ -62,7 +63,9 @@
         android:layout_width="323dp"
         android:layout_height="47dp"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_image_background"
+        android:padding="10dp"
         android:text="User Role"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_email" />
@@ -82,11 +85,10 @@
         android:id="@+id/textView2"
         android:layout_width="68dp"
         android:layout_height="47dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="16dp"
         android:text="Name"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toStartOf="@+id/user_name"
+        app:layout_constraintStart_toStartOf="@+id/textView5"
         app:layout_constraintTop_toBottomOf="@+id/user_id" />
 
     <TextView
@@ -94,41 +96,42 @@
         android:layout_width="68dp"
         android:layout_height="47dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:text="Email"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toStartOf="@+id/user_email"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
     <TextView
         android:id="@+id/user_email"
         android:layout_width="323dp"
         android:layout_height="47dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/custom_image_background"
+        android:padding="10dp"
         android:text="User Email"
-        app:layout_constraintStart_toStartOf="@+id/user_name"
+        app:layout_constraintEnd_toEndOf="@+id/user_role"
         app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
     <TextView
         android:id="@+id/user_name"
         android:layout_width="323dp"
         android:layout_height="47dp"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/custom_image_background"
+        android:padding="10dp"
         android:text="User Name"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/user_email"
         app:layout_constraintTop_toBottomOf="@+id/user_id" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="68dp"
         android:layout_height="47dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart=""
         android:text="Role"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintEnd_toStartOf="@+id/user_role"
+        app:layout_constraintStart_toStartOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/user_email" />
 
     <Button

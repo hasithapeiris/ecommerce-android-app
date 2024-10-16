@@ -14,7 +14,7 @@
         android:id="@+id/ratingBar2"
         android:layout_width="236dp"
         android:layout_height="40dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="4dp"
         android:numStars="5"
         android:stepSize="1.0"
@@ -24,13 +24,16 @@
 
     <TextView
         android:id="@+id/tvComment"
-        android:layout_width="155dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="16dp"
+        android:layout_width="270dp"
+        android:layout_height="70dp"
         android:layout_marginTop="16dp"
+        android:background="@drawable/custom_image_background"
+        android:padding="10dp"
         android:paddingTop="4dp"
         android:text="This is a sample comment text."
         android:textColor="@android:color/black"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintHorizontal_bias="0.123"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
 
@@ -38,11 +41,11 @@
         android:id="@+id/imageButton"
         android:layout_width="65dp"
         android:layout_height="64dp"
-        android:layout_marginTop="84dp"
         android:layout_marginEnd="16dp"
         android:contentDescription="deletebutton"
+        android:background="@drawable/custom_image_background"
+        app:layout_constraintBottom_toBottomOf="@+id/tvComment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_delete" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
