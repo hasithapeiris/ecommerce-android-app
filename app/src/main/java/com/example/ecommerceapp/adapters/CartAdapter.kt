@@ -1,3 +1,10 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * Description: Cart Adapter to connect with cart fragment.
+ * Tutorial: https://medium.com/edureka/android-adapter-tutorial-68fa7b2e32e7
+ * *****/
+
 package com.example.ecommerceapp.adapters
 
 import android.content.Context
@@ -8,20 +15,15 @@ import com.bumptech.glide.Glide
 import com.example.ecommerceapp.middlewares.SwipeToDelete
 import com.example.ecommerceapp.databinding.CartItemBinding
 import com.example.ecommerceapp.models.CartModel
+import com.example.ecommerceapp.models.CartResponse
 
 class CartAdapter(
     private val context : Context,
-    private val list:ArrayList<CartModel>,
-    private val onLongClickRemove: OnLongClickRemove
+    private val list:ArrayList<CartResponse>,
 ): RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
-    inner class ViewHolder(val binding: CartItemBinding):RecyclerView.ViewHolder(binding.root){
-        private val onSwipeDelete = object : SwipeToDelete() {
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.adapterPosition
-                list.removeAt(position)
-            }
-        }
+    inner class ViewHolder(val binding: CartItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,43 +33,32 @@ class CartAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem = list[position]
 
-        Glide
-            .with(context)
-            .load(currentItem.imageUrl)
-            .into(holder.binding.ivCartProduct)
-
-        holder.binding.tvCartProductName.text = currentItem.name
-        holder.binding.tvCartProductPrice.text = "₹${currentItem.price}"
+        holder.binding.tvCartProductName.text = currentItem.productId
+        holder.binding.tvCartProductPrice.text = "Rs.${currentItem.unitPrice}"
         holder.binding.tvCartItemCount.text = currentItem.quantity.toString()
-        holder.binding.tvCartProductSize.text = currentItem.size
 
         var count = holder.binding.tvCartItemCount.text.toString().toInt()
 
+        // Handle increment and decrement
         holder.binding.btnCartItemAdd.setOnClickListener {
-//            count++
-            // TODO: Update Quantity in Database also
-//            holder.binding.tvCartItemCount.text = count.toString()
+            count++
+            currentItem.quantity = count
+            holder.binding.tvCartItemCount.text = count.toString()
+            notifyItemChanged(position)
         }
 
         holder.binding.btnCartItemMinus.setOnClickListener {
-//            count--
-            // TODO: Update Quantity in Database also
-//            holder.binding.tvCartItemCount.text = count.toString()
-        }
-
-        holder.itemView.setOnLongClickListener {
-            onLongClickRemove.onLongRemove(currentItem , position)
-            true
+            if (count > 1) {
+                count--
+                currentItem.quantity = count
+                holder.binding.tvCartItemCount.text = count.toString()
+                notifyItemChanged(position)
+            }
         }
     }
 
     override fun getItemCount(): Int {
         return list.size
     }
-
-    interface OnLongClickRemove{
-        fun onLongRemove(item:CartModel , position: Int)
-    }
-
 }
 

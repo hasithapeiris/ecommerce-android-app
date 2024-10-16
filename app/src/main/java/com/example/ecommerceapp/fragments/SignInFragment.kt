@@ -1,8 +1,14 @@
+/*****
+ * Author: Baddewithana P
+ * STD: IT21247804
+ * description: Fragment view handling for sign in fragment
+ *****/
+
 package com.example.ecommerceapp.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.ecommerceapp.middlewares.Extensions.toast
 import com.example.ecommerceapp.R
@@ -16,19 +22,13 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = FragmentSignInBinding.bind(view)
         authService = AuthService()
 
-        // Check if user is already logged in
-        if (authService.isUserLoggedIn()) {
-            navigateToMainFragment()
-        }
-
         // Sign-in button click listener
         binding.btnSignIn.setOnClickListener {
-            val email = binding.etEmailSignIn.text.toString()
-            val password = binding.etPasswordSignIn.text.toString()
+            val email = binding.etEmailSignIn.text.toString().trim()
+            val password = binding.etPasswordSignIn.text.toString().trim()
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 signInUser(email, password)
@@ -36,21 +36,15 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
                 requireActivity().toast("Some fields are empty")
             }
         }
-
-        // Navigate to sign-up fragment
-        binding.tvNavigateToSignUp.setOnClickListener {
-            Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
-                .navigate(R.id.action_signInFragment_to_signUpFragment)
+        binding.tvNavigateToSignUp2.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_signInFragment_to_forgotPassword)
         }
     }
 
-    /**
-     * Handles user sign-in process using AuthService.
-     * @param email The user's email.
-     * @param password The user's password.
-     */
+
+    //handle sign in fragment view
     private fun signInUser(email: String, password: String) {
-        authService.signIn(email, password) { success, errorMessage ->
+        authService.signIn(requireContext(), email, password) { success, errorMessage ->
             if (success) {
                 requireActivity().toast("Sign-in successful")
                 navigateToMainFragment()
@@ -60,9 +54,6 @@ class SignInFragment : Fragment(R.layout.fragment_sign_in) {
         }
     }
 
-    /**
-     * Navigate to the main fragment after successful sign-in.
-     */
     private fun navigateToMainFragment() {
         Navigation.findNavController(requireActivity(), R.id.fragmentContainerView)
             .navigate(R.id.action_signInFragment_to_mainFragment2)

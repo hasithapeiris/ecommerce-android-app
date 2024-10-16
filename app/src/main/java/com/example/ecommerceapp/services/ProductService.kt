@@ -1,69 +1,92 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * description: Product service for handling product related APIs.
+ * *****/
+
 package com.example.ecommerceapp.services
 
-import android.util.Log
+import com.example.ecommerceapp.api.ProductApi
 import com.example.ecommerceapp.api.RetrofitInstance
+import com.example.ecommerceapp.models.CategoryModel
 import com.example.ecommerceapp.models.ProductModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProductService {
-    private val api = RetrofitInstance.productApi
+
+    private val productApi: ProductApi = RetrofitInstance.instance.create(ProductApi::class.java)
 
     // Get all categories
-    fun getCategories(callback: (List<String>) -> Unit) {
-        api.getCategories().enqueue(object : Callback<List<String>> {
-            override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
+    fun getCategories(callback: (List<CategoryModel>) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = productApi.getCategories()
                 if (response.isSuccessful) {
-                    response.body()?.let { categories ->
+                    val categories = response.body()?.data ?: emptyList()
+                    withContext(Dispatchers.Main) {
                         callback(categories)
                     }
                 } else {
-                    Log.e("ProductService", "Error fetching products: $response")
+                    withContext(Dispatchers.Main) {
+                        callback(emptyList())
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    callback(emptyList())
                 }
             }
-
-            override fun onFailure(call: Call<List<String>>, t: Throwable) {
-                Log.e("ProductService", "Error fetching products: ${t.message}")
-            }
-        })
+        }
     }
 
     // Get all products
-    fun getProducts(callback: (List<ProductModel>) -> Unit) {
-        api.getProducts().enqueue(object : Callback<List<ProductModel>> {
-            override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { products ->
-                        callback(products)
-                    }
-                } else {
-                    Log.e("ProductService", "Error fetching products: $response")
-                }
+    suspend fun getProducts(): Result<List<ProductModel>> {
+        return try {
+            val response = productApi.getProducts()
+            if (response.isSuccessful) {
+                val products = response.body()?.data ?: emptyList()
+                Result.success(products)
+            } else {
+                Result.failure(Exception("Error: ${response.code()}"))
             }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 
-            override fun onFailure(call: Call<List<ProductModel>>, t: Throwable) {
-                Log.e("ProductService", "Error fetching products: ${t.message}")
+    // Get product by ID
+    suspend fun getProductById(productId: String): ProductModel? {
+        return try {
+            val response = productApi.getProducts()
+            if (response.isSuccessful) {
+                response.body()?.data?.find { it.id == productId }
+            } else {
+                null
             }
-        })
+        } catch (e: Exception) {
+            null
+        }
     }
 
     // Get products by category
-    fun getProductsByCategory(category: String, callback: (List<ProductModel>) -> Unit) {
-        api.getProductsByCategory(category).enqueue(object : Callback<List<ProductModel>> {
-            override fun onResponse(call: Call<List<ProductModel>>, response: Response<List<ProductModel>>) {
+    fun getProductsByCategory(categoryId: String, callback: (List<ProductModel>) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val response = productApi.getProducts()
                 if (response.isSuccessful) {
-                    response.body()?.let { products ->
-                        callback(products)
+                    val products = response.body()?.data ?: emptyList()
+                    val filteredProducts = products.filter { it.categoryId == categoryId }
+                    withContext(Dispatchers.Main) {
+                        callback(filteredProducts)
                     }
-                } else {
-                    Log.e("ProductService", "Error fetching products: $response")
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
-
-            override fun onFailure(call: Call<List<ProductModel>>, t: Throwable) {
-                Log.e("ProductService", "Error fetching products: ${t.message}")
-            }
-        })
+        }
     }
+
 }

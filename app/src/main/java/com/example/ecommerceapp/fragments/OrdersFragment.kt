@@ -1,60 +1,96 @@
+/*****
+ * Author: Peiris E.A.H.A
+ * STD: IT21175152
+ * Description: Fragment to handling orders.
+ *****/
+
 package com.example.ecommerceapp.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import android.widget.Toast
+import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommerceapp.R
+import com.example.ecommerceapp.adapters.OrderAdapter
+import com.example.ecommerceapp.adapters.OrderOnClickInterface
+import com.example.ecommerceapp.databinding.FragmentOrdersBinding
+import com.example.ecommerceapp.middlewares.Extensions.toast
+import com.example.ecommerceapp.models.OrderModel
+import com.example.ecommerceapp.services.AuthService
+import com.example.ecommerceapp.services.CartService
+import com.example.ecommerceapp.services.OrderService
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class OrdersFragment : Fragment(R.layout.fragment_orders), OrderAdapter.OnLongClickRemove,
+    OrderOnClickInterface {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [OrdersFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class OrdersFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentOrdersBinding
+    private lateinit var orderList: ArrayList<OrderModel>
+    private lateinit var adapter: OrderAdapter
+
+    private lateinit var authService: AuthService
+    private lateinit var orderService: OrderService
+    private var token: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+        orderService = OrderService()
+        // Retrieve token from SharedPreferences or arguments
+        val sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE)
+        token = sharedPreferences.getString("TOKEN", null)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentOrdersBinding.bind(view)
+
+        // Initialize services
+        orderService = OrderService()
+
+        binding.orderActualToolbar.setNavigationOnClickListener {
+            Navigation.findNavController(requireView()).popBackStack()
+        }
+
+        orderList = ArrayList()
+
+        // Set up RecyclerView
+        val layoutManager = LinearLayoutManager(context)
+        adapter = OrderAdapter(requireContext(), orderList, this, this)
+        binding.rvOrderItems.adapter = adapter
+        binding.rvOrderItems.layoutManager = layoutManager
+
+        // Retrieve order items
+        retrieveOrderItems()
+    }
+
+    private fun retrieveOrderItems() {
+        binding.progressBar.visibility = View.VISIBLE
+
+        token?.let {
+            orderService.getOrderItems(it) { orders, error ->
+                if (orders != null) {
+                    binding.progressBar.visibility = View.GONE
+
+                    orderList.clear()
+                    orderList.addAll(orders)
+                    adapter.notifyDataSetChanged()
+                } else {
+                    // Handle the error (e.g., show a toast message)
+                    Toast.makeText(requireContext(), error ?: "Error fetching orders", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_orders, container, false)
+    override fun onClickItem(item: OrderModel) {
+        val direction = OrdersFragmentDirections.actionOrdersFragment2ToOrderDetailsFragment2(item.id)
+        Navigation.findNavController(requireView()).navigate(direction)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment OrdersFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            OrdersFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onLongRemove(item: OrderModel, position: Int) {
+        // Handle long click remove
     }
 }

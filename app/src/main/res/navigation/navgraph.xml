@@ -28,15 +28,15 @@
         <action
             android:id="@+id/action_signInFragment_to_mainFragment2"
             app:destination="@id/mainFragment2" />
+        <action
+            android:id="@+id/action_signInFragment_to_forgotPassword"
+            app:destination="@id/forgotPassword" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment2"
         android:name="com.example.ecommerceapp.fragments.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/action_mainFragment2_to_signInFragment"
-            app:destination="@id/signInFragment" />
         <action
             android:id="@+id/action_mainFragment2_to_detailsFragment"
             app:destination="@id/detailsFragment" />
@@ -46,6 +46,15 @@
         <action
             android:id="@+id/action_mainFragment2_to_cartFragment2"
             app:destination="@id/cartFragment2" />
+        <action
+            android:id="@+id/action_mainFragment2_to_userprofile"
+            app:destination="@id/userprofile" />
+        <action
+            android:id="@+id/action_mainFragment2_to_userprofile2"
+            app:destination="@id/userprofile" />
+        <action
+            android:id="@+id/action_mainFragment2_to_ordersFragment2"
+            app:destination="@id/ordersFragment2" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
@@ -58,13 +67,20 @@
         <argument
             android:name="productId"
             app:argType="string"
-            android:defaultValue="null" />
+            />
+        <action
+            android:id="@+id/action_detailsFragment_to_commentFragment"
+            app:destination="@id/commentFragment" />
     </fragment>
     <fragment
         android:id="@+id/cartFragment2"
         android:name="com.example.ecommerceapp.fragments.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment2_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/likeFragment2"
         android:name="com.example.ecommerceapp.fragments.LikeFragment"
@@ -74,4 +90,110 @@
             android:id="@+id/action_likeFragment2_to_mainFragment2"
             app:destination="@id/mainFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/userprofile"
+        android:name="com.example.ecommerceapp.fragments.Userprofile"
+        android:label="fragment_userprofile"
+        tools:layout="@layout/fragment_userprofile" >
+        <action
+            android:id="@+id/action_userprofile_to_changepassword"
+            app:destination="@id/changepassword" />
+        <action
+            android:id="@+id/action_userprofile_to_profileUpdate"
+            app:destination="@id/profileUpdate" />
+        <action
+            android:id="@+id/action_userprofile_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+        <action
+            android:id="@+id/action_userprofile_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_userprofile_to_mainFragment2"
+            app:destination="@id/mainFragment2" />
+        <action
+            android:id="@+id/action_userprofile_to_ordersFragment2"
+            app:destination="@id/ordersFragment2" />
+        <action
+            android:id="@+id/action_userprofile_to_ordersFragment22"
+            app:destination="@id/ordersFragment2" />
+        <action
+            android:id="@+id/action_userprofile_to_likeFragment2"
+            app:destination="@id/likeFragment2" />
+        <action
+            android:id="@+id/action_userprofile_to_cartFragment2"
+            app:destination="@id/cartFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/changepassword"
+        android:name="com.example.ecommerceapp.fragments.ResetPassword"
+        android:label="fragment_changepassword"
+        tools:layout="@layout/fragment_resetpassword" />
+    <fragment
+        android:id="@+id/forgotPassword"
+        android:name="com.example.ecommerceapp.fragments.ForgotPassword"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
+    <fragment
+        android:id="@+id/profileUpdate"
+        android:name="com.example.ecommerceapp.fragments.ProfileUpdate"
+        android:label="fragment_profile_update"
+        tools:layout="@layout/fragment_profile_update" />
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.example.ecommerceapp.fragments.NotificationsFragment"
+        android:label="fragment_notifications"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/ordersFragment2"
+        android:name="com.example.ecommerceapp.fragments.OrdersFragment"
+        android:label="fragment_orders"
+        tools:layout="@layout/fragment_orders" >
+        <action
+            android:id="@+id/action_ordersFragment2_to_orderDetailsFragment2"
+            app:destination="@id/orderDetailsFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailsFragment2"
+        android:name="com.example.ecommerceapp.fragments.OrderDetailsFragment"
+        android:label="OrderDetailsFragment" >
+        <argument
+            android:name="orderId"
+            app:argType="string"
+        />
+        <action
+            android:id="@+id/action_orderDetailsFragment2_to_cancelOrderFragment"
+            app:destination="@id/cancelOrderFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.example.ecommerceapp.fragments.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" >
+        <action
+            android:id="@+id/action_paymentFragment_to_ordersFragment2"
+            app:destination="@id/ordersFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/cancelOrderFragment"
+        android:name="com.example.ecommerceapp.fragments.CancelOrderFragment"
+        android:label="CancelOrderFragment" >
+        <argument
+            android:name="orderId"
+            app:argType="string"
+            />
+        <action
+            android:id="@+id/action_cancelOrderFragment_to_ordersFragment2"
+            app:destination="@id/ordersFragment2" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/commentFragment"
+        android:name="com.example.ecommerceapp.fragments.CommentFragment">
+        <argument
+            android:name="vendorId"
+            app:argType="string" />
+        <!-- Add other arguments as needed -->
+    </fragment>
+
 </navigation>
