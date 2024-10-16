@@ -128,7 +128,6 @@
         android:layout_width="68dp"
         android:layout_height="47dp"
         android:layout_marginTop="16dp"
-        android:layout_marginStart=""
         android:text="Role"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintStart_toStartOf="@+id/textView3"
